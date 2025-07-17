@@ -20,7 +20,7 @@
         center-new-windows = true;
         workspaces-only-on-primary = true;
       };
-      "org.gnome.desktop.wm.preferences" = {
+      "org/gnome/desktop/wm/preferences" = {
         action-double-click-titlebar = "toggle-maximize";
         action-middle-click-titlebar = "none";
         action-right-click-titlebar = "menu";
@@ -39,7 +39,7 @@
           desktop-cube.extensionUuid
           search-light.extensionUuid
         ];
-        favorite-apps = ["org.gnome.Nautilus.desktop" "brave-browser.desktop" "org.telegram.desktop.desktop" "org.keepassxc.KeePassXC.desktop"];
+        favorite-apps = ["org.gnome.Nautilus.desktop" "brave-browser.desktop" "hiddify.desktop" "org.telegram.desktop.desktop" "org.keepassxc.KeePassXC.desktop"];
       };
       "org/gnome/shell/extensions/dash-to-dock" = {
         always-center-icons = true;
@@ -93,6 +93,45 @@
         transparency-mode = "DYNAMIC";
         unity-backlit-items = false;
         workspace-agnostic-urgent-windows = true;
+      };
+      "org/gnome/shell/extensions/search-light" = {
+        animation-speed = 100.0;
+        background-color = "(0.0, 0.0, 0.0, 0.49333333969116211)";
+        blur-background = false;
+        blur-brightness = 0.59999999999999998;
+        blur-sigma = 30.0;
+        border-radius = 1.28125;
+        border-thickness = 2;
+        entry-font-size = 1;
+        monitor-count = 1;
+        preferred-monitor = 0;
+        scale-height = 0.10000000000000001;
+        scale-width = 0.10000000000000001;
+        shortcut-search = [ "<Super>R" ];
+        show-panel-icon = false;
+        window-effect = 0;
+      };
+      "org/gnome/shell/extensions/bitcoin-markets" = {
+      first-run = false;
+      indicators = '''
+        [
+          {
+            "api": "bybit",
+            "base": "GALA",
+            "quote": "USDT",
+            "attribute": "last",
+            "show_change": true,
+            "format": "{bs} {v5} $"
+          },
+          {
+            "api": "bybit",
+            "base": "BTC",
+            "quote": "USDT",
+            "attribute": "last",
+            "show_change": true,
+            "format": "{btc} {v0} $"
+          }
+        ]''';
       };
       "org/gnome/settings-daemon/plugins/media-keys" = {
         custom-keybindings = [

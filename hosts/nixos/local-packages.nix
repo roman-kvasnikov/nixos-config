@@ -14,6 +14,7 @@
       tree
 
       gnome-tweaks
+      gnome-extension-manager
 
       # Расширения
       gnomeExtensions.bitcoin-markets
