@@ -22,7 +22,7 @@
           desktop-cube.extensionUuid
           search-light.extensionUuid
         ];
-        favorite-apps = ["brave.desktop" "kitty.desktop" "org.gnome.Nautilus.desktop"];
+        favorite-apps = ["org.gnome.Nautilus.desktop" "brave-browser.desktop" "telegram-desktop.desktop" "keepassxc.desktop"];
       };
       "org/gnome/shell/extensions/dash-to-dock" = {
         always-center-icons = true;
