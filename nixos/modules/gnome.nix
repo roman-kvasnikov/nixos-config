@@ -33,7 +33,7 @@
   ]);
 
   environment.systemPackages = with pkgs; [
-    gnome.gnome-tweaks
+    gnome-tweaks
 
     # Расширения
     gnomeExtensions.bitcoin-markets
