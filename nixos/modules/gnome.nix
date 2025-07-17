@@ -13,6 +13,13 @@
     gnome-music
     gnome-photos
     gnome-contacts
+    gnome-characters
+    file-roller
+
+    simple-scan
+    seahorse
+
+
     epiphany
     geary
     evolution
@@ -44,6 +51,4 @@
     gnomeExtensions.desktop-cube
     gnomeExtensions.search-light
   ];
-
-  programs.dconf.enable = true;
 }

@@ -12,6 +12,7 @@
     obsidian
     telegram-desktop
     kitty
+    keepassxc
     warp-terminal
     font-awesome
 

@@ -4,6 +4,7 @@
     ./bluetooth.nix
     ./boot.nix
     ./env.nix
+    ./fonts.nix
     ./gnome.nix
     ./home-manager.nix
     ./kernel.nix

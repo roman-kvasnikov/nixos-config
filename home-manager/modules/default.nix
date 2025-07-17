@@ -1,7 +1,7 @@
 {
   imports = [
+    ./dconf.nix
     ./git.nix
-    #./gnome.nix
     ./kitty.nix
   ];
 }
