@@ -8,11 +8,16 @@
     brave
     code-cursor
     evince
+    exodus electrum
     gimp inkscape pinta
-    kitty
-    obsidian
     keepassxc
+    kitty
+    libreoffice-still
+    obsidian
+    postman
+    tableplus
     telegram-desktop
+    whatsapp-for-mac
     vlc
     warp-terminal
 
@@ -22,6 +27,7 @@
     calc
     cliphist
     fastfetch
+    ranger
     wl-clipboard
   ];
 }

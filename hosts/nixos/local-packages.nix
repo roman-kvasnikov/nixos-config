@@ -10,7 +10,8 @@
       btop htop
       curl wget
       git
-      gzip p7zip zip unzip unrar xarchiver
+      gzip p7zip zip unzip unrar
+      tree
 
       gnome-tweaks
 
@@ -39,6 +40,7 @@
       gnome-photos
       gnome-contacts
       gnome-characters
+      gnome-terminal
       file-roller
       simple-scan
       seahorse
