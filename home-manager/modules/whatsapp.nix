@@ -3,6 +3,7 @@
 let
   appName = "whatsapp";
   url = "https://web.whatsapp.com";
+  electron = pkgs.electron; # Используем стандартную версию Electron из nixpkgs
 in
 pkgs.stdenv.mkDerivation {
   pname = "${appName}-native";
@@ -34,7 +35,7 @@ pkgs.stdenv.mkDerivation {
     mkdir -p $out/{bin,share/applications,share/icons/hicolor/256x256/apps}
     cp -r ${appName}-linux-x64/* $out/share/whatsapp
     
-    makeWrapper ${pkgs.electron_24}/bin/electron $out/bin/whatsapp \
+    makeWrapper ${electron}/bin/electron $out/bin/whatsapp \
       --add-flags "$out/share/whatsapp/resources/app.asar" \
       --prefix LD_LIBRARY_PATH : ${pkgs.lib.makeLibraryPath [
         pkgs.libappindicator
