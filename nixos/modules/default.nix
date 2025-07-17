@@ -1,17 +1,15 @@
 {
   imports = [
-    ./audio.nix
-    ./bluetooth.nix
     ./boot.nix
-    ./env.nix
-    ./fonts.nix
-    ./gnome.nix
+    ./environment.nix
+    ./hardware.nix
     ./home-manager.nix
-    ./kernel.nix
-    ./net.nix
+    ./networking.nix
     ./nix.nix
-    ./ssh.nix
-    ./timezone.nix
+    ./programs.nix
+    ./security.nix
+    ./services.nix
+    ./time.nix
     ./user.nix
   ];
 }

@@ -1,4 +1,4 @@
-{ pkgs, stateVersion, hostname, ... }:
+{ stateVersion, ... }:
 
 {
   imports = [
@@ -6,12 +6,6 @@
     ./local-packages.nix
     ../../nixos/modules
   ];
-
-  services.qemuGuest.enable = true;
-
-  environment.systemPackages = [ pkgs.home-manager ];
-
-  networking.hostName = hostname;
 
   system.stateVersion = stateVersion;
 }
