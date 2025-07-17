@@ -8,9 +8,6 @@
         color-scheme = "prefer-dark";
         accent-color = "blue";
       };
-      "org/gnome/desktop/input-sources" = {
-        xkb-options = [ "ctrl:nocaps" ];
-      };
       "org/gnome/shell" = {
         disable-user-extensions = false; # enables user extensions
         enabled-extensions = with pkgs.gnomeExtensions; [
