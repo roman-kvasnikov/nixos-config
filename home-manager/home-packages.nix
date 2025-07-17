@@ -8,16 +8,17 @@
     brave
     code-cursor
     evince
-    exodus electrum
+    #exodus
+    electrum
     gimp inkscape pinta
     keepassxc
     kitty
     libreoffice-still
     obsidian
     postman
-    tableplus
+    #tableplus
     telegram-desktop
-    whatsapp-for-mac
+    #whatsapp-for-mac
     vlc
     warp-terminal
 
