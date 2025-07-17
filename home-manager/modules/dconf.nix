@@ -22,7 +22,7 @@
           desktop-cube.extensionUuid
           search-light.extensionUuid
         ];
-        favorite-apps = ["org.gnome.Nautilus.desktop" "brave-browser.desktop" "telegram-desktop.desktop" "keepassxc.desktop"];
+        favorite-apps = ["org.gnome.Nautilus.desktop" "brave-browser.desktop" "org.telegram.desktop.desktop" "org.keepassxc.KeePassXC.desktop"];
       };
       "org/gnome/shell/extensions/dash-to-dock" = {
         always-center-icons = true;
@@ -77,6 +77,16 @@
         unity-backlit-items = false;
         workspace-agnostic-urgent-windows = true;
       };
+
+      "org/gnome/settings-daemon/plugins/media-keys" = {
+        custom-keybindings = [
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
+        ];
+      };
+
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
         name = "Brave Browser";
         command = "brave";
