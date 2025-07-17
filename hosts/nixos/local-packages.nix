@@ -12,6 +12,7 @@
       git
       gzip p7zip zip unzip unrar
       tree
+      electron
 
       gnome-tweaks
       gnome-extension-manager
