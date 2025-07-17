@@ -5,8 +5,28 @@
     enable = true;
     settings = {
       "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
         accent-color = "blue";
+        color-scheme = "prefer-dark";
+        clock-format = "24h";
+        clock-show-date = true;
+        clock-show-seconds = false;
+        clock-show-weekday = true;
+        enable-animations = true;
+        enable-hot-corners = true;
+        show-battery-percentage = true;
+      };
+      "org/gnome/mutter" = {
+        dynamic-workspaces = false;
+        center-new-windows = true;
+        workspaces-only-on-primary = true;
+      };
+      "org.gnome.desktop.wm.preferences" = {
+        action-double-click-titlebar = "toggle-maximize";
+        action-middle-click-titlebar = "none";
+        action-right-click-titlebar = "menu";
+        button-layout = "appmenu:minimize,maximize,close";
+        mouse-button-modifier = "<Super>";
+        num-workspaces = 5;
       };
       "org/gnome/shell" = {
         disable-user-extensions = false; # enables user extensions
@@ -74,7 +94,6 @@
         unity-backlit-items = false;
         workspace-agnostic-urgent-windows = true;
       };
-
       "org/gnome/settings-daemon/plugins/media-keys" = {
         custom-keybindings = [
           "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
