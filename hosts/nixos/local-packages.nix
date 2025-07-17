@@ -1,5 +1,11 @@
 { pkgs, ... }: {
   environment.systemPackages = with pkgs; [
-    qemu
+    btop
+    curl
+    htop
+    git
+    unzip
+    wget
+    zip
   ];
 }

@@ -1,53 +1,43 @@
 {
-  description = "My system configuration";
+  description = "My NixOS System Configuration";
 
   inputs = {
-
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: let
-    system = "x86_64-linux";
-    homeStateVersion = "24.11";
-    user = "romank";
-    hosts = [
-      { hostname = "nixos"; stateVersion = "24.11"; }
-    ];
-
-    makeSystem = { hostname, stateVersion }: nixpkgs.lib.nixosSystem {
-      system = system;
-      specialArgs = {
-        inherit inputs stateVersion hostname user;
-      };
-
-      modules = [
-        ./hosts/${hostname}/configuration.nix
-      ];
-    };
-
-  in {
-    nixosConfigurations = nixpkgs.lib.foldl' (configs: host:
-      configs // {
-        "${host.hostname}" = makeSystem {
-          inherit (host) hostname stateVersion;
+  outputs = {self, nixpkgs, home-manager, ...}@inputs:
+    let
+      system = "x86_64-linux";
+      version = "25.05";
+      user = "romank";
+      hostname = "nixos";
+    in {
+      nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs user hostname;
+          stateVersion = version;
         };
-      }) {} hosts;
-
-    homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${system};
-      extraSpecialArgs = {
-        inherit inputs homeStateVersion user;
+        modules = [
+          ./hosts/${hostname}/configuration.nix
+        ];
       };
 
-      modules = [
-        ./home-manager/home.nix
-      ];
+      homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system};
+        extraSpecialArgs = {
+          inherit inputs user;
+          homeStateVersion = version;
+        };
+
+        modules = [
+          ./home-manager/home.nix
+        ];
+      };
     };
-  };
 }

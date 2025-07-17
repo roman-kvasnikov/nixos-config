@@ -7,6 +7,8 @@
     ../../nixos/modules
   ];
 
+  services.qemuGuest.enable = true;
+
   environment.systemPackages = [ pkgs.home-manager ];
 
   networking.hostName = hostname;

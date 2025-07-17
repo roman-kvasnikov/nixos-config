@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
@@ -16,25 +18,8 @@
     # CLI utils
     bc
     bottom
-    btop
-    curl
     cliphist
     fastfetch
-    ffmpeg
-    ffmpegthumbnailer
-    fzf
-    git
-    git-graph
-    grimblast
-    htop
-    unzip
-    w3m
-    wget
     wl-clipboard
-    zip
-
-    # Other
-    bemoji
-    nix-prefetch-scripts
   ];
 }

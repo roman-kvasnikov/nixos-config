@@ -1,13 +1,13 @@
-{ pkgs, user, ... }: {
+{ pkgs, user, ... }:
+
+{
   programs.fish.enable = true;
 
   users = {
     defaultUserShell = pkgs.fish;
     users.${user} = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "input" "networkmanager" "video" "audio" "disk" "docker" "libvirtd" "vboxusers" ];
+      extraGroups = [ "wheel" "input" "networkmanager" "video" "audio" "disk" ];
     };
   };
-
-  services.getty.autologinUser = user;
 }
