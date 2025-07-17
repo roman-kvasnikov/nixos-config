@@ -1,7 +1,7 @@
 {
   imports = [
     ./git.nix
-    ./gnome.nix
+    #./gnome.nix
     ./kitty.nix
   ];
 }
