@@ -112,26 +112,11 @@
         window-effect = 0;
       };
       "org/gnome/shell/extensions/bitcoin-markets" = {
-      first-run = false;
-      indicators = '''
-        [
-          {
-            "api": "bybit",
-            "base": "GALA",
-            "quote": "USDT",
-            "attribute": "last",
-            "show_change": true,
-            "format": "{bs} {v5} $"
-          },
-          {
-            "api": "bybit",
-            "base": "BTC",
-            "quote": "USDT",
-            "attribute": "last",
-            "show_change": true,
-            "format": "{btc} {v0} $"
-          }
-        ]''';
+        first-run = false;
+        indicators = [
+          ''{"api":"bybit","base":"GALA","quote":"USDT","attribute":"last","show_change":true,"format":"{bs} {v5} $"}''
+          ''{"api":"bybit","base":"BTC","quote":"USDT","attribute":"last","show_change":true,"format":"{btc} {v0} $"}''
+        ];
       };
       "org/gnome/settings-daemon/plugins/media-keys" = {
         custom-keybindings = [
