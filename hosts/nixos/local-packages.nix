@@ -7,17 +7,19 @@
     systemPackages = with pkgs; [
       home-manager
 
+      # CLI utils
+      bc calc
       btop htop
       curl wget
       git
       gzip p7zip zip unzip unrar
       tree
-      electron
 
+      # Gnome
       gnome-tweaks
       gnome-extension-manager
 
-      # Расширения
+      # Gnome extensions
       gnomeExtensions.bitcoin-markets
       gnomeExtensions.blur-my-shell
       gnomeExtensions.caffeine
@@ -25,18 +27,10 @@
       gnomeExtensions.dash-to-dock
       gnomeExtensions.desktop-cube
       gnomeExtensions.search-light
-
-      # Fonts
-      noto-fonts
-      fira-code
-      font-awesome
-      cascadia-code
-      dina-font
-      proggyfonts
     ];
 
     gnome.excludePackages = with pkgs; [
-      # Ненужные приложения
+      # Applications
       gnome-tour
       gnome-music
       gnome-photos
@@ -51,7 +45,7 @@
       evolution
       totem
 
-      # Игры
+      # Games
       aisleriot
       gnome-chess
       gnome-mahjongg 
@@ -60,7 +54,7 @@
       hitori
       atomix
 
-      # Документация
+      # Documentation
       yelp
       gnome-user-docs
     ];

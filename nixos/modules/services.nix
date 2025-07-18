@@ -3,15 +3,6 @@
     qemuGuest.enable = true;
     openssh.enable = true;
 
-    pipewire = {
-      enable = true;
-      alsa = {
-        enable = true;
-        support32Bit = true;
-      };
-      pulse.enable = true;
-    };
-
     xserver = {
       enable = true;
       displayManager.gdm.enable = true;
@@ -21,6 +12,15 @@
         layout = "us,ru";
         options = "grp:ctrl_shift_toggle";
       };
+    };
+
+    pipewire = {
+      enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      pulse.enable = true;
     };
   };
 }

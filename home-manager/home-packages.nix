@@ -4,12 +4,19 @@
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
+    # CLI utils
+    cliphist wl-clipboard
+    fastfetch
+    ranger
+
     # Desktop apps
+    bottom
     brave
     code-cursor
     evince
     #exodus
     electrum
+    filezilla
     gimp inkscape pinta
     hiddify-app
     keepassxc
@@ -22,14 +29,5 @@
     #whatsapp-for-mac
     vlc
     warp-terminal
-
-    # CLI utils
-    bc
-    bottom
-    calc
-    cliphist
-    fastfetch
-    ranger
-    wl-clipboard
   ];
 }
