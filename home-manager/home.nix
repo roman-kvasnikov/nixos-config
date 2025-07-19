@@ -10,5 +10,9 @@
     username = user;
     homeDirectory = "/home/${user}";
     stateVersion = homeStateVersion;
+
+    sessionVariables = {
+      FLAKE = "./flake.nix";
+    };
   };
 }

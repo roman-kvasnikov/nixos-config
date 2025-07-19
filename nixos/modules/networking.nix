@@ -2,7 +2,8 @@
 
 {
   networking = {
-    networkmanager.enable = true;
     hostName = hostname;
+    networkmanager.enable = true;
+    wireless.enable = true;
   };
 }
