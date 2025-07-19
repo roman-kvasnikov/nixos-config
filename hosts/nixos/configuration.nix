@@ -1,4 +1,4 @@
-{ stateVersion, ... }:
+{ version, ... }:
 
 {
   imports = [
@@ -7,5 +7,5 @@
     ../../nixos/modules
   ];
 
-  system.stateVersion = stateVersion;
+  system.stateVersion = version;
 }

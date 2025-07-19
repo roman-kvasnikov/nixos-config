@@ -1,4 +1,4 @@
-{ homeStateVersion, user, ... }:
+{ user, version, ... }:
 
 {
   imports = [
@@ -9,10 +9,6 @@
   home = {
     username = user;
     homeDirectory = "/home/${user}";
-    stateVersion = homeStateVersion;
-
-    sessionVariables = {
-      FLAKE = "./flake.nix";
-    };
+    stateVersion = version;
   };
 }

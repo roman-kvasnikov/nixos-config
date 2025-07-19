@@ -20,24 +20,23 @@
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs;
+          inherit inputs user hostname;
+          stateVersion = version;
         };
         modules = [
           ./hosts/${hostname}/configuration.nix
+        ];
+      };
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                inherit user version;
-              };
-              users.${user} = {
-                imports = [ ./home-manager/home.nix ];
-              };
-            };
-          }
+      homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system};
+        extraSpecialArgs = {
+          inherit inputs user;
+          homeStateVersion = version;
+        };
+
+        modules = [
+          ./home-manager/home.nix
         ];
       };
     };
