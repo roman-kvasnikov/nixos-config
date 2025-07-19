@@ -11,7 +11,6 @@
       bc calc
       btop htop
       curl wget
-      git
       gzip p7zip zip unzip unrar
       tree
 

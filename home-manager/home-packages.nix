@@ -6,7 +6,6 @@
   home.packages = with pkgs; [
     # CLI utils
     cliphist wl-clipboard
-    fastfetch
     ranger
 
     # Desktop apps

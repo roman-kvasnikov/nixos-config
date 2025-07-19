@@ -20,8 +20,7 @@
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs user hostname;
-          stateVersion = version;
+          inherit inputs user version hostname;
         };
         modules = [
           ./hosts/${hostname}/configuration.nix
@@ -31,8 +30,7 @@
       homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system};
         extraSpecialArgs = {
-          inherit inputs user;
-          homeStateVersion = version;
+          inherit inputs user version hostname;
         };
 
         modules = [
