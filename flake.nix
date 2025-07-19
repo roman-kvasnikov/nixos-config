@@ -20,7 +20,7 @@
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs;
+          inherit inputs user version hostname;
         };
         modules = [
           ./hosts/${hostname}/configuration.nix
@@ -31,7 +31,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit user version;
+                inherit user version hostname;
               };
               users.${user} = {
                 imports = [ ./home-manager/home.nix ];
