@@ -6,7 +6,7 @@
         source = "nixos";
         height = 16;
         padding = {
-          top = 3;
+          top = 1;
           left = 2;
           right = 2;
         };
@@ -97,6 +97,10 @@
         {
           type = "memory";
           key = "{#separator}│  {#keys}󰍛 Memory";
+        }
+        {
+          type = "swap";
+          key = "{#separator}│  {#keys}󰍛 Swap";
         }
         {
           type = "disk";
