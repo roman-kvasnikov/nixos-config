@@ -5,11 +5,10 @@
     enable = true;
     settings = {
       logo = {
-        # source = "nixos";
-        source = "~/.config/nixos/modules/fastfetch/nixos-logo.png";
-        height = 16;
+        source = "~/.config/nixos/home-manager/modules/fastfetch/nixos-logo.png";
+        height = 22;
         padding = {
-          top = 1;
+          top = 0;
           left = 2;
           right = 2;
         };

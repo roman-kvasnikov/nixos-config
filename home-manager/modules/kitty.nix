@@ -5,7 +5,6 @@
     enable = true;
     settings = {
       # General
-      #shell = "/usr/bin/fish";
       term = "xterm-kitty";
       kitty_mod = "ctrl+shift";
 
@@ -17,7 +16,7 @@
       enabled_layouts = "tall, *";
 
       # Background
-      #background_image = "/home/romank/Pictures/Wallpapers/burj-khalifa-dubai-united-arab-emirates-modern-architecture-3840x2160-3290.jpg";
+      background_image = "~/.config/nixos/home-manager/wallpapers/burj-khalifa-dubai-united-arab-emirates-modern-architecture-3840x2160-3290.jpg";
       background_image_layout = "scaled";
       background_tint = "0.95";
       background_opacity = "0.9";
