@@ -8,17 +8,27 @@
       home-manager
 
       # CLI utils
+      bat
       bc calc
       btop htop
+      eza
       curl wget
+      git
+      cliphist wl-clipboard
+      fastfetch
       gzip p7zip zip unzip unrar
+      kitty
+      ranger
       tree
 
-      # Gnome
+      # Applications
+      bottom
+
+      # Gnome Applications
       gnome-tweaks
       gnome-extension-manager
 
-      # Gnome extensions
+      # Gnome Extensions
       gnomeExtensions.bitcoin-markets
       gnomeExtensions.blur-my-shell
       gnomeExtensions.caffeine

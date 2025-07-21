@@ -15,6 +15,14 @@
         enable-hot-corners = true;
         show-battery-percentage = true;
       };
+      "org/gnome/desktop/background" = {
+        color-shading-type = "solid";
+        picture-options = "zoom";
+        picture-uri = "file://~/.config/nixos/home-manager/wallpapers/landscape_monicore_instagram.jpg";
+        picture-uri-dark = "file://~/.config/nixos/home-manager/wallpapers/landscape_monicore_instagram.jpg";
+        primary-color = "#000000000000";
+        secondary-color = "#000000000000";
+      };
       "org/gnome/mutter" = {
         dynamic-workspaces = false;
         center-new-windows = true;
