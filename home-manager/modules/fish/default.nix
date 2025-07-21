@@ -1,4 +1,4 @@
-{ lib, pkgs, user, ... }:
+{ lib, pkgs, ... }:
 
 {
   programs.fish = lib.mkForce {
@@ -23,6 +23,4 @@
         end
       '';
   };
-
-  users.users.${user}.shell = pkgs.fish;
 }
