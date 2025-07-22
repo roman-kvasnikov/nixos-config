@@ -1,8 +1,8 @@
 {
   imports = [
     ./code-cursor
+    ./dconf
     ./fastfetch
-    ./dconf.nix
     ./fish.nix
     ./git.nix
     ./kitty.nix
