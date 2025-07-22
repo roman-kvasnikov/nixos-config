@@ -1,12 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, user, ... }:
 
 let
-  repo = builtins.fetchGit {
-    url = "git@github.com:roman-kvasnikov/vscode-settings.git";
-    ref = "master";
-  };
-
-  vscodeSettings = builtins.fromJSON (builtins.readFile "${repo}/settings.json");
+  vscodeSettings = builtins.fromJSON (
+    builtins.readFile "/home/${user}/.config/nixos/home-manager/modules/code-cursor/settings.json"
+  );
 in {
   programs.vscode = {
     enable = true;
