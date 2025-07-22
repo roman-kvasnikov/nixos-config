@@ -1,11 +1,11 @@
-{ lib, ... }:
+{ lib, user, ... }:
 
 {
   programs.fastfetch = lib.mkForce {
     enable = true;
     settings = {
       logo = {
-        source = "~/.config/nixos/home-manager/modules/fastfetch/nixos-logo.png";
+        source = "/home/${user}/.config/nixos/home-manager/modules/fastfetch/nixos-logo.png";
         height = 22;
         padding = {
           top = 0;
