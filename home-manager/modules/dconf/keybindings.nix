@@ -1,5 +1,10 @@
 {
   dconf.settings = {
+    "org/gnome/shell/keybindings" = {
+      screenshot = [ "Print" ];
+      show-screenshot-ui = [ "<Shift><Super>s" ];
+    };
+
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
@@ -8,6 +13,7 @@
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
       ];
     };
+
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       name = "Brave Browser";
       command = "brave";

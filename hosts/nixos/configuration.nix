@@ -3,8 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./packages.nix
     ../../nixos/modules
+    ./packages.nix
   ];
 
   system.stateVersion = version;
