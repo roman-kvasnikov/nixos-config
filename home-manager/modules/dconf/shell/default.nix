@@ -3,6 +3,8 @@
 {
   imports = [
     ./extensions
+    ./weather.nix
+    ./world-clocks.nix
   ];
 
   dconf.settings = {
