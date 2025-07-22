@@ -1,16 +1,12 @@
 { pkgs, user, ... }:
 
 {
-  dconf = {
-    enable = true;
+  imports = [
+    ./desktop
+    ./shell
+    ./keybindings.nix
+    ./mutter.nix
+  ];
 
-    settings = {
-      imports = [
-        ./desktop
-        ./shell
-        ./keybindings.nix
-        ./mutter.nix
-      ];
-    };
-  };
+  dconf.enable = true;
 }
