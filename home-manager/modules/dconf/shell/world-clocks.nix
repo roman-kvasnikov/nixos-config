@@ -1,6 +1,6 @@
 {
   dconf.settings = {
-    "org/gnome/shell/weather" = {
+    "org/gnome/shell/world-clocks" = {
       locations = [
         # Dubai
         "(uint32 2, <('Dubai', 'OMDB', true, [(0.44069563612856821, 0.96574884695243146)], [(0.44073441734454749, 0.9648180105024653)])>"
