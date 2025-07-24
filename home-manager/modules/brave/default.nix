@@ -15,6 +15,10 @@
       { id = "egjidjbpglichdcondbcbdnbeeppgdph"; } # Trust Wallet
     ];
 
+    # defaultSearchProviderEnabled = true;
+    # defaultSearchProviderSearchURL = "https://www.google.com/search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}ie={inputEncoding}";
+    # defaultSearchProviderSuggestURL = "https://www.google.com/complete/search?output=chrome&q={searchTerms}";
+
     # commandLineArgs = [
     #   "--disable-features=AutofillSavePaymentMethods"
     # ];

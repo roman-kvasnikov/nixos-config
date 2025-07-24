@@ -16,6 +16,28 @@
       version = "25.05";
       user = "romank";
       hostname = "nixos";
+
+      # user = {
+      #   fullname = "Santiago Fuentes";
+      #   name = "sfuentes";
+      #   mail = "dev@sfuentes.cl";
+      #   language = "us";
+      #   system = "x86_64-linux";
+
+      #   home = "/home/${user.name}";
+      #   flake = "${user.home}/NixOS";
+      #   documents = "${user.home}/Documents";
+      #   downloads = "${user.home}/Downloads";
+      #   media = "${user.home}/Media";
+      #   sync = "${user.home}/Sync";
+      #   wallpapers = "${user.media}/Wallpapers";
+      #   recordings = "${user.media}/Recordings";
+      #   screenshots = "${user.media}/Screenshots";
+      #   cache = "${user.home}/.cache";
+      #   config = "${user.home}/.config";
+      #   data = "${user.home}/.local/share";
+      #   state = "${user.home}/.local/state";
+      # };
     in {
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
