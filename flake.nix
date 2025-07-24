@@ -9,10 +9,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    vscode-settings.url = "github:roman-kvasnikov/vscode-settings";
+    vscode-settings = {
+      url = "github:roman-kvasnikov/vscode-settings";
+      flake = false;
+    };
   };
 
-  outputs = {self, nixpkgs, home-manager, vscode-settings, ...}@inputs:
+  outputs = {self, nixpkgs, home-manager, ...}@inputs:
     let
       system = "x86_64-linux";
       version = "25.05";
@@ -29,7 +32,7 @@
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs user version hostname vscode-settings;
+          inherit inputs user version hostname;
         };
         modules = [
           ./hosts/${hostname}/configuration.nix
@@ -40,7 +43,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit user version hostname vscode-settings;
+                inherit user version hostname;
               };
               users.${user.name} = {
                 imports = [ ./home-manager/home.nix ];

@@ -1,8 +1,8 @@
-{ pkgs, user, vscode-settings, ... }:
+{ inputs, pkgs, user, ... }:
 
 let
   vscodeSettings = builtins.fromJSON (
-    builtins.readFile "${vscode-settings.url}/settings.json"
+    builtins.readFile "${inputs.vscode-settings.url}/settings.json"
   );
 in {
   programs.vscode = {
