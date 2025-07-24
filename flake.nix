@@ -34,6 +34,8 @@
 
           home-manager.nixosModules.home-manager
           {
+            inherit user;
+
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
