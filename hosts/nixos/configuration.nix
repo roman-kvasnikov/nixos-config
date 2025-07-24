@@ -1,4 +1,4 @@
-{ version, ... }:
+{ user, version, hostname, ... }:
 
 {
   imports = [
