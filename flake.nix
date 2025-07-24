@@ -8,9 +8,11 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    vscode-settings.url = "github:romank/vscode-settings";
   };
 
-  outputs = {self, nixpkgs, home-manager, ...}@inputs:
+  outputs = {self, nixpkgs, home-manager, vscode-settings, ...}@inputs:
     let
       system = "x86_64-linux";
       version = "25.05";
@@ -27,20 +29,18 @@
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs user version hostname;
+          inherit inputs user version hostname vscode-settings;
         };
         modules = [
           ./hosts/${hostname}/configuration.nix
 
           home-manager.nixosModules.home-manager
           {
-            inherit user;
-
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit user version hostname;
+                inherit user version hostname vscode-settings;
               };
               users.${user.name} = {
                 imports = [ ./home-manager/home.nix ];

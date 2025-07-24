@@ -1,9 +1,9 @@
-{ pkgs, user, ... }:
+{ pkgs, user, vscode-settings, ... }:
 
 let
-  # vscodeSettings = builtins.fromJSON (
-  #   builtins.readFile "${user.flake}/home-manager/modules/code-cursor/settings.json"
-  # );
+  vscodeSettings = builtins.fromJSON (
+    builtins.readFile "${vscode-settings.url}/settings.json"
+  );
 in {
   programs.vscode = {
     enable = true;
