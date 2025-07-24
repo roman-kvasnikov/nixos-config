@@ -41,7 +41,6 @@
                 inherit user version hostname;
               };
               users.${user.name} = {
-                inherit user;
                 imports = [ ./home-manager/home.nix ];
               };
             };
