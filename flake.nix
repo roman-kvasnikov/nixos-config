@@ -43,7 +43,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit user version hostname;
+                inherit inputs user version hostname;
               };
               users.${user.name} = {
                 imports = [ ./home-manager/home.nix ];
