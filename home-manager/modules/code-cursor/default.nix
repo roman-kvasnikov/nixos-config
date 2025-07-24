@@ -1,12 +1,17 @@
 { inputs, pkgs, ... }:
 
 let
-  vscodeSettingsGitHub = "github:roman-kvasnikov/vscode-settings";
+  rawJson = builtins.readFile "${inputs.vscode-settings}/settings.json";
+  jsonWithoutComments = pkgs.runCommand "clean-json" {} ''
+    ${pkgs.jq}/bin/jq -c '.' < "${rawJson}" > $out
+  '';
+  vscodeSettings = builtins.fromJSON (builtins.readFile jsonWithoutComments);
 
-  vscodeSettings = builtins.fromJSON (
-    # builtins.readFile "${inputs.vscode-settings}/settings.json"
-    builtins.readFile "${vscodeSettingsGitHub}/settings.json"
-  );
+
+
+  # vscodeSettings = builtins.fromJSON (
+  #   builtins.readFile "${inputs.vscode-settings}/settings.json"
+  # );
 in {
   programs.vscode = {
     enable = true;
@@ -14,6 +19,8 @@ in {
     package = pkgs.code-cursor;
 
     enableUpdateCheck = false;
+
+    userSettings = vscodeSettings;
 
     extensions = with pkgs.vscode-extensions; [
       bbenoist.nix # Nix language support
@@ -32,7 +39,5 @@ in {
       # ms-vscode.remote-explorer
       # ms-vscode.remote-repositories
     ];
-
-    userSettings = vscodeSettings;
   };
 }
