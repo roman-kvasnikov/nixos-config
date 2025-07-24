@@ -2,7 +2,7 @@
 
 let
   vscodeSettings = builtins.fromJSON (
-    builtins.readFile "/home/${user}/.config/nixos/home-manager/modules/code-cursor/settings.json"
+    builtins.readFile "./home-manager/modules/code-cursor/settings.json"
   );
 in {
   programs.vscode = {
