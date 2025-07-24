@@ -1,8 +1,8 @@
-{ pkgs, homeDirectory, ... }:
+{ pkgs, user, ... }:
 
 let
   vscodeSettings = builtins.fromJSON (
-    builtins.readFile "${homeDirectory}/.config/nixos/home-manager/modules/code-cursor/settings.json"
+    builtins.readFile "${user.flake}/home-manager/modules/code-cursor/settings.json"
   );
 in {
   programs.vscode = {

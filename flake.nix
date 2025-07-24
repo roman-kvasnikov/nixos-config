@@ -14,30 +14,15 @@
     let
       system = "x86_64-linux";
       version = "25.05";
-      user = "romank";
       hostname = "nixos";
 
-      # user = {
-      #   fullname = "Santiago Fuentes";
-      #   name = "sfuentes";
-      #   mail = "dev@sfuentes.cl";
-      #   language = "us";
-      #   system = "x86_64-linux";
+      user = {
+        name = "romank";
 
-      #   home = "/home/${user.name}";
-      #   flake = "${user.home}/NixOS";
-      #   documents = "${user.home}/Documents";
-      #   downloads = "${user.home}/Downloads";
-      #   media = "${user.home}/Media";
-      #   sync = "${user.home}/Sync";
-      #   wallpapers = "${user.media}/Wallpapers";
-      #   recordings = "${user.media}/Recordings";
-      #   screenshots = "${user.media}/Screenshots";
-      #   cache = "${user.home}/.cache";
-      #   config = "${user.home}/.config";
-      #   data = "${user.home}/.local/share";
-      #   state = "${user.home}/.local/state";
-      # };
+        home = "/home/${user.name}";
+        config = "${user.home}/.config";
+        flake = "${user.config}/nixos";
+      };
     in {
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
@@ -55,7 +40,8 @@
               extraSpecialArgs = {
                 inherit user version hostname;
               };
-              users.${user} = {
+              users.${user.name} = {
+                inherit user;
                 imports = [ ./home-manager/home.nix ];
               };
             };

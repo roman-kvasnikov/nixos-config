@@ -1,4 +1,4 @@
-{ user, version, hostname, ... }:
+{ user, version, ... }:
 
 {
   imports = [
@@ -7,8 +7,8 @@
   ];
 
   home = {
-    username = user;
-    homeDirectory = "/home/${user}";
+    username = user.name;
+    homeDirectory = user.home;
     stateVersion = version;
   };
 }
