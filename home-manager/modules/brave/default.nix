@@ -6,6 +6,17 @@
 
     package = pkgs.brave;
 
+    profiles = {
+      "Home" = {
+        id = 0;
+        isDefault = true;
+      };
+      "Work" = {
+        id = 1;
+        isDefault = false;
+      };
+    };
+
     extensions = [
       { id = "bnjjngeaknajbdcgpfkgnonkmififhfo"; } # Fake Filler
       { id = "lfncinhjhjgebfnnblppmbmkgjgifhdf"; } # IP Address & Geolocation
