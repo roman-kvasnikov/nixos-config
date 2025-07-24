@@ -1,4 +1,4 @@
-{ pkgs, user, ... }:
+{ pkgs, user, hostname, ... }:
 
 {
   users = {
