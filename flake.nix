@@ -26,7 +26,7 @@
 
         home = "/home/${user.name}";
         config = "${user.home}/.config";
-        flake = "${user.config}/nixos";
+        nixos = "${user.config}/nixos";
       };
     in {
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {

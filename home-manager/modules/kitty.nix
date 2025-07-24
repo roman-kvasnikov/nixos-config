@@ -16,7 +16,7 @@
       enabled_layouts = "tall, *";
 
       # Background
-      background_image = "${user.config}/nixos/home-manager/wallpapers/burj-khalifa-dubai-united-arab-emirates-modern-architecture-3840x2160-3290.jpg";
+      background_image = "$${user.nixos}/home-manager/wallpapers/burj-khalifa-dubai-united-arab-emirates-modern-architecture-3840x2160-3290.jpg";
       background_image_layout = "scaled";
       background_tint = "0.95";
       background_opacity = "0.9";
