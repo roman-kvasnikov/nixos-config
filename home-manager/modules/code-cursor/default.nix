@@ -1,8 +1,11 @@
 { inputs, pkgs, ... }:
 
 let
+  vscodeSettingsGitHub = "github:roman-kvasnikov/vscode-settings";
+
   vscodeSettings = builtins.fromJSON (
-    builtins.readFile "${inputs.vscode-settings}/settings.json"
+    # builtins.readFile "${inputs.vscode-settings}/settings.json"
+    builtins.readFile "${vscodeSettingsGitHub}/settings.json"
   );
 in {
   programs.vscode = {
