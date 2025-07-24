@@ -5,16 +5,16 @@ let
   #   builtins.readFile "./settings.json"
   # );
 in {
-  # home.packages = with pkgs; [
-  #   alejandra
-  # ];
+  home.packages = with pkgs; [
+    alejandra
+  ];
 
   programs.vscode = {
     enable = true;
 
-    # package = pkgs.code-cursor;
+    package = pkgs.code-cursor;
 
-    package = with pkgs; [code-cursor alejandra];
+    # package = with pkgs; [code-cursor alejandra];
 
     enableUpdateCheck = false;
 
