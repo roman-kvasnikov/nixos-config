@@ -1,9 +1,9 @@
 { pkgs, user, ... }:
 
 let
-  vscodeSettings = builtins.fromJSON (
-    builtins.readFile "${user.flake}/home-manager/modules/code-cursor/settings.json"
-  );
+  # vscodeSettings = builtins.fromJSON (
+  #   builtins.readFile "${user.flake}/home-manager/modules/code-cursor/settings.json"
+  # );
 in {
   programs.vscode = {
     enable = true;
@@ -32,7 +32,7 @@ in {
       # ms-vscode.remote-repositories
     ];
 
-    userSettings = vscodeSettings;
+    # userSettings = vscodeSettings;
 
     # userSettings = {
     #   "window.commandCenter" = true;
