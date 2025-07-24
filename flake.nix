@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    vscode-settings.url = "github:romank/vscode-settings";
+    vscode-settings.url = "github:roman-kvasnikov/vscode-settings";
   };
 
   outputs = {self, nixpkgs, home-manager, vscode-settings, ...}@inputs:
