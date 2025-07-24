@@ -32,6 +32,8 @@ in {
       # ms-vscode.remote-repositories
     ];
 
+    userSettings = vscodeSettings;
+
     userSettings = {
       "window.commandCenter" = true;
       # "window.titleBarStyle" = "native";
