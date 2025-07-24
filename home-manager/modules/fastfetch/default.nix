@@ -3,6 +3,7 @@
 {
   programs.fastfetch = lib.mkForce {
     enable = true;
+
     settings = {
       logo = {
         source = "/home/${user}/.config/nixos/home-manager/modules/fastfetch/nixos-logo.png";

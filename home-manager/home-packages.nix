@@ -5,7 +5,7 @@
 
   home.packages = with pkgs; [
     # Desktop apps
-    brave
+    # brave
     evince
     #exodus
     electrum

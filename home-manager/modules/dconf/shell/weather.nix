@@ -1,4 +1,5 @@
 {
+  # Не работает, нужно разобраться с форматом указания локации
   dconf.settings = {
     "org/gnome/shell/weather" = {
       automatic-location = true;

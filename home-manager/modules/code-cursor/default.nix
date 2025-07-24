@@ -7,7 +7,9 @@ let
 in {
   programs.vscode = {
     enable = true;
+
     package = pkgs.code-cursor;
+
     # extensions = with pkgs.vscode-extensions; [
     #   saeed-nazari.adonis-theme
     #   formulahendry.auto-close-tag
@@ -21,6 +23,7 @@ in {
     #   ms-vscode.remote-explorer
     #   ms-vscode.remote-repositories
     # ];
+
     # userSettings = vscodeSettings;
   };
 }

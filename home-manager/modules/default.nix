@@ -1,5 +1,6 @@
 {
   imports = [
+    ./brave
     ./code-cursor
     ./dconf
     ./fastfetch
