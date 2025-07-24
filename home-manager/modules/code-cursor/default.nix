@@ -2,7 +2,7 @@
 
 let
   vscodeSettings = builtins.fromJSON (
-    builtins.readFile "${inputs.vscode-settings.url}/settings.json"
+    builtins.readFile "${inputs.vscode-settings}/settings.json"
   );
 in {
   programs.vscode = {
