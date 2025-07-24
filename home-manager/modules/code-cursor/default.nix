@@ -1,17 +1,9 @@
 { inputs, pkgs, ... }:
 
 let
-  rawJson = builtins.readFile "${inputs.vscode-settings}/settings.json";
-  jsonWithoutComments = pkgs.runCommand "clean-json" {} ''
-    ${pkgs.jq}/bin/jq -c '.' < "${rawJson}" > $out
-  '';
-  vscodeSettings = builtins.fromJSON (builtins.readFile jsonWithoutComments);
-
-
-
-  # vscodeSettings = builtins.fromJSON (
-  #   builtins.readFile "${inputs.vscode-settings}/settings.json"
-  # );
+  vscodeSettings = builtins.fromJSON (
+    builtins.readFile "${inputs.vscode-settings}/settings.json"
+  );
 in {
   programs.vscode = {
     enable = true;
@@ -20,7 +12,7 @@ in {
 
     enableUpdateCheck = false;
 
-    userSettings = vscodeSettings;
+    # userSettings = vscodeSettings;
 
     extensions = with pkgs.vscode-extensions; [
       bbenoist.nix # Nix language support
