@@ -6,6 +6,7 @@
 
 	"workbench.colorTheme": "GitHub Dark Default",
 	"workbench.activityBar.location": "hidden",
+	"workbench.layoutControl.enabled": false,
 	"workbench.statusBar.visible": true,
 	"workbench.editor.editorActionsLocation": "hidden",
 	"workbench.editor.empty.hint": "hidden",
@@ -20,8 +21,8 @@
 	"workbench.startupEditor": "none", // Отключает отображение редактора при запуске
 	"workbench.tips.enabled": false, // Отключает подсказки на стартовой странице
 	"breadcrumbs.enabled": false, // Отключает "хлебные крошки" в верхней части редактора
-	"editor.matchBrackets": "never", // Отключает подсветку парных скобок
-	"editor.colorDecorators": false, // Отключает предпросмотр цвета в CSS
+	"editor.matchBrackets": "always", // Отключает подсветку парных скобок
+	"editor.colorDecorators": true, // Отключает предпросмотр цвета в CSS
 	// "editor.renderLineHighlight": "none", // Отключает подсветку текущей строки
 	// "editor.occurrencesHighlight": "off", // Отключает выделение всех вхождений слова при фокусе
 	// "problems.decorations.enabled": false, // Отключает подсветку файлов с ошибками в эксплорере
@@ -229,6 +230,5 @@
 	"files.associations": {
 		".blade.php": "blade",
 		".tpl": "html"
-	},
-	"workbench.layoutControl.enabled": false
+	}
 }

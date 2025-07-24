@@ -1,14 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, user, ... }:
 
 let
-  # vscodeSettings = builtins.fromJSON (
-  #   builtins.readFile "./settings.json"
-  # );
+  vscodeSettings = builtins.fromJSON (
+    builtins.readFile "/home/${user}/.config/nixos/home-manager/modules/code-cursor/settings.json"
+  );
 in {
-  home.packages = with pkgs; [
-    alejandra
-  ];
-
   programs.vscode = {
     enable = true;
 
@@ -20,10 +16,9 @@ in {
 
     extensions = with pkgs.vscode-extensions; [
       bbenoist.nix # Nix language support
-      kamadorueda.alejandra # Nix formatting plugin
       esbenp.prettier-vscode # General formatting plugin
-      open-southeners.laravel-pint
-      shufo.vscode-blade-formatter
+      # open-southeners.laravel-pint
+      # shufo.vscode-blade-formatter
       # saeed-nazari.adonis-theme
       # formulahendry.auto-close-tag
       # formulahendry.auto-rename-tag
@@ -31,10 +26,10 @@ in {
       # github.remotehub
       # github.github-vscode-theme
       # jnoortheen.nix-ide
-      ms-vscode-remote.remote-ssh
-      ms-vscode-remote.remote-ssh-edit
-      ms-vscode.remote-explorer
-      ms-vscode.remote-repositories
+      # ms-vscode-remote.remote-ssh
+      # ms-vscode-remote.remote-ssh-edit
+      # ms-vscode.remote-explorer
+      # ms-vscode.remote-repositories
     ];
 
     userSettings = {
