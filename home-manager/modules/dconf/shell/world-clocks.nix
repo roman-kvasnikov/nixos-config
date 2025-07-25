@@ -1,41 +1,14 @@
 { lib, ... }:
 
 {
-  # Не работает, нужно разобраться с форматом указания локации
-  dconf = {
-    settings = let
-      inherit (lib.gvariant) mkTuple mkUint32 mkVariant mkDictionaryEntry;
-    in {
-      "org/gnome/clocks" = {
-      world-clocks = [
-        ([ 
-          (mkDictionaryEntry ["location" (mkVariant (mkTuple [
-            (mkUint32 2)
-            (mkVariant (mkTuple [
-              "Kos"
-              "LGKO"
-              true
-              [(mkTuple [(0.64199027070748338) (0.47240245669089603)])]
-              [(mkTuple [(0.64391013288467702) (0.47628096226126287)])]
-            ]))
-          ]))])
-        ])
-        ([ 
-          (mkDictionaryEntry ["location" (mkVariant (mkTuple [
-            (mkUint32 2)
-            (mkVariant (mkTuple [
-              "Richmond"
-              "KRIC"
-              true
-              [(mkTuple [(0.65469239303106264) (-1.3495467494659847)])]
-              [(mkTuple [ (0.65543672359716076) (-1.351936611357448)])]
-            ]))
-          ]))])
-        ])
+    dconf.settings = {
+    "org/gnome/clocks" = {
+      world-clocks = lib.mkForce [
+        ''<(uint32 2, <('Kos', 'LGKO', true, [(0.64199027070748338, 0.47240245669089603)], [(0.64391013288467702, 0.47628096226126287)])>)>''
+        ''<(uint32 2, <('Richmond', 'KRIC', true, [(0.65469239303106264, -1.3495467494659847)], [(0.65543672359716076, -1.351936611357448)])>)>''
       ];
     };
   };
-};
 }
 
 
