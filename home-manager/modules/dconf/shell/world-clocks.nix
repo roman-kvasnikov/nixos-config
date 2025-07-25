@@ -2,7 +2,7 @@
 
 {
   # Не работает, нужно разобраться с форматом указания локации
-  dconf.settings = {
+  dconf = {
     settings = let
       inherit (lib.gvariant) mkTuple mkUint32 mkVariant;
     in {
