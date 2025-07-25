@@ -3,6 +3,7 @@
 {
   programs.kitty = lib.mkForce {
     enable = true;
+
     settings = {
       # General
       term = "xterm-kitty";

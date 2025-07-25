@@ -6,6 +6,7 @@
     ./fastfetch
     ./discord.nix
     ./fish.nix
+    # ./git-sync-obsidian.nix
     ./git.nix
     ./kitty.nix
   ];

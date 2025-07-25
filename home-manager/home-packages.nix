@@ -19,5 +19,10 @@
     #whatsapp-for-mac
     vlc
     warp-terminal
+
+    # CLI Utilities
+    ffmpeg
+    ffmpegthumbnailer
+    silicon
   ];
 }

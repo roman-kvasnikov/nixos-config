@@ -46,6 +46,7 @@
       gnome-contacts
       gnome-characters
       gnome-terminal
+      gnome-help
       file-roller
       simple-scan
       seahorse
