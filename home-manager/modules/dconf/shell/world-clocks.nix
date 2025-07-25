@@ -7,18 +7,32 @@
       inherit (lib.gvariant) mkTuple mkUint32 mkVariant;
     in {
       "org/gnome/clocks" = {
-        world-clocks = [
-          {
-            location = mkVariant [(mkUint32 2) (mkVariant ["Oslo" "ENGM" false [(mkTuple [1.0506882097005865 0.19344065294494067])] [(mkTuple [1.0506882097005865 0.19344065294494067])]])];
-          }
-          {
-            location = mkVariant [(mkUint32 2) (mkVariant ["London" "EGWU" false [(mkTuple [0.8997172294030767 (-7.272211034407213e-3)])] [(mkTuple [0.8997172294030767 (-7.272211034407213e-3)])]])];
-          }
-          {
-            location = mkVariant [(mkUint32 2) (mkVariant ["Sydney" "YSSY" true [(mkTuple [(-0.592539281052075) 2.638646934988996])] [(mkTuple [(-0.5913757223996479) 2.639228723041856])]])];
-          }
-        ];
-      };
+      world-clocks = [
+        ([ 
+          (mkDictionaryEntry ["location" (mkVariant (mkTuple [
+            (mkUint32 2)
+            (mkVariant (mkTuple [
+              "Kos"
+              "LGKO"
+              true
+              [(mkTuple [(0.64199027070748338) (0.47240245669089603)])]
+              [(mkTuple [(0.64391013288467702) (0.47628096226126287)])]
+            ]))
+          ]))])
+        ])
+        ([ 
+          (mkDictionaryEntry ["location" (mkVariant (mkTuple [
+            (mkUint32 2)
+            (mkVariant (mkTuple [
+              "Richmond"
+              "KRIC"
+              true
+              [(mkTuple [(0.65469239303106264) (-1.3495467494659847)])]
+              [(mkTuple [ (0.65543672359716076) (-1.351936611357448)])]
+            ]))
+          ]))])
+        ])
+      ];
     };
   };
 }
