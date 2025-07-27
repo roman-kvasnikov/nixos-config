@@ -6,14 +6,24 @@
       url = "github:nixos/nixpkgs/nixos-25.05";
     };
 
+    # disko = {
+    #   url = "github:nix-community/disko/v1.11.0";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     stylix = {
-      url = "github:danth/stylix/release-25.05";
+      url = "github:nix-community/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    wallpapers = {
+      url = "github:roman-kvasnikov/wallpapers";
+      flake = false;
     };
 
     vscode-settings = {
@@ -25,8 +35,6 @@
   outputs = {self, nixpkgs, home-manager, stylix, ...}@inputs:
     let
       system = "x86_64-linux";
-      version = "25.05";
-      hostname = "nixos";
 
       user = {
         name = "romank";
@@ -34,9 +42,12 @@
         dirs = {
           home = "/home/${user.name}";
           config = "${user.dirs.home}/.config";
-          nixos = "${user.dirs.config}/nixos";
+          nixos = "${user.dirs.config}/nixos-config";
         };
       };
+
+      version = "25.05";
+      hostname = "nixos";
     in {
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;

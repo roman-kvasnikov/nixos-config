@@ -1,7 +1,7 @@
 {
   imports = [
-    ./background.nix
-    ./interface.nix
+    # ./background.nix
+    # ./interface.nix
     ./wm-preferences.nix
   ];
 }

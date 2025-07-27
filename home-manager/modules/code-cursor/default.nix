@@ -16,7 +16,8 @@ in {
       enableUpdateCheck = false;
 
       extensions = with pkgs.vscode-extensions; [
-        bbenoist.nix # Nix language support
+        # bbenoist.nix
+        jnoortheen.nix-ide
         esbenp.prettier-vscode # General formatting plugin
         # open-southeners.laravel-pint
         # shufo.vscode-blade-formatter

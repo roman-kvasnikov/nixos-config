@@ -9,15 +9,18 @@
 
   dconf.settings = {
     "org/gnome/shell" = {
+      disable-user-extensions = false;
+
       enabled-extensions = with pkgs.gnomeExtensions; [
-        bitcoin-markets.extensionUuid
-        blur-my-shell.extensionUuid
-        caffeine.extensionUuid
-        clipboard-history.extensionUuid
-        dash-to-dock.extensionUuid
-        desktop-cube.extensionUuid
-        search-light.extensionUuid
+        "bitcoin-markets@ottoallmendinger.github.com"
+        "blur-my-shell@aunetx"
+        "caffeine@patapon.info"
+        "clipboard-history@alexsaveau.dev"
+        "dash-to-dock@micxgx.gmail.com"
+        "desktop-cube@schneegans.github.com"
+        "search-light@icedman.github.com"
       ];
+
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
         "brave-browser.desktop"
