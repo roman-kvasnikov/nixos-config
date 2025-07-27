@@ -12,7 +12,7 @@
     };
 
     stylix = {
-      url = "github:danth/stylix/release-24.11";
+      url = "github:danth/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -31,16 +31,20 @@
       user = {
         name = "romank";
 
-        home = "/home/${user.name}";
-        config = "${user.home}/.config";
-        nixos = "${user.config}/nixos";
+        dirs = {
+          home = "/home/${user.name}";
+          config = "${user.dirs.home}/.config";
+          nixos = "${user.dirs.config}/nixos";
+        };
       };
     in {
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
+
         specialArgs = {
           inherit inputs user version hostname;
         };
+
         modules = [
           ./hosts/${hostname}/configuration.nix
 
@@ -49,9 +53,11 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+
               extraSpecialArgs = {
                 inherit inputs user version hostname;
               };
+
               users.${user.name} = {
                 imports = [ ./home-manager/home.nix ];
               };

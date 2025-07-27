@@ -3,6 +3,7 @@
 {
   networking = {
     hostName = hostname;
+
     networkmanager = {
       enable = true;
 
@@ -10,6 +11,7 @@
         networkmanager-l2tp
       ];
     };
+
     #wireless.enable = true;
   };
 }

@@ -8,7 +8,7 @@
 
   home = {
     username = user.name;
-    homeDirectory = user.home;
+    homeDirectory = user.dirs.home;
     stateVersion = version;
   };
 }
