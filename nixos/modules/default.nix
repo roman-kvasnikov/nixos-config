@@ -11,6 +11,7 @@
     ./programs.nix
     ./security.nix
     ./services.nix
+    ./stylix.nix
     ./time.nix
     ./user.nix
   ];

@@ -22,7 +22,7 @@
     };
   };
 
-  outputs = {self, nixpkgs, home-manager, ...}@inputs:
+  outputs = {self, nixpkgs, home-manager, stylix, ...}@inputs:
     let
       system = "x86_64-linux";
       version = "25.05";
@@ -46,6 +46,8 @@
         };
 
         modules = [
+          stylix.nixosModules.stylix
+
           ./hosts/${hostname}/configuration.nix
 
           home-manager.nixosModules.home-manager

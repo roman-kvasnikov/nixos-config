@@ -6,7 +6,6 @@
   environment = {
     systemPackages = with pkgs; [
       home-manager
-      nixfmt-rfc-style
 
       # CLI utils
       bat

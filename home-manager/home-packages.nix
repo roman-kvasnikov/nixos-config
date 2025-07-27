@@ -24,5 +24,7 @@
     ffmpeg
     ffmpegthumbnailer
     silicon
+
+    nixfmt-rfc-style # nixfmt - утилита для форматирования кода NIX в стиле RFC
   ];
 }
