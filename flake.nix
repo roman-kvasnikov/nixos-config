@@ -1,5 +1,5 @@
 {
-  description = "RomanK's NixOS System Configuration";
+  description = "Roman-Kvasnikov's NixOS System Configuration";
 
   inputs = {
     nixpkgs = {
@@ -18,9 +18,10 @@
 
     stylix = {
       url = "github:nix-community/stylix/release-25.05";
-      # url = "github:danth/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # My own repositories
 
     wallpapers = {
       url = "github:roman-kvasnikov/wallpapers";
@@ -33,7 +34,7 @@
     };
   };
 
-  outputs = {self, nixpkgs, home-manager, stylix, ...}@inputs:
+  outputs = {self, nixpkgs, home-manager, ...}@inputs:
     let
       system = "x86_64-linux";
 
@@ -43,7 +44,7 @@
         dirs = {
           home = "/home/${user.name}";
           config = "${user.dirs.home}/.config";
-          nixos = "${user.dirs.config}/nixos-config";
+          nixos-config = "${user.dirs.config}/nixos";
         };
       };
 
