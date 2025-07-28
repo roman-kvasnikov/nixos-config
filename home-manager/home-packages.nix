@@ -27,7 +27,7 @@
     hiddify-app
     keepassxc
     libreoffice-still
-    obsidian
+    # obsidian
     postman
     #tableplus
     telegram-desktop

@@ -10,14 +10,16 @@ in {
 
     package = pkgs.code-cursor;
 
-    userSettings = vscodeSettings;
-
     profiles.default = {
       enableUpdateCheck = false;
+
+      userSettings = vscodeSettings;
 
       extensions = with pkgs.vscode-extensions; [
         jnoortheen.nix-ide
         esbenp.prettier-vscode
+        ms-vscode-remote.remote-ssh
+        ms-vscode-remote.remote-ssh-edit
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "remotehub";
@@ -30,18 +32,6 @@ in {
           publisher = "github";
           version = "6.3.5";
           sha256 = "dOadoYBPcYrpzmqOpJwG+/nPwTfJtlsOFDU3FctdR0o=";
-        }
-        {
-          name = "remote-ssh";
-          publisher = "ms-vscode-remote";
-          version = "0.113.1";
-          sha256 = "/tyyjf3fquUmjdEX7Gyt3MChzn1qMbijyej8Lskt6So=";
-        }
-        {
-          name = "remote-ssh-edit";
-          publisher = "ms-vscode-remote";
-          version = "0.87.0";
-          sha256 = "yeX6RAJl07d+SuYyGQFLZNcUzVKAsmPFyTKEn+y3GuM=";
         }
         {
           name = "remote-explorer";
