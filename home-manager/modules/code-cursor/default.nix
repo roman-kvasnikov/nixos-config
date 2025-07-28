@@ -1,8 +1,8 @@
-{ inputs, pkgs, ... }:
+{ lib, inputs, pkgs, ... }:
 
 let
   vscodeSettings = builtins.fromJSON (
-    builtins.readFile "${inputs.vscode-settings}/settings.json"
+    builtins.readFile "${inputs.vscode-settings}/settings.min.json"
   );
 in {
   programs.vscode = {
@@ -10,28 +10,51 @@ in {
 
     package = pkgs.code-cursor;
 
-    # userSettings = vscodeSettings;
+    userSettings = vscodeSettings;
 
     profiles.default = {
       enableUpdateCheck = false;
 
       extensions = with pkgs.vscode-extensions; [
-        # bbenoist.nix
         jnoortheen.nix-ide
-        esbenp.prettier-vscode # General formatting plugin
-        # open-southeners.laravel-pint
-        # shufo.vscode-blade-formatter
-        # saeed-nazari.adonis-theme
-        # formulahendry.auto-close-tag
-        # formulahendry.auto-rename-tag
-        # ms-vscode.azure-repos
-        # github.remotehub
-        # github.github-vscode-theme
-        # jnoortheen.nix-ide
-        # ms-vscode-remote.remote-ssh
-        # ms-vscode-remote.remote-ssh-edit
-        # ms-vscode.remote-explorer
-        # ms-vscode.remote-repositories
+        esbenp.prettier-vscode
+      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "remotehub";
+          publisher = "github";
+          version = "0.64.0";
+          sha256 = "Nh4PxYVdgdDb8iwHHUbXwJ5ZbMruFB6juL4Yg/wdKMY=";
+        }
+        {
+          name = "github-vscode-theme";
+          publisher = "github";
+          version = "6.3.5";
+          sha256 = "dOadoYBPcYrpzmqOpJwG+/nPwTfJtlsOFDU3FctdR0o=";
+        }
+        {
+          name = "remote-ssh";
+          publisher = "ms-vscode-remote";
+          version = "0.113.1";
+          sha256 = "/tyyjf3fquUmjdEX7Gyt3MChzn1qMbijyej8Lskt6So=";
+        }
+        {
+          name = "remote-ssh-edit";
+          publisher = "ms-vscode-remote";
+          version = "0.87.0";
+          sha256 = "yeX6RAJl07d+SuYyGQFLZNcUzVKAsmPFyTKEn+y3GuM=";
+        }
+        {
+          name = "remote-explorer";
+          publisher = "ms-vscode";
+          version = "0.5.0";
+          sha256 = "BNsnetpddxv3Y9MjZERU5jOq1I2g6BNFF1rD7Agpmr8=";
+        }
+        {
+          name = "remote-repositories";
+          publisher = "ms-vscode";
+          version = "0.42.0";
+          sha256 = "cYbkCcNsoTO6E5befw/ZN3yTW262APTCxyCJ/3z84dc=";
+        }
       ];
     };
   };
