@@ -1,6 +1,8 @@
 { pkgs, inputs, ... }:
 
 {
+  imports = [ inputs.stylix.nixosModules.stylix ];
+
   stylix = {
     enable = true;
 
@@ -33,7 +35,6 @@
     # Настройки для конкретных приложений
     targets = {
       gnome.enable = true;
-      # code-cursor.enable = false;
     };
   };
 }

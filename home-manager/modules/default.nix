@@ -9,5 +9,6 @@
     # ./git-sync-obsidian.nix
     ./git.nix
     ./kitty.nix
+    ./stylix.nix
   ];
 }
