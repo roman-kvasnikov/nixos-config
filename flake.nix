@@ -17,8 +17,8 @@
     };
 
     stylix = {
-      # url = "github:nix-community/stylix/release-25.05";
-      url = "github:danth/stylix/release-25.05";
+      url = "github:nix-community/stylix/release-25.05";
+      # url = "github:danth/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -63,17 +63,16 @@
       };
 
       homeConfigurations.${user.name} = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-
-        # useGlobalPkgs = true;
-        # useUserPackages = true;
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
 
         extraSpecialArgs = {
           inherit inputs user version hostname;
         };
 
         modules = [
-          stylix.homeModules.stylix
           ./home-manager/home.nix
         ];
       };
