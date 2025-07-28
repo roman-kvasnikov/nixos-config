@@ -8,6 +8,7 @@
     ./i18n.nix
     ./networking.nix
     ./nix.nix
+    ./obsidian.nix
     ./security.nix
     ./services.nix
     ./time.nix

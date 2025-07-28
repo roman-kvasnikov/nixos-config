@@ -9,7 +9,7 @@
     # ./git-sync-obsidian.nix
     ./git.nix
     ./kitty.nix
-    ./obsidian.nix
+    # ./obsidian.nix
     ./stylix.nix
   ];
 }

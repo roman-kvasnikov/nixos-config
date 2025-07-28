@@ -18,6 +18,7 @@ in {
       extensions = with pkgs.vscode-extensions; [
         jnoortheen.nix-ide
         esbenp.prettier-vscode
+        github.github-vscode-theme
         ms-vscode-remote.remote-ssh
         ms-vscode-remote.remote-ssh-edit
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
@@ -26,12 +27,6 @@ in {
           publisher = "github";
           version = "0.64.0";
           sha256 = "Nh4PxYVdgdDb8iwHHUbXwJ5ZbMruFB6juL4Yg/wdKMY=";
-        }
-        {
-          name = "github-vscode-theme";
-          publisher = "github";
-          version = "6.3.5";
-          sha256 = "dOadoYBPcYrpzmqOpJwG+/nPwTfJtlsOFDU3FctdR0o=";
         }
         {
           name = "remote-explorer";
