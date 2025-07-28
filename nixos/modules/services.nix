@@ -8,10 +8,8 @@
       displayManager.gdm.enable = true;
       desktopManager.gnome.enable = true;
 
-      xkb = {
-        layout = "us,ru";
-        options = "grp:ctrl_shift_toggle";
-      };
+      xkb.layout = "us,ru";
+      xkbOptions = "grp:ctrl_shift_toggle";
     };
 
     pipewire = {
