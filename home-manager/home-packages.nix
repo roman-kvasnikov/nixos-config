@@ -46,6 +46,7 @@
     gnomeExtensions.clipboard-history
     gnomeExtensions.dash-to-dock
     gnomeExtensions.desktop-cube
+    gnomeExtensions.just-perfection
     gnomeExtensions.search-light
 
     nixfmt-rfc-style # nixfmt - утилита для форматирования кода NIX в стиле RFC

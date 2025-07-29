@@ -4,6 +4,7 @@
   imports = [
     ./modules
     ./home-packages.nix
+    ./home-configs.nix
   ];
 
   home = {
