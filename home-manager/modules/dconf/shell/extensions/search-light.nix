@@ -13,7 +13,7 @@
       preferred-monitor = 0;
       scale-height = 0.10000000000000001;
       scale-width = 0.10000000000000001;
-      shortcut-search = [ "<Super>R" ];
+      shortcut-search = ["<Super>R"];
       show-panel-icon = false;
       window-effect = 0;
     };

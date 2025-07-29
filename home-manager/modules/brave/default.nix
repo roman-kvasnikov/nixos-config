@@ -1,6 +1,9 @@
-{ lib, pkgs, user, ... }:
-
 {
+  lib,
+  pkgs,
+  user,
+  ...
+}: {
   # environment.etc."/brave/policies/managed/GroupPolicy.json".source = "${user.dirs.nixos-config}/home-manager/modules/brave/policies.json";
 
   programs.chromium = lib.mkForce {
@@ -9,12 +12,12 @@
     package = pkgs.brave;
 
     extensions = [
-      { id = "bnjjngeaknajbdcgpfkgnonkmififhfo"; } # Fake Filler
-      { id = "lfncinhjhjgebfnnblppmbmkgjgifhdf"; } # IP Address & Geolocation
-      { id = "oboonakemofpalcgghocfoadofidjkkk"; } # KeePassXC-Browser
-      { id = "padekgcemlokbadohgkifijomclgjgif"; } # Proxy SwitchyOmega
-      { id = "nkbihfbeogaeaoehlefnkodbefgpgknn"; } # MetaMask
-      { id = "egjidjbpglichdcondbcbdnbeeppgdph"; } # Trust Wallet
+      {id = "bnjjngeaknajbdcgpfkgnonkmififhfo";} # Fake Filler
+      {id = "lfncinhjhjgebfnnblppmbmkgjgifhdf";} # IP Address & Geolocation
+      {id = "oboonakemofpalcgghocfoadofidjkkk";} # KeePassXC-Browser
+      {id = "padekgcemlokbadohgkifijomclgjgif";} # Proxy SwitchyOmega
+      {id = "nkbihfbeogaeaoehlefnkodbefgpgknn";} # MetaMask
+      {id = "egjidjbpglichdcondbcbdnbeeppgdph";} # Trust Wallet
     ];
 
     # defaultSearchProviderEnabled = true;

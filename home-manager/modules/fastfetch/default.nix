@@ -1,6 +1,8 @@
-{ lib, user, ... }:
-
 {
+  lib,
+  user,
+  ...
+}: {
   programs.fastfetch = lib.mkForce {
     enable = true;
 

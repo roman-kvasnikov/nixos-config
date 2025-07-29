@@ -1,8 +1,5 @@
-{ user, ... }:
-
-{
+{user, ...}: {
   environment = {
-
     etc."/brave/policies/managed/GroupPolicy.json".source = "${user.dirs.nixos-config}/home-manager/modules/brave/policies.json";
 
     sessionVariables = rec {

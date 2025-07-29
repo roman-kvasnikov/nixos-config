@@ -1,12 +1,13 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
     # CLI utilites
     bat
-    bc calc
-    btop htop
-    cliphist wl-clipboard
+    bc
+    calc
+    btop
+    htop
+    cliphist
+    wl-clipboard
     eza
     fastfetch
     ffmpeg
@@ -23,7 +24,9 @@
     #exodus
     electrum
     filezilla
-    gimp inkscape pinta
+    gimp
+    inkscape
+    pinta
     hiddify-app
     keepassxc
     libreoffice-still
@@ -48,7 +51,5 @@
     gnomeExtensions.desktop-cube
     gnomeExtensions.just-perfection
     gnomeExtensions.search-light
-
-    nixfmt-rfc-style # nixfmt - утилита для форматирования кода NIX в стиле RFC
   ];
 }

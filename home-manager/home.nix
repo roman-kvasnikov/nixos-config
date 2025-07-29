@@ -1,6 +1,8 @@
-{ user, version, ... }:
-
 {
+  user,
+  version,
+  ...
+}: {
   imports = [
     ./modules
     ./home-packages.nix

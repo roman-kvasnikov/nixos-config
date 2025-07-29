@@ -1,6 +1,9 @@
-{ user, version, hostname, ... }:
-
 {
+  user,
+  version,
+  hostname,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
     ../../nixos/modules

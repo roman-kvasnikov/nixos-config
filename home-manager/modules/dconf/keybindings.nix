@@ -1,8 +1,8 @@
 {
   dconf.settings = {
     "org/gnome/shell/keybindings" = {
-      screenshot = [ "Print" ];
-      show-screenshot-ui = [ "<Shift><Super>s" ];
+      screenshot = ["Print"];
+      show-screenshot-ui = ["<Shift><Super>s"];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {

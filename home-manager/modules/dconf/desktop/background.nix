@@ -1,6 +1,4 @@
-{ user, ... }:
-
-{
+{user, ...}: {
   dconf.settings = {
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";

@@ -1,6 +1,8 @@
-{ lib, user, ... }:
-
 {
+  lib,
+  user,
+  ...
+}: {
   programs.kitty = lib.mkForce {
     enable = true;
 

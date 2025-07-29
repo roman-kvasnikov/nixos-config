@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    alejandra = {
+      url = "github:kamadorueda/alejandra/4.0.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # My own repositories
 
     wallpapers = {
@@ -34,48 +39,52 @@
     };
   };
 
-  outputs = {self, nixpkgs, home-manager, ...}@inputs:
-    let
-      system = "x86_64-linux";
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: let
+    system = "x86_64-linux";
 
-      user = {
-        name = "romank";
+    user = {
+      name = "romank";
 
-        dirs = {
-          home = "/home/${user.name}";
-          config = "${user.dirs.home}/.config";
-          nixos-config = "${user.dirs.config}/nixos";
-        };
-      };
-
-      version = "25.05";
-      hostname = "nixos";
-    in {
-      nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
-        inherit system;
-
-        specialArgs = {
-          inherit inputs user version hostname;
-        };
-
-        modules = [
-          ./hosts/${hostname}/configuration.nix
-        ];
-      };
-
-      homeConfigurations.${user.name} = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-
-        extraSpecialArgs = {
-          inherit inputs user version hostname;
-        };
-
-        modules = [
-          ./home-manager/home.nix
-        ];
+      dirs = {
+        home = "/home/${user.name}";
+        config = "${user.dirs.home}/.config";
+        nixos-config = "${user.dirs.config}/nixos";
       };
     };
+
+    version = "25.05";
+    hostname = "nixos";
+  in {
+    nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
+      inherit system;
+
+      specialArgs = {
+        inherit inputs user version hostname system;
+      };
+
+      modules = [
+        ./hosts/${hostname}/configuration.nix
+      ];
+    };
+
+    homeConfigurations.${user.name} = home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+      extraSpecialArgs = {
+        inherit inputs user version hostname;
+      };
+
+      modules = [
+        ./home-manager/home.nix
+      ];
+    };
+  };
 }

@@ -1,15 +1,25 @@
-{ pkgs, ... }:
-
 {
+  inputs,
+  pkgs,
+  system,
+  ...
+}: {
   nixpkgs.config.allowUnfree = true;
 
   environment = {
     systemPackages = with pkgs; [
       home-manager
 
-      curl wget
+      curl
+      wget
       git
-      gzip p7zip zip unzip unrar
+      gzip
+      p7zip
+      zip
+      unzip
+      unrar
+
+      inputs.alejandra.defaultPackage.${system}
     ];
 
     gnome.excludePackages = with pkgs; [
@@ -31,7 +41,7 @@
       # Games
       aisleriot
       gnome-chess
-      gnome-mahjongg 
+      gnome-mahjongg
       iagno
       tali
       hitori
