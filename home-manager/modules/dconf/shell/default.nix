@@ -18,6 +18,7 @@
         "clipboard-history@alexsaveau.dev"
         "dash-to-dock@micxgx.gmail.com"
         "desktop-cube@schneegans.github.com"
+        "just-perfection-desktop@just-perfection"
         "search-light@icedman.github.com"
       ];
 
