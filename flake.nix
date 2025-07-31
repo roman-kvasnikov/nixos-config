@@ -58,7 +58,7 @@
     };
 
     version = "25.05";
-    hostname = "nixos";
+    hostname = "nixos-vm";
   in {
     nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
       inherit system;
