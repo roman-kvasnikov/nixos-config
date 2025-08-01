@@ -64,38 +64,40 @@
       inherit system;
 
       specialArgs = {
-        inherit inputs hostname system version user;
+        inherit inputs user;
+        inherit (host) hostname system version;
       };
 
       modules = [
         ./hosts/${hostname}/configuration.nix
       ];
     };
-
-    getHostParams = hostname: builtins.head (builtins.filter (h: h.hostname == hostname) hosts);
   in {
-    nixosConfigurations = nixpkgs.lib.foldl' (configs: host:
-      configs // {
-        "${host.hostname}" = makeSystem {
-          inherit (host) hostname system version;
-        };
-      }) {} hosts;
+    nixosConfiguration = builtings.listToAttrs (
+      map (host: {
+        name = host.hostname;
+        value = makeSystem host;
+      }) hosts
+    );
 
-    homeConfigurations.${user.name} = { hostname, system, version } :
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
+    homeConfigurations = builtins.listToAttrs(
+      map (host: {
+        name = "${user.name}@${host.hostname}";
+        value = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            inherit (host) system;
+            config.allowUnfree = true;
+          };
 
-        extraSpecialArgs = {
-          inherit inputs user;
-          inherit hostname system version;
-        };
+          extraSpecialArgs = {
+            inherit inputs user;
+            inherit (host) hostname system version;
+          };
 
-        modules = [
-          ./home-manager/home.nix
-        ];
-      };
-    };
+          modules = [
+            ./home-manager/home.nix
+          ];
+        };
+      }) hosts
+    );
 }
