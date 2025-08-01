@@ -71,6 +71,8 @@
         ./hosts/${hostname}/configuration.nix
       ];
     };
+
+    getHostParams = hostname: builtins.head (builtins.filter (h: h.hostname == hostname) hosts);
   in {
     nixosConfigurations = nixpkgs.lib.foldl' (configs: host:
       configs // {
@@ -79,18 +81,21 @@
         };
       }) {} hosts;
 
-    homeConfigurations.${user.name} = home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs {
-        config.allowUnfree = true;
-      };
+    homeConfigurations.${user.name} = { hostname, system, version } :
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
 
-      extraSpecialArgs = {
-        inherit inputs user;
-      };
+        extraSpecialArgs = {
+          inherit inputs user;
+          inherit hostname system version;
+        };
 
-      modules = [
-        ./home-manager/home.nix
-      ];
+        modules = [
+          ./home-manager/home.nix
+        ];
+      };
     };
-  };
 }
