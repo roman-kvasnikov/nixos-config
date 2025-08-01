@@ -73,7 +73,7 @@
       ];
     };
   in {
-    nixosConfiguration = builtings.listToAttrs (
+    nixosConfigurations = builtins.listToAttrs (
       map (host: {
         name = host.hostname;
         value = makeSystem host;
