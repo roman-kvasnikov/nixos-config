@@ -55,6 +55,7 @@
 
       dirs = {
         home = "/home/${user.name}";
+        local = "${user.dirs.home}/.local";
         config = "${user.dirs.home}/.config";
         nixos-config = "${user.dirs.config}/nixos";
       };
