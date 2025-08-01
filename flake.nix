@@ -60,8 +60,8 @@
       };
     };
 
-    makeSystem = { hostname, system, version }: nixpkgs.lib.nixosSystem {
-      inherit system;
+    makeSystem = host: nixpkgs.lib.nixosSystem {
+      inherit (host) system;
 
       specialArgs = {
         inherit inputs user;
@@ -69,7 +69,22 @@
       };
 
       modules = [
-        ./hosts/${hostname}/configuration.nix
+        ./hosts/${host.hostname}/configuration.nix
+      ];
+    };
+
+    makeHome = host: home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.${host.system} // {
+        config.allowUnfree = true;
+      };
+
+      extraSpecialArgs = {
+        inherit inputs user;
+        inherit (host) hostname system version;
+      };
+
+      modules = [
+        ./home-manager/home.nix
       ];
     };
   in {
@@ -83,23 +98,7 @@
     homeConfigurations = builtins.listToAttrs(
       map (host: {
         name = "${user.name}@${host.hostname}";
-        value = home-manager.lib.homeManagerConfiguration {
-          # pkgs = import nixpkgs {
-          #   inherit (host) system;
-          #   config.allowUnfree = true;
-          # };
-
-          pkgs = nixpkgs.legacyPackages.${host.system}
-
-          extraSpecialArgs = {
-            inherit inputs user;
-            inherit (host) hostname system version;
-          };
-
-          modules = [
-            ./home-manager/home.nix
-          ];
-        };
+        value = makeHome host;
       }) hosts
     );
   };
