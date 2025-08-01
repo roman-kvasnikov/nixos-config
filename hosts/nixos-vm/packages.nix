@@ -9,6 +9,7 @@
   environment = {
     systemPackages = with pkgs; [
       home-manager
+      # gnome-remote-desktop
 
       curl
       wget

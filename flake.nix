@@ -45,7 +45,10 @@
     home-manager,
     ...
   } @ inputs: let
-    system = "x86_64-linux";
+    hosts = [
+      { hostname = "nixos"; system = "x86_64-linux"; version = "25.05"; }
+      { hostname = "nixos-vm"; system = "x86_64-linux"; version = "25.05"; }
+    ];
 
     user = {
       name = "romank";
@@ -57,29 +60,32 @@
       };
     };
 
-    version = "25.05";
-    hostname = "nixos-vm";
-  in {
-    nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
+    makeSystem = { hostname, system, version }: nixpkgs.lib.nixosSystem {
       inherit system;
 
       specialArgs = {
-        inherit inputs user version hostname system;
+        inherit inputs hostname system version user;
       };
 
       modules = [
         ./hosts/${hostname}/configuration.nix
       ];
     };
+  in {
+    nixosConfigurations = nixpkgs.lib.foldl' (configs: host:
+      configs // {
+        "${host.hostname}" = makeSystem {
+          inherit (host) hostname system version;
+        };
+      }) {} hosts;
 
     homeConfigurations.${user.name} = home-manager.lib.homeManagerConfiguration {
       pkgs = import nixpkgs {
-        inherit system;
         config.allowUnfree = true;
       };
 
       extraSpecialArgs = {
-        inherit inputs user version hostname;
+        inherit inputs user;
       };
 
       modules = [

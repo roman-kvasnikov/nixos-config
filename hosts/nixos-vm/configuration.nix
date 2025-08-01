@@ -1,7 +1,8 @@
 {
-  user,
-  version,
   hostname,
+  system,
+  version,
+  user,
   ...
 }: {
   imports = [

@@ -1,3 +1,5 @@
+{pkgs, ...}:
+
 {
   services = {
     qemuGuest.enable = true;
@@ -24,5 +26,11 @@
     };
 
     gnome.gnome-keyring.enable = true;
+
+    # xrdp = {
+    #   enable = true;
+    #   defaultWindowManager = "${pkgs.gnome-session}/bin/gnome-session";
+    #   openFirewall = true;
+    # };
   };
 }
