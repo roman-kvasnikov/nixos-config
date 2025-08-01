@@ -84,10 +84,12 @@
       map (host: {
         name = "${user.name}@${host.hostname}";
         value = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            inherit (host) system;
-            config.allowUnfree = true;
-          };
+          # pkgs = import nixpkgs {
+          #   inherit (host) system;
+          #   config.allowUnfree = true;
+          # };
+
+          pkgs = nixpkgs.legacyPackages.${host.system}
 
           extraSpecialArgs = {
             inherit inputs user;
@@ -100,4 +102,5 @@
         };
       }) hosts
     );
+  };
 }
