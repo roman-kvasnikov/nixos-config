@@ -46,8 +46,16 @@
     ...
   } @ inputs: let
     hosts = [
-      { hostname = "nixos"; system = "x86_64-linux"; version = "25.05"; }
-      { hostname = "nixos-vm"; system = "x86_64-linux"; version = "25.05"; }
+      {
+        hostname = "nixos";
+        system = "x86_64-linux";
+        version = "25.05";
+      }
+      {
+        hostname = "nixos-vm";
+        system = "x86_64-linux";
+        version = "25.05";
+      }
     ];
 
     user = {
@@ -61,46 +69,52 @@
       };
     };
 
-    makeSystem = host: nixpkgs.lib.nixosSystem {
-      inherit (host) system;
+    makeSystem = host:
+      nixpkgs.lib.nixosSystem {
+        inherit (host) system;
 
-      specialArgs = {
-        inherit inputs user;
-        inherit (host) hostname system version;
+        specialArgs = {
+          inherit inputs user;
+          inherit (host) hostname system version;
+        };
+
+        modules = [
+          ./nixos/configuration.nix
+        ];
       };
 
-      modules = [
-        ./hosts/${host.hostname}/configuration.nix
-      ];
-    };
+    makeHome = host:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs =
+          nixpkgs.legacyPackages.${host.system}
+          // {
+            config.allowUnfree = true;
+          };
 
-    makeHome = host: home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${host.system} // {
-        config.allowUnfree = true;
+        extraSpecialArgs = {
+          inherit inputs user;
+          inherit (host) hostname system version;
+        };
+
+        modules = [
+          ./home-manager/home.nix
+        ];
       };
-
-      extraSpecialArgs = {
-        inherit inputs user;
-        inherit (host) hostname system version;
-      };
-
-      modules = [
-        ./home-manager/home.nix
-      ];
-    };
   in {
     nixosConfigurations = builtins.listToAttrs (
       map (host: {
         name = host.hostname;
         value = makeSystem host;
-      }) hosts
+      })
+      hosts
     );
 
-    homeConfigurations = builtins.listToAttrs(
+    homeConfigurations = builtins.listToAttrs (
       map (host: {
         name = "${user.name}@${host.hostname}";
         value = makeHome host;
-      }) hosts
+      })
+      hosts
     );
   };
 }

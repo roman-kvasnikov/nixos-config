@@ -6,8 +6,8 @@
   ...
 }: {
   imports = [
-    ./${hostname}/hardware-configuration.nix
-    ../nixos/modules
+    ../hosts/${hostname}/hardware-configuration.nix
+    ./modules
     ./packages.nix
   ];
 
