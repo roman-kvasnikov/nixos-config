@@ -26,6 +26,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    android-nixpkgs = {
+      url = "github:tadfisher/android-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # My own repositories
 
     wallpapers = {
@@ -98,6 +103,7 @@
 
         modules = [
           ./home-manager/home.nix
+          inputs
         ];
       };
   in {

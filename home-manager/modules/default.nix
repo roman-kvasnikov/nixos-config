@@ -4,6 +4,7 @@
     ./code-cursor
     ./dconf
     ./fastfetch
+    ./android.nix
     ./discord.nix
     ./fish.nix
     # ./git-sync-obsidian.nix
