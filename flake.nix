@@ -26,10 +26,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    android-nixpkgs = {
-      url = "github:tadfisher/android-nixpkgs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # android-nixpkgs = {
+    #   url = "github:tadfisher/android-nixpkgs";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # My own repositories
 
