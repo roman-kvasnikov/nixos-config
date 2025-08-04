@@ -1,6 +1,16 @@
-{inputs}: {
+{
+  config,
+  pkgs,
+  ...
+}: let
+  androidSdkModule = import ((builtins.fetchGit {
+      url = "https://github.com/tadfisher/android-nixpkgs.git";
+      ref = "main"; # Or "stable", "beta", "preview", "canary"
+    })
+    + "/hm-module.nix");
+in {
   imports = [
-    inputs.android-nixpkgs
+    androidSdkModule
   ];
 
   android-sdk = {
