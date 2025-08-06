@@ -2,18 +2,19 @@
   hostname,
   system,
   version,
+  config,
   user,
   ...
 }: {
   imports = [
-    ./modules
-    ./home-packages.nix
     ./home-configs.nix
+    ./home-packages.nix
+    ./modules
   ];
 
   home = {
     username = user.name;
-    homeDirectory = user.dirs.home;
+    homeDirectory = "/home/${config.home.username}";
     stateVersion = version;
   };
 }

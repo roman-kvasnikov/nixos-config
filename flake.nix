@@ -21,10 +21,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    alejandra = {
-      url = "github:kamadorueda/alejandra/4.0.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # alejandra = {
+    #   url = "github:kamadorueda/alejandra/4.0.0";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # android-nixpkgs = {
     #   url = "github:tadfisher/android-nixpkgs";
@@ -44,12 +44,12 @@
     };
   };
 
-  outputs = inputs @ {
+  outputs = {
     self,
     nixpkgs,
     home-manager,
     ...
-  }: let
+  } @ inputs: let
     hosts = [
       {
         hostname = "nixos";
@@ -65,12 +65,6 @@
 
     user = {
       name = "romank";
-
-      dirs = {
-        home = "/home/${user.name}";
-        config = "${user.dirs.home}/.config";
-        nixos-config = "${user.dirs.config}/nixos";
-      };
     };
 
     makeSystem = host:

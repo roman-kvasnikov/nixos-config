@@ -1,26 +1,30 @@
-{config, user, ...}: {
-  xdg.userDirs = {
-    enable = true;
-    createDirectories = true;
+{config, ...}: {
+  xdg = {
+    userDirs = {
+      enable = true;
+      createDirectories = true;
 
-    desktop = "${user.dirs.home}";
-    download = "${user.dirs.home}/Downloads";
-    templates = "${user.dirs.home}/Templates";
-    publicShare = "${user.dirs.home}";
-    documents = "${user.dirs.home}/Documents";
-    music = "${user.dirs.home}";
-    pictures = "${user.dirs.home}/Pictures";
-    videos = "${user.dirs.home}/Videos";
+      desktop = "${config.home.homeDirectory}";
+      download = "${config.home.homeDirectory}/Downloads";
+      templates = "${config.home.homeDirectory}/Templates";
+      publicShare = "${config.home.homeDirectory}";
+      documents = "${config.home.homeDirectory}/Documents";
+      music = "${config.home.homeDirectory}";
+      pictures = "${config.home.homeDirectory}/Pictures";
+      videos = "${config.home.homeDirectory}/Videos";
+    };
   };
+
+  home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
 
   gtk.gtk3 = {
     bookmarks = [
       "file:///"
-      "file://${user.dirs.local}"
-      "file://${user.dirs.config}"
+      "file://${config.home.homeDirectory}/.local"
+      "file://${config.home.homeDirectory}/.config"
       "file://${config.xdg.userDirs.documents}"
       "file://${config.xdg.userDirs.download}"
-      "file://${user.dirs.nixos-config} Nixos"
+      "file://${config.home.homeDirectory}/.config/nixos NixOS"
     ];
   };
 }

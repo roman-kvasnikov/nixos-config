@@ -13,7 +13,5 @@
         networkmanager-l2tp
       ];
     };
-
-    #wireless.enable = true;
   };
 }

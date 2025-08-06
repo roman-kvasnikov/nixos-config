@@ -9,7 +9,6 @@
       nerd-fonts.ubuntu
       nerd-fonts.ubuntu-mono
       nerd-fonts.ubuntu-sans
-      # builtins.filter lib.attrsets.isDerivation (builtins.attrValues nerd-fonts)
       noto-fonts
       noto-fonts-emoji
     ];
