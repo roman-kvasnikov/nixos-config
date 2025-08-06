@@ -20,7 +20,7 @@
       unzip
       unrar
 
-      # inputs.alejandra.defaultPackage.${system}
+      inputs.alejandra.defaultPackage.${system}
     ];
 
     gnome.excludePackages = with pkgs; [
