@@ -44,12 +44,12 @@
     };
   };
 
-  outputs = {
+  outputs = inputs @ {
     self,
     nixpkgs,
     home-manager,
     ...
-  } @ inputs: let
+  }: let
     hosts = [
       {
         hostname = "nixos";
@@ -68,7 +68,6 @@
 
       dirs = {
         home = "/home/${user.name}";
-        local = "${user.dirs.home}/.local";
         config = "${user.dirs.home}/.config";
         nixos-config = "${user.dirs.config}/nixos";
       };
