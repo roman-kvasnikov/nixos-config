@@ -13,9 +13,9 @@
       pictures = "${config.home.homeDirectory}/Pictures";
       videos = "${config.home.homeDirectory}/Videos";
     };
-  };
 
-  home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
+    configFile."gtk-3.0/bookmarks".force = true;
+  };
 
   gtk.gtk3 = {
     bookmarks = [
@@ -27,4 +27,6 @@
       "file://${config.home.homeDirectory}/.config/nixos NixOS"
     ];
   };
+
+  home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
 }
