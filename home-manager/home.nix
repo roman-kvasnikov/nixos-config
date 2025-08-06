@@ -14,7 +14,14 @@
 
   home = {
     username = user.name;
+
     homeDirectory = "/home/${config.home.username}";
+
+    keyboard = {
+      layout = "us,ru";
+      options = ["grp:ctrl_shift_toggle"];
+    };
+
     stateVersion = version;
   };
 }

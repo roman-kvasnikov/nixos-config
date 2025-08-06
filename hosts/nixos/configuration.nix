@@ -6,9 +6,9 @@
   ...
 }: {
   imports = [
-    ../hosts/${hostname}/hardware-configuration.nix
-    ./modules
-    ./packages.nix
+    ./hardware-configuration.nix
+    ../../nixos/modules
+    ../../nixos/packages.nix
   ];
 
   system.stateVersion = version;

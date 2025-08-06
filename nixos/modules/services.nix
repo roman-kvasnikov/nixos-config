@@ -1,12 +1,7 @@
-{pkgs, ...}:
-
-{
+{pkgs, ...}: {
   services = {
-    qemuGuest.enable = true;
-    openssh.enable = true;
-
     xserver = {
-      enable = true;
+      enable = false;
       displayManager.gdm.enable = true;
       desktopManager.gnome.enable = true;
 

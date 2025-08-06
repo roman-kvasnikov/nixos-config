@@ -27,6 +27,7 @@
     gimp
     inkscape
     pinta
+    krita
     hiddify-app
     keepassxc
     libreoffice-still

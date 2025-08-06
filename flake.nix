@@ -26,6 +26,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    impermanence = {
+      url = "github:nix-community/impermanence";
+    };
+
     # android-nixpkgs = {
     #   url = "github:tadfisher/android-nixpkgs";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -77,7 +81,7 @@
         };
 
         modules = [
-          ./nixos/configuration.nix
+          ./hosts/${host.hostname}/configuration.nix
         ];
       };
 
