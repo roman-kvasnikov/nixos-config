@@ -9,6 +9,7 @@
   imports = [
     ./config.nix
     ./packages.nix
+    ./services.nix
     ./modules
   ];
 
