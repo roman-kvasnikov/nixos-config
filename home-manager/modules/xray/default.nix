@@ -2,7 +2,7 @@
   imports = [
     ./options.nix   # Определение опций конфигурации
     ./service.nix   # Systemd сервис и директории
-    ./config.nix    # Пример конфигурации Xray
-    ./commands.nix  # Команды управления xray-user
+    ./config        # Пример конфигурации Xray
+    ./commands      # Команды управления xray-user
   ];
 }

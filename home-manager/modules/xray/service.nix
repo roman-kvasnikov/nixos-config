@@ -3,11 +3,8 @@
   lib,
   config,
   ...
-}: let
-  cfg = config.services.xray-user;
-in {
-  config = lib.mkIf cfg.enable {
-    # Пользовательский systemd service для Xray
+}: {
+  config = lib.mkIf config.services.xray-user.enable {
     systemd.user.services.xray = {
       Unit = {
         Description = "Xray proxy service (user)";
@@ -22,7 +19,7 @@ in {
 
       Service = {
         Type = "simple";
-        ExecStart = "${pkgs.xray}/bin/xray run -config ${cfg.configFile}";
+        ExecStart = "${pkgs.xray}/bin/xray run -config ${config.services.xray-user.configFile}";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
         Restart = "on-failure";
         RestartSec = "3s";
