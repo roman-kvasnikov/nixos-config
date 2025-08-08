@@ -36,7 +36,6 @@
     postman
     #tableplus
     telegram-desktop
-    #whatsapp-for-mac
     vlc
     warp-terminal
 

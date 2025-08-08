@@ -2,7 +2,10 @@
   boot = {
     loader = {
       # systemd-boot is the default loader for NixOS
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 10;
+      };
 
       # grub is the default loader for NixOS
       # grub = {

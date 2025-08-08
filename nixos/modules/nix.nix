@@ -27,7 +27,4 @@
       ];
     };
   };
-  
-  # Ограничить количество generations
-  boot.loader.systemd-boot.configurationLimit = 10;
 }

@@ -7,8 +7,8 @@
   ...
 }: {
   imports = [
-    ./home-configs.nix
-    ./home-packages.nix
+    ./config.nix
+    ./packages.nix
     ./modules
   ];
 
