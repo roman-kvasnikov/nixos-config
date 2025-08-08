@@ -271,19 +271,32 @@ EOF
             
             # Добавить в shell profile если еще не добавлено
             shell_profile=""
-            if [ -f ~/.bashrc ]; then
+            shell_type=""
+            if [ -f ~/.config/fish/config.fish ]; then
+              shell_profile=~/.config/fish/config.fish
+              shell_type="fish"
+            elif [ -f ~/.bashrc ]; then
               shell_profile=~/.bashrc
+              shell_type="bash"
             elif [ -f ~/.zshrc ]; then
               shell_profile=~/.zshrc
+              shell_type="zsh"
             fi
             
             if [ -n "$shell_profile" ]; then
               if ! grep -q "xray/proxy-env" "$shell_profile"; then
                 echo "" >> "$shell_profile"
-                echo "# Xray proxy environment (managed by xray-user)" >> "$shell_profile"
-                echo 'if [ -f ~/.config/xray/proxy-env ] && [ -f ~/.config/xray/.proxy-enabled ]; then' >> "$shell_profile"
-                echo '  source ~/.config/xray/proxy-env' >> "$shell_profile"
-                echo 'fi' >> "$shell_profile"
+                if [ "$shell_type" = "fish" ]; then
+                  echo "# Xray proxy environment (managed by xray-user)" >> "$shell_profile"
+                  echo 'if test -f ~/.config/xray/proxy-env; and test -f ~/.config/xray/.proxy-enabled' >> "$shell_profile"
+                  echo '  source ~/.config/xray/proxy-env' >> "$shell_profile"
+                  echo 'end' >> "$shell_profile"
+                else
+                  echo "# Xray proxy environment (managed by xray-user)" >> "$shell_profile"
+                  echo 'if [ -f ~/.config/xray/proxy-env ] && [ -f ~/.config/xray/.proxy-enabled ]; then' >> "$shell_profile"
+                  echo '  source ~/.config/xray/proxy-env' >> "$shell_profile"
+                  echo 'fi' >> "$shell_profile"
+                fi
                 echo "Added proxy config to $shell_profile"
               fi
             fi
