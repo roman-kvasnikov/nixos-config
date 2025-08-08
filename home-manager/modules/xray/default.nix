@@ -76,8 +76,8 @@ in {
       ".cache/xray/.keep".text = "";
     };
 
-    # Базовая конфигурация (если файла не существует)
-    home.file.".config/xray/config.json" = lib.mkIf (!builtins.pathExists cfg.configFile) {
+    # Создать пример конфигурации
+    home.file.".config/xray/config.example.json" = {
       text = builtins.toJSON {
         log = {
           loglevel = cfg.logLevel;
@@ -117,8 +117,19 @@ in {
     home.packages = [
       (pkgs.writeShellScriptBin "xray-user" ''
         #!/usr/bin/env bash
+        
+        # Автоматически создать config.json из примера если его нет
+        ensure_config() {
+          if [ ! -f "${cfg.configFile}" ]; then
+            echo "Creating default config from example..."
+            cp ~/.config/xray/config.example.json "${cfg.configFile}"
+            echo "Config created at: ${cfg.configFile}"
+          fi
+        }
+        
         case "$1" in
           start)
+            ensure_config
             systemctl --user start xray
             echo "Xray service started"
             ;;
@@ -127,6 +138,7 @@ in {
             echo "Xray service stopped"
             ;;
           restart)
+            ensure_config
             systemctl --user restart xray
             echo "Xray service restarted"
             ;;
@@ -137,6 +149,7 @@ in {
             journalctl --user -u xray -f
             ;;
           enable)
+            ensure_config
             systemctl --user enable xray
             echo "Xray service enabled for autostart"
             ;;
@@ -144,8 +157,13 @@ in {
             systemctl --user disable xray
             echo "Xray service disabled from autostart"
             ;;
+          config)
+            ensure_config
+            echo "Config file: ${cfg.configFile}"
+            echo "Example file: ~/.config/xray/config.example.json"
+            ;;
           *)
-            echo "Usage: xray-user {start|stop|restart|status|logs|enable|disable}"
+            echo "Usage: xray-user {start|stop|restart|status|logs|enable|disable|config}"
             exit 1
             ;;
         esac
