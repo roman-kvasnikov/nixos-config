@@ -9,5 +9,6 @@
     ./git.nix
     ./kitty.nix
     ./stylix.nix
+    ./xray.nix
   ];
 }

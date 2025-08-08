@@ -29,4 +29,10 @@
   };
 
   home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
+  
+  # Включить Xray пользовательский сервис
+  services.xray-user = {
+    enable = false;  # Измените на false если не хотите автозапуск
+    logLevel = "info";
+  };
 }

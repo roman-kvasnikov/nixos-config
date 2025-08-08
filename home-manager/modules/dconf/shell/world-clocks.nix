@@ -1,8 +1,6 @@
 {pkgs, lib, ...}: {
-  # Используем home.activation для настройки мировых часов через gsettings
   home.activation.setupWorldClocks = lib.hm.dag.entryAfter ["writeBoundary"] ''
     # Настройка мировых часов для Дубай и Бангкок
     ${pkgs.glib}/bin/gsettings set org.gnome.clocks world-clocks "[<(uint32 2, <('Dubai', 'OMDB', true, [(0.44069563612856821, 0.96574884695243146)], [(0.44073441734454749, 0.9648180105024653)])>)>, <(uint32 2, <('Bangkok', 'VTBD', true, [(0.24289166005364171, 1.7558012275062955)], [(0.23998277214922031, 1.754346792280731)])>)>]"
   '';
 }
-

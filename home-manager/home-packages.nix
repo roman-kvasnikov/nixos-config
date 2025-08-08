@@ -17,6 +17,7 @@
     ranger
     silicon
     tree
+    xray
 
     # Desktop apps
     bottom
