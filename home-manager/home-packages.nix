@@ -6,6 +6,7 @@
     calc
     btop
     htop
+    claude-code
     cliphist
     wl-clipboard
     eza
