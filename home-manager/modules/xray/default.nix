@@ -1,5 +1,9 @@
-{pkgs, lib, config, ...}: 
-let
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
   cfg = config.services.xray-user;
 in {
   services.xray-user = {
@@ -10,32 +14,32 @@ in {
   # Опции для настройки Xray сервиса
   options.services.xray-user = {
     enable = lib.mkEnableOption "Xray user service";
-    
+
     configFile = lib.mkOption {
       type = lib.types.path;
       default = "${config.home.homeDirectory}/.config/xray/config.json";
       description = "Path to Xray configuration file";
     };
-    
+
     logLevel = lib.mkOption {
-      type = lib.types.enum [ "debug" "info" "warning" "error" "none" ];
+      type = lib.types.enum ["debug" "info" "warning" "error" "none"];
       default = "info";
       description = "Log level for Xray";
     };
   };
-  
+
   config = lib.mkIf cfg.enable {
     # Пользовательский systemd service для Xray
     systemd.user.services.xray = {
       Unit = {
         Description = "Xray proxy service (user)";
         Documentation = "https://xtls.github.io/";
-        After = [ "network.target" ];
-        Wants = [ "network.target" ];
+        After = ["network.target"];
+        Wants = ["network.target"];
       };
-      
+
       Install = {
-        WantedBy = [ "default.target" ];
+        WantedBy = ["default.target"];
       };
 
       Service = {
@@ -45,11 +49,11 @@ in {
         Restart = "on-failure";
         RestartSec = "3s";
         KillMode = "mixed";
-        
+
         # Логирование
         StandardOutput = "journal";
         StandardError = "journal";
-        
+
         # Безопасность
         NoNewPrivileges = true;
         PrivateTmp = true;
@@ -60,23 +64,23 @@ in {
           "%h/.local/share/xray"
           "%h/.cache/xray"
         ];
-        
+
         # Network
         PrivateNetwork = false;
-        
+
         # Capabilities
         AmbientCapabilities = "";
         CapabilityBoundingSet = "";
       };
     };
-    
+
     # Создать необходимые директории
     home.file = {
       ".config/xray/.keep".text = "";
       ".local/share/xray/.keep".text = "";
       ".cache/xray/.keep".text = "";
     };
-    
+
     # Базовая конфигурация (если файла не существует)
     # home.file.".config/xray/config.json" = lib.mkIf (!builtins.pathExists cfg.configFile) {
     #   text = builtins.toJSON {
@@ -85,7 +89,7 @@ in {
     #       access = "${config.home.homeDirectory}/.local/share/xray/access.log";
     #       error = "${config.home.homeDirectory}/.local/share/xray/error.log";
     #     };
-        
+
     #     # Пример простой конфигурации SOCKS прокси
     #     inbounds = [{
     #       port = 1080;
@@ -97,13 +101,13 @@ in {
     #       };
     #       tag = "socks-in";
     #     }];
-        
+
     #     outbounds = [{
     #       protocol = "freedom";
     #       settings = {};
     #       tag = "freedom-out";
     #     }];
-        
+
     #     routing = {
     #       rules = [{
     #         type = "field";
