@@ -6,8 +6,10 @@
 }: {
   config = lib.mkIf config.services.xray-user.enable {
     home.packages = [
-      (pkgs.writeShellScriptBin "xray-user"
-        (builtins.replaceStrings
+      (
+        pkgs.writeShellScriptBin "xray-user"
+        (
+          builtins.replaceStrings
           [
             "@configFile@"
             "@homeDirectory@"

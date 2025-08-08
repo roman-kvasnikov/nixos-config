@@ -1,4 +1,8 @@
-{lib, config, ...}: {
+{
+  lib,
+  config,
+  ...
+}: {
   options.services.xray-user = {
     enable = lib.mkEnableOption "Xray user service";
 
