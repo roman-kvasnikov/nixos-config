@@ -6,10 +6,6 @@
       url = "github:nixos/nixpkgs/nixos-25.05";
     };
 
-    # disko = {
-    #   url = "github:nix-community/disko/v1.11.0";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
@@ -30,10 +26,6 @@
       url = "github:nix-community/impermanence";
     };
 
-    # android-nixpkgs = {
-    #   url = "github:tadfisher/android-nixpkgs";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
 
     # My own repositories
 
@@ -54,22 +46,8 @@
     home-manager,
     ...
   } @ inputs: let
-    hosts = [
-      {
-        hostname = "nixos";
-        system = "x86_64-linux";
-        version = "25.05";
-      }
-      {
-        hostname = "nixos-vm";
-        system = "x86_64-linux";
-        version = "25.05";
-      }
-    ];
-
-    user = {
-      name = "romank";
-    };
+    shared = import ./shared.nix;
+    inherit (shared) hosts user;
 
     makeSystem = host:
       nixpkgs.lib.nixosSystem {
