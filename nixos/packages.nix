@@ -9,8 +9,6 @@
   environment = {
     systemPackages = with pkgs; [
       home-manager
-      # gnome-remote-desktop
-
       curl
       wget
       git
@@ -19,7 +17,6 @@
       zip
       unzip
       unrar
-
       inputs.alejandra.defaultPackage.${system}
     ];
 

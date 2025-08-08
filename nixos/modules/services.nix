@@ -4,11 +4,6 @@
       enable = false;
       displayManager.gdm.enable = true;
       desktopManager.gnome.enable = true;
-
-      xkb = {
-        layout = "us,ru";
-        options = "grp:ctrl_shift_toggle";
-      };
     };
 
     pipewire = {
@@ -21,11 +16,5 @@
     };
 
     gnome.gnome-keyring.enable = true;
-
-    # xrdp = {
-    #   enable = true;
-    #   defaultWindowManager = "${pkgs.gnome-session}/bin/gnome-session";
-    #   openFirewall = true;
-    # };
   };
 }
