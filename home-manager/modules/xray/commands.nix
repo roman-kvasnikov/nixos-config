@@ -150,8 +150,10 @@ in {
             proxy_addr=$(get_proxy_settings)
             protocol=$(get_proxy_protocol)
             
-            # Создать файл с proxy переменными
+            # Создать файлы с proxy переменными
             mkdir -p ~/.config/xray
+            
+            # Bash/Zsh версия
             cat > ~/.config/xray/proxy-env <<EOF
 export http_proxy=$protocol://$proxy_addr
 export https_proxy=$protocol://$proxy_addr
@@ -163,12 +165,29 @@ export no_proxy=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
 export NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
 EOF
             
+            # Fish версия (с синтаксисом set -x)
+            cat > ~/.config/xray/proxy-env.fish <<FISH_VARS
+set -x http_proxy $protocol://$proxy_addr
+set -x https_proxy $protocol://$proxy_addr  
+set -x ftp_proxy $protocol://$proxy_addr
+set -x HTTP_PROXY $protocol://$proxy_addr
+set -x HTTPS_PROXY $protocol://$proxy_addr
+set -x FTP_PROXY $protocol://$proxy_addr
+set -x no_proxy localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+set -x NO_PROXY localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+FISH_VARS
+            
             # Добавить в shell profile если еще не добавлено
             shell_profile=""
             shell_type=""
-            if [ -f ~/.config/fish/config.fish ]; then
-              shell_profile=~/.config/fish/config.fish
+            fish_config_dir=""
+            
+            # Определить тип shell и профиль
+            if [ -d ~/.config/fish ]; then
               shell_type="fish"
+              fish_config_dir=~/.config/fish
+              # Для Fish создаем отдельный файл конфигурации
+              shell_profile="$fish_config_dir/conf.d/xray-proxy.fish"
             elif [ -f ~/.bashrc ]; then
               shell_profile=~/.bashrc
               shell_type="bash"
@@ -178,27 +197,41 @@ EOF
             fi
             
             if [ -n "$shell_profile" ]; then
-              if ! grep -q "xray/proxy-env" "$shell_profile"; then
-                echo "" >> "$shell_profile"
-                if [ "$shell_type" = "fish" ]; then
-                  echo "# Xray proxy environment (managed by xray-user)" >> "$shell_profile"
-                  echo 'if test -f ~/.config/xray/proxy-env; and test -f ~/.config/xray/.proxy-enabled' >> "$shell_profile"
-                  echo '  source ~/.config/xray/proxy-env' >> "$shell_profile"
-                  echo 'end' >> "$shell_profile"
+              if [ "$shell_type" = "fish" ]; then
+                # Для Fish создаем отдельный файл в conf.d/
+                mkdir -p "$fish_config_dir/conf.d"
+                if [ ! -f "$shell_profile" ]; then
+                  cat > "$shell_profile" <<FISH_EOF
+# Xray proxy environment (managed by xray-user)
+if test -f ~/.config/xray/proxy-env.fish; and test -f ~/.config/xray/.proxy-enabled
+  source ~/.config/xray/proxy-env.fish
+end
+FISH_EOF
+                  echo "Created Fish proxy config: $shell_profile"
                 else
+                  echo "Fish proxy config already exists: $shell_profile"
+                fi
+              else
+                # Для bash/zsh добавляем в основной файл конфигурации
+                if ! grep -q "xray/proxy-env" "$shell_profile"; then
+                  echo "" >> "$shell_profile"
                   echo "# Xray proxy environment (managed by xray-user)" >> "$shell_profile"
                   echo 'if [ -f ~/.config/xray/proxy-env ] && [ -f ~/.config/xray/.proxy-enabled ]; then' >> "$shell_profile"
                   echo '  source ~/.config/xray/proxy-env' >> "$shell_profile"
                   echo 'fi' >> "$shell_profile"
+                  echo "Added proxy config to $shell_profile"
                 fi
-                echo "Added proxy config to $shell_profile"
               fi
             fi
             
             # Включить прокси
             touch ~/.config/xray/.proxy-enabled
             echo "Terminal proxy enabled ($protocol://$proxy_addr)!"
-            echo "Restart terminal or run: source ~/.config/xray/proxy-env"
+            if [ "$shell_type" = "fish" ]; then
+              echo "Restart terminal or run: source ~/.config/xray/proxy-env.fish"
+            else
+              echo "Restart terminal or run: source ~/.config/xray/proxy-env"
+            fi
             ;;
           terminal-proxy-off)
             # Выключить прокси
