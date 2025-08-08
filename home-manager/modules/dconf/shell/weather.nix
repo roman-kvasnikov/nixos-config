@@ -1,16 +1,7 @@
-{lib, ...}: {
-  dconf.settings = {
-    "org/gnome/shell/weather" = {
-      automatic-location = false;
-      # Используем простой подход - через gsettings можно будет настроить вручную
-      # Или попробуем этот формат:
-    };
-    
-    # Альтернативно можно настроить через org/gnome/Weather напрямую
-    "org/gnome/Weather" = {
-      locations = [
-        "Moscow UUWW 55.752220 37.615555"
-      ];
-    };
-  };
+{pkgs, lib, ...}: {
+  home.activation.setupWeather = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    ${pkgs.glib}/bin/gsettings set org.gnome.shell.weather automatic-location false
+    ${pkgs.glib}/bin/gsettings set org.gnome.shell.weather locations "[<(uint32 2, <('Moscow', 'UUWW', true, 
+  [(0.9712757287348443, 0.6504260403943177)], [(0.9730598392028181, 0.6565153021683081)])>)>]"
+  '';
 }
