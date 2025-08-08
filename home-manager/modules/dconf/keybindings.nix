@@ -21,7 +21,7 @@
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
       name = "Calculator";
-      command = "calc";
+      command = "gnome-calculator";
       binding = "<Super>C";
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
