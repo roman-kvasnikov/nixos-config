@@ -19,7 +19,6 @@
 
     # Desktop apps
     bottom
-    brave
     evince
     #exodus
     electrum
