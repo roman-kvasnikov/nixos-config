@@ -59,6 +59,145 @@ get_proxy_protocol() {
   fi
 }
 
+# Включить системный прокси GNOME
+enable_system_proxy() {
+  local proxy_addr="$1"
+  local protocol="$2"
+  local host port
+  
+  host=$(echo "$proxy_addr" | cut -d: -f1)
+  port=$(echo "$proxy_addr" | cut -d: -f2)
+  
+  @gsettings@/bin/gsettings set org.gnome.system.proxy mode 'manual'
+  
+  if [ "$protocol" = "socks5" ]; then
+    @gsettings@/bin/gsettings set org.gnome.system.proxy.socks host "$host"
+    @gsettings@/bin/gsettings set org.gnome.system.proxy.socks port "$port"
+    echo "System proxy enabled (SOCKS $host:$port)"
+  else
+    @gsettings@/bin/gsettings set org.gnome.system.proxy.http host "$host"
+    @gsettings@/bin/gsettings set org.gnome.system.proxy.http port "$port"
+    @gsettings@/bin/gsettings set org.gnome.system.proxy.https host "$host"
+    @gsettings@/bin/gsettings set org.gnome.system.proxy.https port "$port"
+    echo "System proxy enabled (HTTP $host:$port)"
+  fi
+}
+
+# Отключить системный прокси GNOME
+disable_system_proxy() {
+  @gsettings@/bin/gsettings set org.gnome.system.proxy mode 'none'
+  echo "System proxy disabled"
+}
+
+# Создать файлы с proxy переменными для терминала
+create_proxy_env_files() {
+  local proxy_addr="$1"
+  local protocol="$2"
+  
+  mkdir -p ~/.config/xray
+  
+  # Bash/Zsh версия
+  cat > ~/.config/xray/proxy-env <<EOF
+export http_proxy=$protocol://$proxy_addr
+export https_proxy=$protocol://$proxy_addr
+export ftp_proxy=$protocol://$proxy_addr
+export HTTP_PROXY=$protocol://$proxy_addr
+export HTTPS_PROXY=$protocol://$proxy_addr
+export FTP_PROXY=$protocol://$proxy_addr
+export no_proxy=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+export NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+EOF
+  
+  # Fish версия
+  cat > ~/.config/xray/proxy-env.fish <<FISH_VARS
+set -x http_proxy $protocol://$proxy_addr
+set -x https_proxy $protocol://$proxy_addr  
+set -x ftp_proxy $protocol://$proxy_addr
+set -x HTTP_PROXY $protocol://$proxy_addr
+set -x HTTPS_PROXY $protocol://$proxy_addr
+set -x FTP_PROXY $protocol://$proxy_addr
+set -x no_proxy localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+set -x NO_PROXY localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+FISH_VARS
+}
+
+# Определить тип shell и путь к профилю
+detect_shell_profile() {
+  if [ -d ~/.config/fish ]; then
+    echo "fish ~/.config/fish/conf.d/xray-proxy.fish"
+  elif [ -f ~/.bashrc ]; then
+    echo "bash ~/.bashrc"
+  elif [ -f ~/.zshrc ]; then
+    echo "zsh ~/.zshrc"
+  else
+    echo "unknown"
+  fi
+}
+
+# Настроить shell профиль для автозагрузки прокси
+setup_shell_profile() {
+  local shell_info profile_path shell_type
+  
+  shell_info=$(detect_shell_profile)
+  shell_type=$(echo "$shell_info" | cut -d' ' -f1)
+  profile_path=$(echo "$shell_info" | cut -d' ' -f2)
+  
+  if [ "$shell_type" = "unknown" ]; then
+    return
+  fi
+  
+  if [ "$shell_type" = "fish" ]; then
+    mkdir -p "$(dirname "$profile_path")"
+    if [ ! -f "$profile_path" ]; then
+      cat > "$profile_path" <<FISH_EOF
+# Xray proxy environment (managed by xray-user)
+if test -f ~/.config/xray/proxy-env.fish; and test -f ~/.config/xray/.proxy-enabled
+  source ~/.config/xray/proxy-env.fish
+end
+FISH_EOF
+      echo "Created Fish proxy config: $profile_path"
+    else
+      echo "Fish proxy config already exists: $profile_path"
+    fi
+  else
+    if ! grep -q "xray/proxy-env" "$profile_path"; then
+      echo "" >> "$profile_path"
+      echo "# Xray proxy environment (managed by xray-user)" >> "$profile_path"
+      echo 'if [ -f ~/.config/xray/proxy-env ] && [ -f ~/.config/xray/.proxy-enabled ]; then' >> "$profile_path"
+      echo '  source ~/.config/xray/proxy-env' >> "$profile_path"
+      echo 'fi' >> "$profile_path"
+      echo "Added proxy config to $profile_path"
+    fi
+  fi
+  
+  echo "$shell_type"
+}
+
+# Включить терминальный прокси
+enable_terminal_proxy() {
+  local proxy_addr="$1"
+  local protocol="$2"
+  local shell_type
+  
+  create_proxy_env_files "$proxy_addr" "$protocol"
+  shell_type=$(setup_shell_profile)
+  touch ~/.config/xray/.proxy-enabled
+  
+  echo "Terminal proxy enabled ($protocol://$proxy_addr)!"
+  if [ "$shell_type" = "fish" ]; then
+    echo "Restart terminal or run: source ~/.config/xray/proxy-env.fish"
+  else
+    echo "Restart terminal or run: source ~/.config/xray/proxy-env"
+  fi
+}
+
+# Отключить терминальный прокси
+disable_terminal_proxy() {
+  rm -f ~/.config/xray/.proxy-enabled
+  echo "Terminal proxy disabled!"
+  echo "Restart terminal to apply changes"
+}
+
 case "$1" in
   start)
     ensure_config
@@ -96,31 +235,15 @@ case "$1" in
     ;;
   proxy-on)
     ensure_config
-    local proxy_addr protocol host port
+    local proxy_addr protocol
     proxy_addr=$(get_proxy_settings)
     protocol=$(get_proxy_protocol)
-    host=$(echo "$proxy_addr" | cut -d: -f1)
-    port=$(echo "$proxy_addr" | cut -d: -f2)
     
-    @gsettings@/bin/gsettings set org.gnome.system.proxy mode 'manual'
-    
-    if [ "$protocol" = "socks5" ]; then
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.socks host "$host"
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.socks port "$port"
-      echo "System proxy enabled (SOCKS $host:$port)"
-    else
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.http host "$host"
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.http port "$port"
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.https host "$host"
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.https port "$port"
-      echo "System proxy enabled (HTTP $host:$port)"
-    fi
-    
+    enable_system_proxy "$proxy_addr" "$protocol"
     echo "Browser and most apps will now use proxy"
     ;;
   proxy-off)
-    @gsettings@/bin/gsettings set org.gnome.system.proxy mode 'none'
-    echo "System proxy disabled"
+    disable_system_proxy
     ;;
   proxy-status)
     mode=$(@gsettings@/bin/gsettings get org.gnome.system.proxy mode)
@@ -134,98 +257,14 @@ case "$1" in
     ;;
   terminal-proxy-on)
     ensure_config
-    local proxy_addr protocol host port
+    local proxy_addr protocol
     proxy_addr=$(get_proxy_settings)
     protocol=$(get_proxy_protocol)
     
-    # Создать файлы с proxy переменными
-    mkdir -p ~/.config/xray
-    
-    # Bash/Zsh версия
-    cat > ~/.config/xray/proxy-env <<EOF
-export http_proxy=$protocol://$proxy_addr
-export https_proxy=$protocol://$proxy_addr
-export ftp_proxy=$protocol://$proxy_addr
-export HTTP_PROXY=$protocol://$proxy_addr
-export HTTPS_PROXY=$protocol://$proxy_addr
-export FTP_PROXY=$protocol://$proxy_addr
-export no_proxy=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
-export NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
-EOF
-    
-    # Fish версия (с синтаксисом set -x)
-    cat > ~/.config/xray/proxy-env.fish <<FISH_VARS
-set -x http_proxy $protocol://$proxy_addr
-set -x https_proxy $protocol://$proxy_addr  
-set -x ftp_proxy $protocol://$proxy_addr
-set -x HTTP_PROXY $protocol://$proxy_addr
-set -x HTTPS_PROXY $protocol://$proxy_addr
-set -x FTP_PROXY $protocol://$proxy_addr
-set -x no_proxy localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
-set -x NO_PROXY localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
-FISH_VARS
-    
-    # Добавить в shell profile если еще не добавлено
-    shell_profile=""
-    shell_type=""
-    fish_config_dir=""
-    
-    # Определить тип shell и профиль
-    if [ -d ~/.config/fish ]; then
-      shell_type="fish"
-      fish_config_dir=~/.config/fish
-      # Для Fish создаем отдельный файл конфигурации
-      shell_profile="$fish_config_dir/conf.d/xray-proxy.fish"
-    elif [ -f ~/.bashrc ]; then
-      shell_profile=~/.bashrc
-      shell_type="bash"
-    elif [ -f ~/.zshrc ]; then
-      shell_profile=~/.zshrc
-      shell_type="zsh"
-    fi
-    
-    if [ -n "$shell_profile" ]; then
-      if [ "$shell_type" = "fish" ]; then
-        # Для Fish создаем отдельный файл в conf.d/
-        mkdir -p "$fish_config_dir/conf.d"
-        if [ ! -f "$shell_profile" ]; then
-          cat > "$shell_profile" <<FISH_EOF
-# Xray proxy environment (managed by xray-user)
-if test -f ~/.config/xray/proxy-env.fish; and test -f ~/.config/xray/.proxy-enabled
-  source ~/.config/xray/proxy-env.fish
-end
-FISH_EOF
-          echo "Created Fish proxy config: $shell_profile"
-        else
-          echo "Fish proxy config already exists: $shell_profile"
-        fi
-      else
-        # Для bash/zsh добавляем в основной файл конфигурации
-        if ! grep -q "xray/proxy-env" "$shell_profile"; then
-          echo "" >> "$shell_profile"
-          echo "# Xray proxy environment (managed by xray-user)" >> "$shell_profile"
-          echo 'if [ -f ~/.config/xray/proxy-env ] && [ -f ~/.config/xray/.proxy-enabled ]; then' >> "$shell_profile"
-          echo '  source ~/.config/xray/proxy-env' >> "$shell_profile"
-          echo 'fi' >> "$shell_profile"
-          echo "Added proxy config to $shell_profile"
-        fi
-      fi
-    fi
-    
-    # Включить прокси
-    touch ~/.config/xray/.proxy-enabled
-    echo "Terminal proxy enabled ($protocol://$proxy_addr)!"
-    if [ "$shell_type" = "fish" ]; then
-      echo "Restart terminal or run: source ~/.config/xray/proxy-env.fish"
-    else
-      echo "Restart terminal or run: source ~/.config/xray/proxy-env"
-    fi
+    enable_terminal_proxy "$proxy_addr" "$protocol"
     ;;
   terminal-proxy-off)
-    # Выключить прокси
-    rm -f ~/.config/xray/.proxy-enabled
-    echo "Terminal proxy disabled!"
-    echo "Restart terminal to apply changes"
+    disable_terminal_proxy
     ;;
   terminal-proxy-status)
     if [ -f ~/.config/xray/.proxy-enabled ]; then
@@ -264,93 +303,18 @@ FISH_EOF
     systemctl --user enable xray
     echo "✓ Xray service started and enabled"
     
-    # Включить системный прокси для GNOME
-    local proxy_addr protocol host port
+    # Получить настройки прокси
+    local proxy_addr protocol shell_type
     proxy_addr=$(get_proxy_settings)
     protocol=$(get_proxy_protocol)
-    host=$(echo "$proxy_addr" | cut -d: -f1)
-    port=$(echo "$proxy_addr" | cut -d: -f2)
     
-    @gsettings@/bin/gsettings set org.gnome.system.proxy mode 'manual'
-    
-    if [ "$protocol" = "socks5" ]; then
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.socks host "$host"
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.socks port "$port"
-      echo "✓ GNOME system proxy enabled (SOCKS $host:$port)"
-    else
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.http host "$host"
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.http port "$port"
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.https host "$host"
-      @gsettings@/bin/gsettings set org.gnome.system.proxy.https port "$port"
-      echo "✓ GNOME system proxy enabled (HTTP $host:$port)"
-    fi
+    # Включить системный прокси для GNOME
+    enable_system_proxy "$proxy_addr" "$protocol"
+    echo "✓ GNOME $(echo "$proxy_addr" | cut -d: -f1):$(echo "$proxy_addr" | cut -d: -f2) proxy enabled"
     
     # Включить терминальный прокси
-    mkdir -p ~/.config/xray
-    
-    # Bash/Zsh версия
-    cat > ~/.config/xray/proxy-env <<EOF
-export http_proxy=$protocol://$proxy_addr
-export https_proxy=$protocol://$proxy_addr
-export ftp_proxy=$protocol://$proxy_addr
-export HTTP_PROXY=$protocol://$proxy_addr
-export HTTPS_PROXY=$protocol://$proxy_addr
-export FTP_PROXY=$protocol://$proxy_addr
-export no_proxy=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
-export NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
-EOF
-    
-    # Fish версия
-    cat > ~/.config/xray/proxy-env.fish <<FISH_VARS
-set -x http_proxy $protocol://$proxy_addr
-set -x https_proxy $protocol://$proxy_addr  
-set -x ftp_proxy $protocol://$proxy_addr
-set -x HTTP_PROXY $protocol://$proxy_addr
-set -x HTTPS_PROXY $protocol://$proxy_addr
-set -x FTP_PROXY $protocol://$proxy_addr
-set -x no_proxy localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
-set -x NO_PROXY localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
-FISH_VARS
-    
-    # Настроить shell профили
-    shell_profile=""
-    shell_type=""
-    fish_config_dir=""
-    
-    if [ -d ~/.config/fish ]; then
-      shell_type="fish"
-      fish_config_dir=~/.config/fish
-      shell_profile="$fish_config_dir/conf.d/xray-proxy.fish"
-    elif [ -f ~/.bashrc ]; then
-      shell_profile=~/.bashrc
-      shell_type="bash"
-    elif [ -f ~/.zshrc ]; then
-      shell_profile=~/.zshrc
-      shell_type="zsh"
-    fi
-    
-    if [ -n "$shell_profile" ]; then
-      if [ "$shell_type" = "fish" ]; then
-        mkdir -p "$fish_config_dir/conf.d"
-        if [ ! -f "$shell_profile" ]; then
-          cat > "$shell_profile" <<FISH_EOF
-# Xray proxy environment (managed by xray-user)
-if test -f ~/.config/xray/proxy-env.fish; and test -f ~/.config/xray/.proxy-enabled
-  source ~/.config/xray/proxy-env.fish
-end
-FISH_EOF
-        fi
-      else
-        if ! grep -q "xray/proxy-env" "$shell_profile"; then
-          echo "" >> "$shell_profile"
-          echo "# Xray proxy environment (managed by xray-user)" >> "$shell_profile"
-          echo 'if [ -f ~/.config/xray/proxy-env ] && [ -f ~/.config/xray/.proxy-enabled ]; then' >> "$shell_profile"
-          echo '  source ~/.config/xray/proxy-env' >> "$shell_profile"
-          echo 'fi' >> "$shell_profile"
-        fi
-      fi
-    fi
-    
+    create_proxy_env_files "$proxy_addr" "$protocol"
+    shell_type=$(setup_shell_profile)
     touch ~/.config/xray/.proxy-enabled
     echo "✓ Terminal proxy enabled for $shell_type shell"
     
@@ -374,12 +338,11 @@ FISH_EOF
     systemctl --user stop xray
     echo "✓ Xray service stopped"
     
-    # Выключить системный прокси
-    @gsettings@/bin/gsettings set org.gnome.system.proxy mode 'none'
+    # Выключить системный и терминальный прокси
+    disable_system_proxy
     echo "✓ GNOME system proxy disabled"
     
-    # Выключить терминальный прокси
-    rm -f ~/.config/xray/.proxy-enabled
+    disable_terminal_proxy
     echo "✓ Terminal proxy disabled"
     
     echo ""
