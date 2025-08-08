@@ -32,7 +32,7 @@
   
   # Включить Xray пользовательский сервис
   services.xray-user = {
-    enable = false;  # Измените на false если не хотите автозапуск
+    enable = true;   # Включен - предоставляет xray-user команду
     logLevel = "info";
   };
 }
