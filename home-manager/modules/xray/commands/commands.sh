@@ -279,7 +279,6 @@ case "$1" in
     ;;
   proxy-on)
     ensure_config
-    local proxy_addr protocol
     proxy_addr=$(get_proxy_settings)
     protocol=$(get_proxy_protocol)
     
@@ -302,7 +301,6 @@ case "$1" in
     ;;
   terminal-proxy-on)
     ensure_config
-    local proxy_addr protocol
     proxy_addr=$(get_proxy_settings)
     protocol=$(get_proxy_protocol)
     
@@ -326,7 +324,6 @@ case "$1" in
     ;;
   env-proxy)
     ensure_config
-    local proxy_addr protocol
     proxy_addr=$(get_proxy_settings)
     protocol=$(get_proxy_protocol)
     
@@ -350,7 +347,6 @@ case "$1" in
     print_success "Xray service started and enabled"
     
     # Получить настройки прокси
-    local proxy_addr protocol shell_type
     proxy_addr=$(get_proxy_settings)
     protocol=$(get_proxy_protocol)
     
