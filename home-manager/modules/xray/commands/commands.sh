@@ -94,6 +94,30 @@ get_proxy_protocol() {
   fi
 }
 
+# Получить протокол прокси для терминальных команд (предпочитает HTTP для совместимости с wget/curl)
+get_terminal_proxy_protocol() {
+  if [ ! -f "@configFile@" ]; then
+    echo "http"  # fallback
+    return
+  fi
+  
+  # Сначала проверить HTTP (для совместимости с wget)
+  local has_http has_socks
+  has_http=$(@jq@/bin/jq -r '.inbounds[]? | select(.protocol == "http") | .protocol' "@configFile@" 2>/dev/null | head -1)
+  
+  if [ "$has_http" = "http" ]; then
+    echo "http"
+  else
+    # Если HTTP нет, проверить SOCKS
+    has_socks=$(@jq@/bin/jq -r '.inbounds[]? | select(.protocol == "socks") | .protocol' "@configFile@" 2>/dev/null | head -1)
+    if [ "$has_socks" = "socks" ]; then
+      echo "socks5"
+    else
+      echo "http"  # fallback
+    fi
+  fi
+}
+
 # Включить системный прокси GNOME
 enable_system_proxy() {
   local proxy_addr="$1"
@@ -307,7 +331,7 @@ case "$1" in
   terminal-proxy-on)
     ensure_config
     proxy_addr=$(get_proxy_settings)
-    protocol=$(get_proxy_protocol)
+    protocol=$(get_terminal_proxy_protocol)
     
     enable_terminal_proxy "$proxy_addr" "$protocol"
     ;;
@@ -330,7 +354,7 @@ case "$1" in
   env-proxy)
     ensure_config
     proxy_addr=$(get_proxy_settings)
-    protocol=$(get_proxy_protocol)
+    protocol=$(get_terminal_proxy_protocol)
     
     print_header "Manual Proxy Environment Variables:"
     echo "export http_proxy=$protocol://$proxy_addr"
@@ -359,7 +383,8 @@ case "$1" in
     enable_system_proxy "$proxy_addr" "$protocol"
     
     # Включить терминальный прокси  
-    enable_terminal_proxy "$proxy_addr" "$protocol"
+    terminal_protocol=$(get_terminal_proxy_protocol)
+    enable_terminal_proxy "$proxy_addr" "$terminal_protocol"
     
     echo ""
     print_header "🎉 All proxy settings enabled!"
