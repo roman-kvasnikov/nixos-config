@@ -6,6 +6,8 @@
     calc
     btop
     htop
+    jq
+    glib
     claude-code
     cliphist
     wl-clipboard

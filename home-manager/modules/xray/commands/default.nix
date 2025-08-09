@@ -13,14 +13,14 @@
           [
             "@configFile@"
             "@homeDirectory@"
-            "@jq@"
-            "@gsettings@"
+            # "@jq@"
+            # "@gsettings@"
           ]
           [
             config.services.xrayctl.configFile
             config.home.homeDirectory
-            "${pkgs.jq}"
-            "${pkgs.glib}"
+            # "${pkgs.jq}"
+            # "${pkgs.glib}"
           ]
           (builtins.readFile ./commands.sh)
         )
