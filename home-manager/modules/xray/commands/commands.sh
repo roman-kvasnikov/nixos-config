@@ -39,7 +39,7 @@ print_status() {
 ensure_config() {
   if [ ! -f "@configFile@" ]; then
     print_info "Creating default config from example..."
-    cp ~/.config/xray/config/config.example.json "@configFile@"
+    cp "$HOME/.config/xray/config/config.example.json" "@configFile@"
     print_success "Config created at: @configFile@"
   fi
 }
@@ -129,10 +129,10 @@ create_proxy_env_files() {
   local proxy_addr="$1"
   local protocol="$2"
   
-  mkdir -p ~/.config/xray
+  mkdir -p "$HOME/.config/xray"
   
   # Bash/Zsh версия
-  cat > ~/.config/xray/proxy-env <<EOF
+  cat > "$HOME/.config/xray/proxy-env" <<EOF
 export http_proxy=$protocol://$proxy_addr
 export https_proxy=$protocol://$proxy_addr
 export ftp_proxy=$protocol://$proxy_addr
@@ -144,7 +144,7 @@ export NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
 EOF
   
   # Fish версия
-  cat > ~/.config/xray/proxy-env.fish <<FISH_VARS
+  cat > "$HOME/.config/xray/proxy-env.fish" <<FISH_VARS
 set -x http_proxy $protocol://$proxy_addr
 set -x https_proxy $protocol://$proxy_addr  
 set -x ftp_proxy $protocol://$proxy_addr
@@ -160,14 +160,14 @@ FISH_VARS
 detect_shell_profile() {
   # Проверить текущий SHELL пользователя
   if [[ "$SHELL" == *"fish"* ]] || command -v fish >/dev/null 2>&1; then
-    echo "fish ~/.config/fish/conf.d/xray-proxy.fish"
-  elif [[ "$SHELL" == *"zsh"* ]] && [ -f ~/.zshrc ]; then
-    echo "zsh ~/.zshrc"
-  elif [[ "$SHELL" == *"bash"* ]] || [ -f ~/.bashrc ]; then
-    echo "bash ~/.bashrc"
+    echo "fish $HOME/.config/fish/conf.d/xray-proxy.fish"
+  elif [[ "$SHELL" == *"zsh"* ]] && [ -f "$HOME/.zshrc" ]; then
+    echo "zsh $HOME/.zshrc"
+  elif [[ "$SHELL" == *"bash"* ]] || [ -f "$HOME/.bashrc" ]; then
+    echo "bash $HOME/.bashrc"
   else
     # Fallback к bash если ничего не найдено
-    echo "bash ~/.bashrc"
+    echo "bash $HOME/.bashrc"
   fi
 }
 
@@ -188,8 +188,8 @@ setup_shell_profile() {
     if [ ! -f "$profile_path" ]; then
       cat > "$profile_path" <<FISH_EOF
 # Xray proxy environment (managed by xray-user)
-if test -f ~/.config/xray/proxy-env.fish; and test -f ~/.config/xray/.proxy-enabled
-  source ~/.config/xray/proxy-env.fish
+if test -f $HOME/.config/xray/proxy-env.fish; and test -f $HOME/.config/xray/.proxy-enabled
+  source $HOME/.config/xray/proxy-env.fish
 end
 FISH_EOF
       print_success "Created Fish proxy config: $profile_path"
@@ -200,8 +200,8 @@ FISH_EOF
     if ! grep -q "xray/proxy-env" "$profile_path"; then
       echo "" >> "$profile_path"
       echo "# Xray proxy environment (managed by xray-user)" >> "$profile_path"
-      echo 'if [ -f ~/.config/xray/proxy-env ] && [ -f ~/.config/xray/.proxy-enabled ]; then' >> "$profile_path"
-      echo '  source ~/.config/xray/proxy-env' >> "$profile_path"
+      echo 'if [ -f $HOME/.config/xray/proxy-env ] && [ -f $HOME/.config/xray/.proxy-enabled ]; then' >> "$profile_path"
+      echo '  source $HOME/.config/xray/proxy-env' >> "$profile_path"
       echo 'fi' >> "$profile_path"
       print_success "Added proxy config to $profile_path"
     fi
@@ -218,23 +218,23 @@ enable_terminal_proxy() {
   
   create_proxy_env_files "$proxy_addr" "$protocol"
   shell_type=$(setup_shell_profile)
-  touch ~/.config/xray/.proxy-enabled
+  touch "$HOME/.config/xray/.proxy-enabled"
   
   print_success "Terminal proxy enabled ($protocol://$proxy_addr)"
   echo ""
   print_warning "To use proxy in current session, run:"
   if [ "$shell_type" = "fish" ]; then
-    print_status "source ~/.config/xray/proxy-env.fish"
+    print_status "source $HOME/.config/xray/proxy-env.fish"
     print_info "Or restart terminal (Fish will auto-load on new sessions)"
   else
-    print_status "source ~/.config/xray/proxy-env"
+    print_status "source $HOME/.config/xray/proxy-env"
     print_info "Or restart terminal (will auto-load on new sessions)"
   fi
 }
 
 # Отключить терминальный прокси
 disable_terminal_proxy() {
-  rm -f ~/.config/xray/.proxy-enabled
+  rm -f "$HOME/.config/xray/.proxy-enabled"
   print_success "Terminal proxy disabled"
   print_info "Restart terminal to apply changes"
 }
@@ -313,7 +313,7 @@ case "$1" in
     ;;
   terminal-proxy-status)
     print_header "Terminal Proxy Status:"
-    if [ -f ~/.config/xray/.proxy-enabled ]; then
+    if [ -f "$HOME/.config/xray/.proxy-enabled" ]; then
       print_success "Terminal proxy: ENABLED"
       if [ -n "$http_proxy" ]; then
         print_success "Current session: ACTIVE ($http_proxy)"
@@ -360,7 +360,7 @@ case "$1" in
     # Включить терминальный прокси
     create_proxy_env_files "$proxy_addr" "$protocol"
     shell_type=$(setup_shell_profile)
-    touch ~/.config/xray/.proxy-enabled
+    touch "$HOME/.config/xray/.proxy-enabled"
     print_success "Terminal proxy enabled for $shell_type shell"
     
     echo ""
@@ -372,7 +372,7 @@ case "$1" in
     if [ "$shell_type" = "fish" ]; then
       print_info "Restart terminal to apply terminal proxy changes"
     else
-      print_info "Restart terminal or run: source ~/.config/xray/proxy-env"
+      print_info "Restart terminal or run: source $HOME/.config/xray/proxy-env"
     fi
     ;;
   all-off)
