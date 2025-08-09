@@ -192,9 +192,9 @@ if test -f $HOME/.config/xray/proxy-env.fish; and test -f $HOME/.config/xray/.pr
   source $HOME/.config/xray/proxy-env.fish
 end
 FISH_EOF
-      print_success "Created Fish proxy config: $profile_path"
+      print_success "Created Fish proxy config: $profile_path" >&2
     else
-      print_info "Fish proxy config already exists: $profile_path"
+      print_info "Fish proxy config already exists: $profile_path" >&2
     fi
   else
     if ! grep -q "xray/proxy-env" "$profile_path"; then
@@ -203,7 +203,7 @@ FISH_EOF
       echo 'if [ -f $HOME/.config/xray/proxy-env ] && [ -f $HOME/.config/xray/.proxy-enabled ]; then' >> "$profile_path"
       echo '  source $HOME/.config/xray/proxy-env' >> "$profile_path"
       echo 'fi' >> "$profile_path"
-      print_success "Added proxy config to $profile_path"
+      print_success "Added proxy config to $profile_path" >&2
     fi
   fi
   
