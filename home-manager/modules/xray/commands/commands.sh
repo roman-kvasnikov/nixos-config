@@ -176,11 +176,11 @@ has_protocol() {
 # Получить предпочтительный протокол для системы (SOCKS имеет приоритет)
 get_system_proxy_protocol() {
     if has_protocol "socks"; then
-        echo "socks5"
+        echo "socks"
     elif has_protocol "http"; then
         echo "http"
     else
-        echo "socks5"  # fallback
+        echo "socks"  # fallback
     fi
 }
 
@@ -189,7 +189,7 @@ get_terminal_proxy_protocol() {
     if has_protocol "http"; then
         echo "http"
     elif has_protocol "socks"; then
-        echo "socks5"
+        echo "socks"
     else
         echo "http"  # fallback
     fi
@@ -211,7 +211,7 @@ enable_system_proxy() {
     gsettings set org.gnome.system.proxy mode 'manual'
     
     case "$protocol" in
-        "socks5")
+        "socks")
             gsettings set org.gnome.system.proxy.socks host "$host"
             gsettings set org.gnome.system.proxy.socks port "$port"
             print_success "GNOME system proxy enabled (SOCKS $host:$port)"
