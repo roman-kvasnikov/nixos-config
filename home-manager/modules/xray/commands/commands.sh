@@ -158,15 +158,16 @@ FISH_VARS
 
 # Определить тип shell и путь к профилю
 detect_shell_profile() {
-  # Сначала проверить текущий SHELL или наличие fish команды
-  if command -v fish >/dev/null 2>&1 || [[ "$SHELL" == *"fish"* ]]; then
+  # Проверить текущий SHELL пользователя
+  if [[ "$SHELL" == *"fish"* ]] || command -v fish >/dev/null 2>&1; then
     echo "fish ~/.config/fish/conf.d/xray-proxy.fish"
-  elif [ -f ~/.bashrc ]; then
-    echo "bash ~/.bashrc"
-  elif [ -f ~/.zshrc ]; then
+  elif [[ "$SHELL" == *"zsh"* ]] && [ -f ~/.zshrc ]; then
     echo "zsh ~/.zshrc"
+  elif [[ "$SHELL" == *"bash"* ]] || [ -f ~/.bashrc ]; then
+    echo "bash ~/.bashrc"
   else
-    echo "unknown"
+    # Fallback к bash если ничего не найдено
+    echo "bash ~/.bashrc"
   fi
 }
 
@@ -220,10 +221,14 @@ enable_terminal_proxy() {
   touch ~/.config/xray/.proxy-enabled
   
   print_success "Terminal proxy enabled ($protocol://$proxy_addr)"
+  echo ""
+  print_warning "To use proxy in current session, run:"
   if [ "$shell_type" = "fish" ]; then
-    print_info "Restart terminal or run: source ~/.config/xray/proxy-env.fish"
+    print_status "source ~/.config/xray/proxy-env.fish"
+    print_info "Or restart terminal (Fish will auto-load on new sessions)"
   else
-    print_info "Restart terminal or run: source ~/.config/xray/proxy-env"
+    print_status "source ~/.config/xray/proxy-env"
+    print_info "Or restart terminal (will auto-load on new sessions)"
   fi
 }
 
