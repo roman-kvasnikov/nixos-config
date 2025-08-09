@@ -10,5 +10,6 @@
     ./git.nix
     ./kitty.nix
     ./stylix.nix
+    ./whatsapp-web.nix
   ];
 }
