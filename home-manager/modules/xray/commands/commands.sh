@@ -171,8 +171,8 @@ detect_shell_profile() {
   fi
 }
 
-# Настроить shell профиль для автозагрузки прокси
-setup_shell_profile() {
+# Настроить shell профиль для автозагрузки прокси (с выводом сообщений)
+setup_shell_profile_with_messages() {
   local shell_info profile_path shell_type
   
   shell_info=$(detect_shell_profile)
@@ -192,9 +192,9 @@ if test -f $HOME/.config/xray/proxy-env.fish; and test -f $HOME/.config/xray/.pr
   source $HOME/.config/xray/proxy-env.fish
 end
 FISH_EOF
-      print_success "Created Fish proxy config: $profile_path" >&2
+      print_success "Created Fish proxy config: $profile_path"
     else
-      print_info "Fish proxy config already exists: $profile_path" >&2
+      print_info "Fish proxy config already exists: $profile_path"
     fi
   else
     if ! grep -q "xray/proxy-env" "$profile_path"; then
@@ -203,9 +203,17 @@ FISH_EOF
       echo 'if [ -f $HOME/.config/xray/proxy-env ] && [ -f $HOME/.config/xray/.proxy-enabled ]; then' >> "$profile_path"
       echo '  source $HOME/.config/xray/proxy-env' >> "$profile_path"
       echo 'fi' >> "$profile_path"
-      print_success "Added proxy config to $profile_path" >&2
+      print_success "Added proxy config to $profile_path"
     fi
   fi
+}
+
+# Получить тип shell без вывода сообщений
+setup_shell_profile() {
+  local shell_info shell_type
+  
+  shell_info=$(detect_shell_profile)
+  shell_type=$(echo "$shell_info" | cut -d' ' -f1)
   
   echo "$shell_type"
 }
@@ -217,6 +225,7 @@ enable_terminal_proxy() {
   local shell_type
   
   create_proxy_env_files "$proxy_addr" "$protocol"
+  setup_shell_profile_with_messages
   shell_type=$(setup_shell_profile)
   touch "$HOME/.config/xray/.proxy-enabled"
   
