@@ -21,6 +21,8 @@
     tree
     xray
 
+     (import ./modules/nativefier-apps.nix { inherit pkgs; }).whatsappWeb
+
     # Desktop apps
     bottom
     evince
