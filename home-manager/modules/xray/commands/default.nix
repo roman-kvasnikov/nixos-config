@@ -19,8 +19,8 @@
           [
             config.services.xray-user.configFile
             config.home.homeDirectory
-            pkgs.jq
-            pkgs.glib
+            "${pkgs.jq}"
+            "${pkgs.glib}"
           ]
           (builtins.readFile ./commands.sh)
         )
