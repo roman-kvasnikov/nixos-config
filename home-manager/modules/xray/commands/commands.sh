@@ -158,7 +158,8 @@ FISH_VARS
 
 # Определить тип shell и путь к профилю
 detect_shell_profile() {
-  if [ -d ~/.config/fish ]; then
+  # Сначала проверить текущий SHELL или наличие fish команды
+  if command -v fish >/dev/null 2>&1 || [[ "$SHELL" == *"fish"* ]]; then
     echo "fish ~/.config/fish/conf.d/xray-proxy.fish"
   elif [ -f ~/.bashrc ]; then
     echo "bash ~/.bashrc"
