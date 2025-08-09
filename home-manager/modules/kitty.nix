@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  programs.kitty = {
+  programs.kitty = lib.mkForce {
     enable = true;
 
     settings = {
