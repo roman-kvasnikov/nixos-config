@@ -12,19 +12,19 @@ NC='\033[0m' # No Color
 
 # Функции для красивого вывода
 print_success() {
-  echo -e "${GREEN}✓${NC} $1"
+  echo -e "${GREEN}[✓]${NC} $1"
 }
 
 print_info() {
-  echo -e "${BLUE}ℹ${NC} $1"
+  echo -e "${BLUE}[i]${NC} $1"
 }
 
 print_warning() {
-  echo -e "${YELLOW}⚠${NC} $1"
+  echo -e "${YELLOW}[!]${NC} $1"
 }
 
 print_error() {
-  echo -e "${RED}✗${NC} $1"
+  echo -e "${RED}[✗]${NC} $1"
 }
 
 print_header() {
@@ -171,8 +171,8 @@ detect_shell_profile() {
   fi
 }
 
-# Настроить shell профиль для автозагрузки прокси (с выводом сообщений)
-setup_shell_profile_with_messages() {
+# Настроить shell профиль для автозагрузки прокси
+setup_shell_profile() {
   local shell_info profile_path shell_type
   
   shell_info=$(detect_shell_profile)
@@ -206,14 +206,6 @@ FISH_EOF
       print_success "Added proxy config to $profile_path"
     fi
   fi
-}
-
-# Получить тип shell без вывода сообщений
-setup_shell_profile() {
-  local shell_info shell_type
-  
-  shell_info=$(detect_shell_profile)
-  shell_type=$(echo "$shell_info" | cut -d' ' -f1)
   
   echo "$shell_type"
 }
@@ -225,7 +217,6 @@ enable_terminal_proxy() {
   local shell_type
   
   create_proxy_env_files "$proxy_addr" "$protocol"
-  setup_shell_profile_with_messages
   shell_type=$(setup_shell_profile)
   touch "$HOME/.config/xray/.proxy-enabled"
   
