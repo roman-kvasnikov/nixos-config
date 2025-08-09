@@ -1,32 +1,17 @@
-{pkgs, inputs, ...}: 
+{pkgs, ...}: 
 let
-  # Создаем nativefier из GitHub
-  nativefier = pkgs.buildNpmPackage {
-    pname = "nativefier";
-    version = "50.1.1";
+  # Простой wrapper для npx nativefier (самый надежный способ)
+  nativefier = pkgs.writeShellScriptBin "nativefier" ''
+    export PATH="${pkgs.nodejs}/bin:${pkgs.electron}/bin:$PATH"
+    export ELECTRON_OVERRIDE_DIST_PATH="${pkgs.electron}/bin/"
     
-    src = inputs.nativefier;
+    # Устанавливаем nativefier в временную директорию при первом запуске
+    NPM_CACHE="$HOME/.cache/nativefier-npm"
+    mkdir -p "$NPM_CACHE"
     
-    npmDepsHash = pkgs.lib.fakeHash;
-    
-    nativeBuildInputs = with pkgs; [ nodejs python3 ];
-    
-    buildInputs = with pkgs; [ electron ];
-    
-    # Пропустить тесты
-    doCheck = false;
-    
-    # Установить зависимости
-    npmInstallFlags = [ "--ignore-scripts" ];
-    
-    meta = with pkgs.lib; {
-      description = "Make any web page a desktop application";
-      homepage = "https://github.com/nativefier/nativefier";
-      license = licenses.mit;
-      platforms = platforms.linux;
-      maintainers = [];
-    };
-  };
+    # Используем npx для запуска последней версии
+    exec ${pkgs.nodejs}/bin/npx --cache "$NPM_CACHE" nativefier@latest "$@"
+  '';
 
   # Функция для создания нативного веб-приложения
   makeWebApp = {name, url, icon ? name, userAgent ? null}: 
