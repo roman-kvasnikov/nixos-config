@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  programs.kitty = lib.mkForce {
+  programs.kitty = {
     enable = true;
 
     settings = {
@@ -11,8 +11,7 @@
       term = "xterm-kitty";
       kitty_mod = "ctrl+shift";
 
-      # Font
-      font_family = "Fira Code";
+      # Font (будет использован из stylix)
       font_size = 12.0;
 
       # Layout
