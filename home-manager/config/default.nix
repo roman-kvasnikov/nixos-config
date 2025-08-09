@@ -18,10 +18,6 @@
     sessionPath = [
       "${config.home.homeDirectory}/.local/bin"
     ];
-
-    file = {
-      "${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
-    };
   };
 
   imports = [

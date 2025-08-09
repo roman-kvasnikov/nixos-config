@@ -19,4 +19,6 @@
 
     configFile."gtk-3.0/bookmarks".force = true;
   };
+
+  home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
 }
