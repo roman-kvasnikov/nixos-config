@@ -4,6 +4,7 @@
   version,
   config,
   user,
+  inputs,
   ...
 }: {
   imports = [

@@ -1,28 +1,65 @@
-{pkgs, ...}: 
+{pkgs, inputs, ...}: 
 let
+  # Создаем nativefier из GitHub
+  nativefier = pkgs.buildNpmPackage {
+    pname = "nativefier";
+    version = "50.1.1";
+    
+    src = inputs.nativefier;
+    
+    npmDepsHash = pkgs.lib.fakeHash;
+    
+    nativeBuildInputs = with pkgs; [ nodejs python3 ];
+    
+    buildInputs = with pkgs; [ electron ];
+    
+    # Пропустить тесты
+    doCheck = false;
+    
+    # Установить зависимости
+    npmInstallFlags = [ "--ignore-scripts" ];
+    
+    meta = with pkgs.lib; {
+      description = "Make any web page a desktop application";
+      homepage = "https://github.com/nativefier/nativefier";
+      license = licenses.mit;
+      platforms = platforms.linux;
+      maintainers = [];
+    };
+  };
+
   # Функция для создания нативного веб-приложения
   makeWebApp = {name, url, icon ? name, userAgent ? null}: 
     pkgs.writeShellScriptBin name ''
-      ${pkgs.nativefier}/bin/nativefier \
-        --name "${name}" \
-        --platform linux \
-        --arch x64 \
-        --electron-version latest \
-        --overwrite \
-        ${if userAgent != null then "--user-agent \"${userAgent}\"" else ""} \
-        --single-instance \
-        --tray \
-        --counter \
-        --bounce \
-        --fast-quit \
-        --app-copyright "Web App" \
-        --app-version "1.0.0" \
-        --out "$HOME/.local/share/nativefier-apps" \
-        "${url}"
+      APP_DIR="$HOME/.local/share/nativefier-apps"
+      mkdir -p "$APP_DIR"
       
-      # Запуск приложения после создания
-      if [ -d "$HOME/.local/share/nativefier-apps/${name}-linux-x64" ]; then
-        "$HOME/.local/share/nativefier-apps/${name}-linux-x64/${name}" "$@"
+      # Создаем приложение если его еще нет
+      if [ ! -d "$APP_DIR/${name}-linux-x64" ]; then
+        echo "Creating ${name} app..."
+        ${nativefier}/bin/nativefier \
+          --name "${name}" \
+          --platform linux \
+          --arch x64 \
+          --electron-version latest \
+          ${if userAgent != null then "--user-agent \"${userAgent}\"" else ""} \
+          --single-instance \
+          --tray \
+          --counter \
+          --bounce \
+          --fast-quit \
+          --app-copyright "Web App" \
+          --app-version "1.0.0" \
+          --out "$APP_DIR" \
+          "${url}"
+      fi
+      
+      # Запуск приложения
+      if [ -d "$APP_DIR/${name}-linux-x64" ]; then
+        exec "$APP_DIR/${name}-linux-x64/${name}" "$@"
+      else
+        echo "Failed to create ${name} app" >&2
+        exit 1
       fi
     '';
 
@@ -58,7 +95,7 @@ let
   };
 
 in {
-  home.packages = with pkgs; [
+  home.packages = [
     nativefier
     whatsappWeb
     telegramWeb

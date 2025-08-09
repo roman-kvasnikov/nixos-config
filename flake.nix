@@ -26,6 +26,10 @@
       url = "github:nix-community/impermanence";
     };
 
+    nativefier = {
+      url = "github:nativefier/nativefier";
+      flake = false;
+    };
 
     # My own repositories
 

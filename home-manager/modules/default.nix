@@ -9,7 +9,7 @@
     ./fish.nix
     ./git.nix
     ./kitty.nix
+    ./nativefier-apps.nix
     ./stylix.nix
-    ./whatsapp-web.nix
   ];
 }
