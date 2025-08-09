@@ -70,6 +70,43 @@ get_proxy_settings() {
   fi
 }
 
+# Получить настройки прокси для конкретного протокола
+get_proxy_settings_for_protocol() {
+  local protocol="$1"
+  
+  if [ ! -f "@configFile@" ]; then
+    if [ "$protocol" = "http" ]; then
+      echo "127.0.0.1:10809"  # fallback для HTTP
+    else
+      echo "127.0.0.1:10808"  # fallback для SOCKS
+    fi
+    return
+  fi
+  
+  local host port
+  if [ "$protocol" = "http" ]; then
+    host=$(@jq@/bin/jq -r '.inbounds[]? | select(.protocol == "http") | .listen // "127.0.0.1"' "@configFile@" 2>/dev/null | head -1)
+    port=$(@jq@/bin/jq -r '.inbounds[]? | select(.protocol == "http") | .port' "@configFile@" 2>/dev/null | head -1)
+  else
+    host=$(@jq@/bin/jq -r '.inbounds[]? | select(.protocol == "socks") | .listen // "127.0.0.1"' "@configFile@" 2>/dev/null | head -1)
+    port=$(@jq@/bin/jq -r '.inbounds[]? | select(.protocol == "socks") | .port' "@configFile@" 2>/dev/null | head -1)
+  fi
+  
+  if [ -z "$host" ] || [ "$host" = "null" ]; then
+    host="127.0.0.1"
+  fi
+  
+  if [ -z "$port" ] || [ "$port" = "null" ]; then
+    if [ "$protocol" = "http" ]; then
+      port="10809"  # fallback для HTTP
+    else
+      port="10808"  # fallback для SOCKS
+    fi
+  fi
+  
+  echo "$host:$port"
+}
+
 # Получить протокол прокси из config.json
 get_proxy_protocol() {
   if [ ! -f "@configFile@" ]; then
@@ -330,8 +367,8 @@ case "$1" in
     ;;
   terminal-proxy-on)
     ensure_config
-    proxy_addr=$(get_proxy_settings)
     protocol=$(get_terminal_proxy_protocol)
+    proxy_addr=$(get_proxy_settings_for_protocol "$protocol")
     
     enable_terminal_proxy "$proxy_addr" "$protocol"
     ;;
@@ -353,8 +390,8 @@ case "$1" in
     ;;
   env-proxy)
     ensure_config
-    proxy_addr=$(get_proxy_settings)
     protocol=$(get_terminal_proxy_protocol)
+    proxy_addr=$(get_proxy_settings_for_protocol "$protocol")
     
     print_header "Manual Proxy Environment Variables:"
     echo "export http_proxy=$protocol://$proxy_addr"
@@ -384,7 +421,8 @@ case "$1" in
     
     # Включить терминальный прокси  
     terminal_protocol=$(get_terminal_proxy_protocol)
-    enable_terminal_proxy "$proxy_addr" "$terminal_protocol"
+    terminal_proxy_addr=$(get_proxy_settings_for_protocol "$terminal_protocol")
+    enable_terminal_proxy "$terminal_proxy_addr" "$terminal_protocol"
     
     echo ""
     print_header "🎉 All proxy settings enabled!"
