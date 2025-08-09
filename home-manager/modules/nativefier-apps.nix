@@ -120,8 +120,9 @@ let
       "list")
         echo "📱 Available Nativefier apps:"
         if [ -d "$APP_DIR" ]; then
-          ls -la "$APP_DIR" | grep -E "linux-x64$" | while read line; do
-            app_name=$(echo "$line" | awk '{print $9}' | sed 's/-linux-x64$//')
+          # Исправляем проблему с областью видимости переменной
+          find "$APP_DIR" -maxdepth 1 -name "*-linux-x64" -type d | while read -r app_dir; do
+            app_name=$(basename "$app_dir" | sed 's/-linux-x64$//')
             echo "  • $app_name"
           done
         else
