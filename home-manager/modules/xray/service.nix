@@ -4,7 +4,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.services.xray-user.enable {
+  config = lib.mkIf config.services.xrayctl.enable {
     systemd.user.services.xray = {
       Unit = {
         Description = "Xray proxy service (user)";
@@ -19,7 +19,7 @@
 
       Service = {
         Type = "simple";
-        ExecStart = "${pkgs.xray}/bin/xray run -config ${config.services.xray-user.configFile}";
+        ExecStart = "${pkgs.xray}/bin/xray run -config ${config.services.xrayctl.configFile}";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
         Restart = "on-failure";
         RestartSec = "3s";

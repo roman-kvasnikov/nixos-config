@@ -4,10 +4,10 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.services.xray-user.enable {
+  config = lib.mkIf config.services.xrayctl.enable {
     home.packages = [
       (
-        pkgs.writeShellScriptBin "xray-user"
+        pkgs.writeShellScriptBin "xrayctl"
         (
           builtins.replaceStrings
           [
@@ -17,7 +17,7 @@
             "@gsettings@"
           ]
           [
-            config.services.xray-user.configFile
+            config.services.xrayctl.configFile
             config.home.homeDirectory
             "${pkgs.jq}"
             "${pkgs.glib}"

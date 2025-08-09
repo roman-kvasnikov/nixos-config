@@ -1,6 +1,6 @@
 {
   services = {
-    xray-user = {
+    xrayctl = {
       enable = true;
     };
   };

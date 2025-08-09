@@ -187,7 +187,7 @@ setup_shell_profile() {
     mkdir -p "$(dirname "$profile_path")"
     if [ ! -f "$profile_path" ]; then
       cat > "$profile_path" <<FISH_EOF
-# Xray proxy environment (managed by xray-user)
+# Xray proxy environment (managed by xrayctl)
 if test -f $HOME/.config/xray/proxy-env.fish; and test -f $HOME/.config/xray/.proxy-enabled
   source $HOME/.config/xray/proxy-env.fish
 end
@@ -199,7 +199,7 @@ FISH_EOF
   else
     if ! grep -q "xray/proxy-env" "$profile_path"; then
       echo "" >> "$profile_path"
-      echo "# Xray proxy environment (managed by xray-user)" >> "$profile_path"
+      echo "# Xray proxy environment (managed by xrayctl)" >> "$profile_path"
       echo 'if [ -f $HOME/.config/xray/proxy-env ] && [ -f $HOME/.config/xray/.proxy-enabled ]; then' >> "$profile_path"
       echo '  source $HOME/.config/xray/proxy-env' >> "$profile_path"
       echo 'fi' >> "$profile_path"
@@ -334,7 +334,7 @@ case "$1" in
     echo "export no_proxy=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8"
     echo ""
     print_info "To apply in current shell:"
-    print_status 'eval "$(xray-user env-proxy | grep export)"'
+    print_status 'eval "$(xrayctl env-proxy | grep export)"'
     ;;
   all-on)
     print_header "🚀 Starting Xray and enabling all proxy settings..."
@@ -394,7 +394,7 @@ case "$1" in
   *)
     print_header "🔧 Xray User Management Tool"
     echo ""
-    print_info "Usage: xray-user {command}"
+    print_info "Usage: xrayctl {command}"
     echo ""
     
     print_status "🚀 Quick commands:"

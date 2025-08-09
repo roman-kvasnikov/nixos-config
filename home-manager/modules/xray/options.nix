@@ -3,8 +3,8 @@
   config,
   ...
 }: {
-  options.services.xray-user = {
-    enable = lib.mkEnableOption "Xray user service";
+  options.services.xrayctl = {
+    enable = lib.mkEnableOption "Xrayctl management tool";
 
     configFile = lib.mkOption {
       type = lib.types.path;

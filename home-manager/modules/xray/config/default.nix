@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.services.xray-user.enable {
+  config = lib.mkIf config.services.xrayctl.enable {
     home.file.".config/xray/config.example.json" = {
       source = ./config.example.json;
     };
