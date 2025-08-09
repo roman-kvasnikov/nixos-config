@@ -295,14 +295,36 @@ enable_terminal_proxy() {
 
 # Отключить терминальный прокси
 disable_terminal_proxy() {
+  local shell_info shell_type profile_path
+  
+  # Удалить маркер
   rm -f "$HOME/.config/xray/.proxy-enabled"
+  
+  # Удалить файлы переменных окружения
+  rm -f "$HOME/.config/xray/proxy-env"
+  rm -f "$HOME/.config/xray/proxy-env.fish"
   
   # Очистить переменные прокси в текущей сессии
   unset http_proxy https_proxy ftp_proxy no_proxy
   unset HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
   
+  # Очистить автозагрузку из shell профиля
+  shell_info=$(detect_shell_profile)
+  shell_type=$(echo "$shell_info" | cut -d' ' -f1)
+  profile_path=$(echo "$shell_info" | cut -d' ' -f2)
+  
+  if [ "$shell_type" = "fish" ]; then
+    rm -f "$HOME/.config/fish/conf.d/xray-proxy.fish"
+  else
+    # Удалить строки из .bashrc/.zshrc
+    if [ -f "$profile_path" ]; then
+      sed -i '/# Xray proxy start/,/# Xray proxy end/d' "$profile_path"
+    fi
+  fi
+  
   print_success "Terminal proxy disabled"
   print_info "Environment variables cleared in current session"
+  print_info "Restart terminal to fully apply changes"
 }
 
 case "$1" in
