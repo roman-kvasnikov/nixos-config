@@ -1,4 +1,7 @@
-{config, ...}: {
+{
+  config,
+  ...
+}: {
   xdg = {
     userDirs = {
       enable = true;
@@ -16,17 +19,4 @@
 
     configFile."gtk-3.0/bookmarks".force = true;
   };
-
-  gtk.gtk3 = {
-    bookmarks = [
-      "file:///"
-      "file://${config.home.homeDirectory}/.local"
-      "file://${config.home.homeDirectory}/.config"
-      "file://${config.xdg.userDirs.documents}"
-      "file://${config.xdg.userDirs.download}"
-      "file://${config.home.homeDirectory}/.config/nixos NixOS"
-    ];
-  };
-
-  home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
 }

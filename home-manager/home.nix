@@ -8,15 +8,9 @@
   ...
 }: {
   imports = [
-    ./config.nix
+    ./config
     ./packages.nix
     ./services.nix
     ./modules
   ];
-
-  home = {
-    username = user.name;
-    homeDirectory = "/home/${config.home.username}";
-    stateVersion = version;
-  };
 }
