@@ -23,7 +23,6 @@
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
         "brave-browser.desktop"
-        "hiddify.desktop"
         # "DeepSeek.desktop"
         # "WhatsApp.desktop"
         "org.telegram.desktop.desktop"

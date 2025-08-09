@@ -235,8 +235,13 @@ enable_terminal_proxy() {
 # Отключить терминальный прокси
 disable_terminal_proxy() {
   rm -f "$HOME/.config/xray/.proxy-enabled"
+  
+  # Очистить переменные прокси в текущей сессии
+  unset http_proxy https_proxy ftp_proxy no_proxy
+  unset HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
+  
   print_success "Terminal proxy disabled"
-  print_info "Restart terminal to apply changes"
+  print_info "Environment variables cleared in current session"
 }
 
 case "$1" in
@@ -382,6 +387,15 @@ case "$1" in
     echo ""
     print_info "Restart terminal to apply terminal proxy changes"
     ;;
+  clear-env)
+    print_header "🧹 Clearing proxy environment variables..."
+    
+    # Очистить переменные прокси в текущей сессии
+    unset http_proxy https_proxy ftp_proxy no_proxy
+    unset HTTP_PROXY HTTPS_PROXY FTP_PROXY NO_PROXY
+    
+    print_success "Proxy environment variables cleared"
+    ;;
   *)
     print_header "🔧 Xray User Management Tool"
     echo ""
@@ -414,6 +428,7 @@ case "$1" in
     echo "  ${RED}terminal-proxy-off${NC}     Disable terminal proxy"
     echo "  ${BLUE}terminal-proxy-status${NC}  Show terminal proxy status"
     echo "  ${YELLOW}env-proxy${NC}              Show manual environment variables"
+    echo "  ${YELLOW}clear-env${NC}              Clear proxy environment variables"
     echo ""
     
     print_status "📋 Configuration:"

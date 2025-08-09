@@ -7,7 +7,6 @@
         # "WhatsApp.desktop:2"
         "org.telegram.desktop.desktop:3"
         "org.keepassxc.KeePassXC.desktop:5"
-        "hiddify.desktop:5"
       ];
     };
   };
