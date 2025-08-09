@@ -35,27 +35,27 @@ readonly NC='\033[0m' # No Color
 # =============================================================================
 
 print_success() {
-    printf '%b[✓]%b %s\n' "$GREEN" "$NC" "$1"
+    echo -e "${GREEN}[✓]${NC} $1"
 }
 
 print_info() {
-    printf '%b[i]%b %s\n' "$BLUE" "$NC" "$1"
+    echo -e "${BLUE}[i]${NC} $1"
 }
 
 print_warning() {
-    printf '%b[!]%b %s\n' "$YELLOW" "$NC" "$1"
+    echo -e "${YELLOW}[!]${NC} $1"
 }
 
 print_error() {
-    printf '%b[✗]%b %s\n' "$RED" "$NC" "$1" >&2
+    echo -e "${RED}[✗]${NC} $1" >&2
 }
 
 print_header() {
-    printf '%b%s%b\n' "$PURPLE" "$1" "$NC"
+    echo -e "${PURPLE}$1${NC}"
 }
 
 print_status() {
-    printf '%b%s%b\n' "$CYAN" "$1" "$NC"
+    echo -e "${CYAN}$1${NC}"
 }
 
 # =============================================================================
