@@ -353,23 +353,14 @@ case "$1" in
     # Включить системный прокси для GNOME
     enable_system_proxy "$proxy_addr" "$protocol"
     
-    # Включить терминальный прокси
-    create_proxy_env_files "$proxy_addr" "$protocol"
-    shell_type=$(setup_shell_profile)
-    touch "$HOME/.config/xray/.proxy-enabled"
-    print_success "Terminal proxy enabled for $shell_type shell"
+    # Включить терминальный прокси  
+    enable_terminal_proxy "$proxy_addr" "$protocol"
     
     echo ""
     print_header "🎉 All proxy settings enabled!"
     print_status "   • Xray service: ${GREEN}RUNNING${NC}"
     print_status "   • System proxy (GNOME): ${GREEN}ENABLED${NC}"
     print_status "   • Terminal proxy: ${GREEN}ENABLED${NC}"
-    echo ""
-    if [ "$shell_type" = "fish" ]; then
-      print_info "Restart terminal to apply terminal proxy changes"
-    else
-      print_info "Restart terminal or run: source $HOME/.config/xray/proxy-env"
-    fi
     ;;
   all-off)
     print_header "🔒 Disabling all proxy settings..."
