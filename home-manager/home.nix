@@ -18,7 +18,4 @@
     homeDirectory = "/home/${config.home.username}";
     stateVersion = version;
   };
-
-  # Установить Fish как shell по умолчанию
-  programs.bash.enable = true; # Нужен как fallback
 }

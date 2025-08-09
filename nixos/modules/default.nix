@@ -8,6 +8,7 @@
     ./i18n.nix
     ./networking.nix
     ./nix.nix
+    ./programs.nix
     ./security.nix
     ./services.nix
     ./time.nix
