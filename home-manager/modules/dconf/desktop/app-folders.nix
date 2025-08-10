@@ -1,12 +1,10 @@
 {
   dconf.settings = {
-
     # App folders
     "org/gnome/desktop/app-folders" = {
       folder-children = [
         "System"
         "Utilities"
-        "Tops"
         "Terminals"
         "Office"
         "Multimedia"
@@ -14,16 +12,19 @@
         "TextEditors"
         "Development"
         "Organizer"
+        "Crypto"
       ];
     };
 
     # System
     "org/gnome/desktop/app-folders/folders/System" = {
       apps = [
-        "org.gnome.Nautilus.desktop"
+        "bottom.desktop"
+        "btop.desktop"
+        "htop.desktop"
+        "org.gnome.SystemMonitor.desktop"
         "org.gnome.DiskUtility.desktop"
         "org.gnome.Logs.desktop"
-        "org.gnome.SystemMonitor.desktop"
       ];
       name = "System";
       translate = false;
@@ -35,28 +36,19 @@
         "org.gnome.Connections.desktop"
         "org.gnome.Evince.desktop"
         "org.gnome.Loupe.desktop"
+        "yazi.desktop"
       ];
       name = "Utilities";
-      translate = false;
-    };
-
-    # Tops
-    "org/gnome/desktop/app-folders/folders/Tops" = {
-      apps = [
-        "bottom.desktop"
-        "btop.desktop"
-        "htop.desktop"
-      ];
-      name = "Tops";
       translate = false;
     };
 
     # Terminals
     "org/gnome/desktop/app-folders/folders/Terminals" = {
       apps = [
-        "kitty.desktop"
-        "fish.desktop"
         "dev.warp.Warp.desktop"
+        "kitty.desktop"
+        "xterm.desktop"
+        "fish.desktop"
       ];
       name = "Terminals";
       translate = false;
@@ -82,6 +74,7 @@
       apps = [
         "org.gnome.Decibels.desktop"
         "vlc.desktop"
+        "org.gnome.Snapshot.desktop"
       ];
       name = "Multimedia";
       translate = false;
@@ -124,13 +117,22 @@
     "org/gnome/desktop/app-folders/folders/Organizer" = {
       apps = [
         "org.gnome.Calendar.desktop"
-        "org.gnome.Maps.desktop"
-        "org.gnome.Weather.desktop"
-        "org.gnome.clocks.desktop"
         "org.gnome.Calculator.desktop"
         "obsidian.desktop"
+        "org.gnome.clocks.desktop"
+        "org.gnome.Weather.desktop"
+        "org.gnome.Maps.desktop"
       ];
       name = "Organizer";
+      translate = false;
+    };
+
+    # Crypto
+    "org/gnome/desktop/app-folders/folders/Crypto" = {
+      apps = [
+        "electrum.desktop"
+      ];
+      name = "Crypto";
       translate = false;
     };
   };
