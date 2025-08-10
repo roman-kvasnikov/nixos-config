@@ -65,12 +65,12 @@
     };
 
     # Отключить сетевые службы, если не нужны
-    avahi.enable = lib.mkDefault false;         # mDNS/DNS-SD
-    geoclue2.enable = lib.mkDefault true;       # Геолокация для часовых поясов
+    avahi.enable = lib.mkForce false;         # mDNS/DNS-SD
+    geoclue2.enable = lib.mkForce true;       # Геолокация для часовых поясов
 
     # Энергосбережение для ноутбуков
-    power-profiles-daemon.enable = lib.mkDefault true;
-    thermald.enable = lib.mkDefault true;       # Тепловое управление Intel
+    power-profiles-daemon.enable = lib.mkForce true;
+    thermald.enable = lib.mkForce true;       # Тепловое управление Intel
 
     # Современные сетевые настройки
     resolved = {
