@@ -5,8 +5,8 @@
       keyPath = "./ssh-keys";
       # Функция для создания условного файла
       mkSshKey = keyName: {
-        ".ssh/${keyName}" = {
-          source = keyPath + "/${keyName}";
+        "${config.home.homeDirectory}/.ssh/${keyName}" = {
+          source = "${keyPath}/${keyName}";
         };
       };
     in
