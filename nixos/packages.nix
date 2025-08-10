@@ -7,9 +7,9 @@
   nixpkgs.config = {
     allowUnfree = true;
     # Оптимизации для single-user системы
-    # permittedInsecurePackages = [
-    #   # При необходимости добавить здесь разрешенные небезопасные пакеты
-    # ];
+    permittedInsecurePackages = [
+      # При необходимости добавить здесь разрешенные небезопасные пакеты
+    ];
   };
 
   environment = {

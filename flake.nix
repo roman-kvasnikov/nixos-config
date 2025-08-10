@@ -98,12 +98,12 @@
       hosts
     );
 
-    # homeConfigurations = builtins.listToAttrs (
-    #   map (host: {
-    #     name = "${user.name}@${host.hostname}";
-    #     value = makeHome host;
-    #   })
-    #   hosts
-    # );
+    homeConfigurations = builtins.listToAttrs (
+      map (host: {
+        name = "${user.name}@${host.hostname}";
+        value = makeHome host;
+      })
+      hosts
+    );
   };
 }

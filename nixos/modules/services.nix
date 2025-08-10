@@ -1,12 +1,17 @@
-{pkgs, lib, user, ...}: {
+{
+  pkgs,
+  lib,
+  user,
+  ...
+}: {
   services = {
     # Современная настройка для GNOME с Wayland (2025 best practices)
     xserver = {
       enable = true;
       displayManager.gdm = {
         enable = true;
-        wayland = true;  # Включить Wayland по умолчанию
-        autoSuspend = false;  # Для single-user системы
+        wayland = true; # Включить Wayland по умолчанию
+        autoSuspend = false; # Для single-user системы
       };
       desktopManager.gnome.enable = true;
     };
@@ -59,12 +64,12 @@
     };
 
     # Отключить сетевые службы, если не нужны
-    avahi.enable = lib.mkForce false;         # mDNS/DNS-SD
-    geoclue2.enable = lib.mkForce true;       # Геолокация для часовых поясов
+    avahi.enable = lib.mkForce false; # mDNS/DNS-SD
+    geoclue2.enable = lib.mkForce true; # Геолокация для часовых поясов
 
     # Энергосбережение для ноутбуков
     power-profiles-daemon.enable = lib.mkForce true;
-    thermald.enable = lib.mkForce true;       # Тепловое управление Intel
+    thermald.enable = lib.mkForce true; # Тепловое управление Intel
 
     # Современные сетевые настройки
     resolved = {
@@ -74,7 +79,7 @@
       fallbackDns = [
         "1.1.1.1"
         "1.0.0.1"
-        "8.8.8.8" 
+        "8.8.8.8"
         "8.8.4.4"
       ];
     };

@@ -18,17 +18,17 @@
       # Производительность
       auto-optimise-store = true;
       experimental-features = [
-        "nix-command" 
+        "nix-command"
         "flakes"
-        "ca-derivations"    # Content-addressed derivations (2025)
-        "fetch-closure"     # Closure fetching optimization
-        "recursive-nix"     # Recursive nix builds
+        "ca-derivations" # Content-addressed derivations (2025)
+        "fetch-closure" # Closure fetching optimization
+        "recursive-nix" # Recursive nix builds
       ];
-      
+
       # Максимальная производительность сборки
       cores = 0; # Использовать все ядра
       max-jobs = "auto";
-      
+
       # Параллельные загрузки (2025 optimization)
       http-connections = 25;
       max-substitution-jobs = 16;
@@ -38,7 +38,7 @@
         "https://cache.nixos.org/"
         "https://nix-community.cachix.org"
         "https://cuda-maintainers.cachix.org" # Для CUDA пакетов если нужно
-        "https://devenv.cachix.org"           # Для development environments
+        "https://devenv.cachix.org" # Для development environments
       ];
 
       trusted-public-keys = [
@@ -57,7 +57,7 @@
       system-features = [
         "nixos-test"
         "benchmark"
-        "big-parallel" 
+        "big-parallel"
         "kvm" # Для VM тестирования
       ];
 
@@ -72,8 +72,8 @@
 
       # Оптимизация памяти
       max-free = 3 * 1024 * 1024 * 1024; # 3GB
-      min-free = 1024 * 1024 * 1024;     # 1GB
-      
+      min-free = 1024 * 1024 * 1024; # 1GB
+
       # Оптимизация сети
       connect-timeout = 10;
       stalled-download-timeout = 300;

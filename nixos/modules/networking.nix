@@ -9,9 +9,9 @@
     networkmanager = {
       enable = true;
 
-      wifi.powersave = false;           # Отключить powersave для Wi-Fi
+      wifi.powersave = false; # Отключить powersave для Wi-Fi
       ethernet.macAddress = "preserve"; # Сохранить MAC адрес
-      dns = "systemd-resolved";         # Современный DNS resolver
+      dns = "systemd-resolved"; # Современный DNS resolver
 
       plugins = with pkgs; [
         networkmanager-l2tp
@@ -26,8 +26,8 @@
       logReversePathDrops = true;
 
       # Разрешить локальные сервисы для разработки
-      allowedTCPPorts = [ ];
-      allowedUDPPorts = [ ];
+      allowedTCPPorts = [];
+      allowedUDPPorts = [];
     };
   };
 }

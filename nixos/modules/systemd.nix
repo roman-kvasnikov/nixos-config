@@ -9,7 +9,7 @@
 
       nix-gc.serviceConfig = {
         IOSchedulingClass = 3; # Idle priority для GC
-        Nice = 15;             # Низкий приоритет
+        Nice = 15; # Низкий приоритет
       };
     };
 
