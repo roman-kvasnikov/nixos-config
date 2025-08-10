@@ -1,10 +1,13 @@
-const { GObject, St, Clutter, Gio, GLib } = imports.gi;
-const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
+import GObject from 'gi://GObject';
+import St from 'gi://St';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 class XrayToggleIndicator extends PanelMenu.Button {
     _init() {
@@ -137,26 +140,23 @@ class XrayToggleIndicator extends PanelMenu.Button {
     }
 }
 
-class Extension {
-    constructor() {
+export default class XrayToggleExtension extends Extension {
+    constructor(metadata) {
+        super(metadata);
         this._indicator = null;
     }
     
     enable() {
-        log('Enabling Xray Toggle extension');
+        console.log('Enabling Xray Toggle extension');
         this._indicator = new XrayToggleIndicator();
         Main.panel.addToStatusArea('xray-toggle', this._indicator);
     }
     
     disable() {
-        log('Disabling Xray Toggle extension');
+        console.log('Disabling Xray Toggle extension');
         if (this._indicator) {
             this._indicator.destroy();
             this._indicator = null;
         }
     }
-}
-
-function init() {
-    return new Extension();
 }
