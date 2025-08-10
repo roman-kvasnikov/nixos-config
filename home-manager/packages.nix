@@ -1,113 +1,112 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     # Пользовательские CLI утилиты
-    bat              # Лучший аналог cat
-    bc               # Калькулятор
-    calc             # Расширенный калькулятор
-    jq               # JSON процессор
-    glib             # Системные библиотеки
-    claude-code      # AI ассистент
-    cliphist         # История буфера
-    wl-clipboard     # Wayland clipboard
-    eza              # Современный ls
-    fastfetch        # Информация о системе
-    ffmpeg           # Видео/аудио обработка
+    bat # Лучший аналог cat
+    bc # Калькулятор
+    calc # Расширенный калькулятор
+    jq # JSON процессор
+    glib # Системные библиотеки
+    claude-code # AI ассистент
+    cliphist # История буфера
+    wl-clipboard # Wayland clipboard
+    eza # Современный ls
+    fastfetch # Информация о системе
+    ffmpeg # Видео/аудио обработка
     ffmpegthumbnailer # Превью видео
-    ranger           # Файловый менеджер TUI
-    silicon          # Красивые скриншоты кода
-    tree             # Показ структуры директорий
-    xray             # Proxy tool
-    
+    ranger # Файловый менеджер TUI
+    silicon # Красивые скриншоты кода
+    tree # Показ структуры директорий
+    xray # Proxy tool
+
     # Дополнительные CLI утилиты (2025 recommendations)
-    ripgrep          # Быстрый поиск в файлах
-    fd               # Быстрый find
-    dust             # Современный du
-    duf              # Современный df
-    procs            # Современный ps
-    bandwhich        # Мониторинг сетевого трафика
-    tokei            # Подсчет строк кода
-    hyperfine        # Бенчмарки командной строки
-    doggo            # Современный dig
-    gping            # Визуальный ping
+    ripgrep # Быстрый поиск в файлах
+    fd # Быстрый find
+    dust # Современный du
+    duf # Современный df
+    procs # Современный ps
+    bandwhich # Мониторинг сетевого трафика
+    tokei # Подсчет строк кода
+    hyperfine # Бенчмарки командной строки
+    doggo # Современный dig
+    gping # Визуальный ping
 
     # Терминалы и shells
-    kitty            # Современный терминал (должен быть в home)
-    warp-terminal    # Альтернативный терминал
+    kitty # Современный терминал (должен быть в home)
+    warp-terminal # Альтернативный терминал
 
     # Desktop приложения
-    
+
     # Офисные приложения
-    libreoffice-still  # Офисный пакет
-    evince            # PDF viewer (лучше встроенного в GNOME)
-    obsidian          # Заметки
-    keepassxc         # Менеджер паролей
+    libreoffice-still # Офисный пакет
+    evince # PDF viewer (лучше встроенного в GNOME)
+    obsidian # Заметки
+    keepassxc # Менеджер паролей
 
     # Графические редакторы (современные версии)
-    gimp              # Растровая графика
-    inkscape          # Векторная графика
-    krita             # Цифровая живопись
-    pinta             # Простой редактор
+    gimp # Растровая графика
+    inkscape # Векторная графика
+    krita # Цифровая живопись
+    pinta # Простой редактор
 
     # Мультимедиа
-    vlc               # Универсальный плеер
-    telegram-desktop  # Мессенджер
+    vlc # Универсальный плеер
+    telegram-desktop # Мессенджер
 
     # Веб и разработка
-    postman           # API тестирование
-    filezilla         # FTP клиент
+    postman # API тестирование
+    filezilla # FTP клиент
 
     # Финансы и криптовалюты
-    electrum          # Bitcoin кошелек
+    electrum # Bitcoin кошелек
     # exodus - закомментирован (нестабильный)
 
     # === GNOME ИНТЕГРАЦИЯ ===
 
     # Основные GNOME утилиты (должны быть в home для пользователя)
-    gnome-tweaks              # Настройки GNOME
-    gnome-extension-manager   # Управление расширениями
-    dconf-editor              # Редактор настроек
+    gnome-tweaks # Настройки GNOME
+    gnome-extension-manager # Управление расширениями
+    dconf-editor # Редактор настроек
 
     # GNOME EXTENSIONS (2025 рекомендации)
-    gnomeExtensions.bitcoin-markets       # Криптовалютные курсы
-    gnomeExtensions.blur-my-shell         # Размытие
-    gnomeExtensions.caffeine              # Предотвращение блокировки
-    gnomeExtensions.clipboard-history     # История буфера
-    gnomeExtensions.dash-to-dock          # Док панель
-    gnomeExtensions.just-perfection       # Настройки интерфейса
-    gnomeExtensions.search-light          # Поиск
-    gnomeExtensions.user-themes           # Темы
+    gnomeExtensions.bitcoin-markets # Криптовалютные курсы
+    gnomeExtensions.blur-my-shell # Размытие
+    gnomeExtensions.caffeine # Предотвращение блокировки
+    gnomeExtensions.clipboard-history # История буфера
+    gnomeExtensions.dash-to-dock # Док панель
+    gnomeExtensions.just-perfection # Настройки интерфейса
+    gnomeExtensions.search-light # Поиск
+    gnomeExtensions.user-themes # Темы
 
     # Новые полезные расширения (2025)
-    gnomeExtensions.appindicator          # Системные индикаторы
-    gnomeExtensions.vitals                # Мониторинг системы
-    gnomeExtensions.gsconnect             # Интеграция с Android
-    gnomeExtensions.pop-shell             # Тайловый менеджер окон
-    gnomeExtensions.forge                 # Альтернативный тайловый менеджер
-    gnomeExtensions.rounded-window-corners # Скругленные углы окон
-    
+    gnomeExtensions.appindicator # Системные индикаторы
+    gnomeExtensions.vitals # Мониторинг системы
+    gnomeExtensions.gsconnect # Интеграция с Android
+    gnomeExtensions.pop-shell # Тайловый менеджер окон
+    gnomeExtensions.forge # Альтернативный тайловый менеджер
+
     # Системные утилиты (для пользователя)
-    
+
     # Мониторинг (дополнительно к системным)
-    bottom          # Современный top
-    nvtop           # GPU мониторинг
-    iotop           # I/O мониторинг
-    nethogs         # Сетевой мониторинг по процессам
-    
+    bottom # Современный top
+    nvtop # GPU мониторинг
+    iotop # I/O мониторинг
+    nethogs # Сетевой мониторинг по процессам
+
     # Файловые системы и диски
-    gparted         # Разметка дисков
+    gparted # Разметка дисков
     gnome-disk-utility # Утилита дисков GNOME
-    
+
     # Архиваторы (GUI)
-    ark             # KDE архиватор (лучше file-roller)
-    
+    ark # KDE архиватор (лучше file-roller)
+
     # Современные замены классическим утилитам
-    
+
     # Текстовые редакторы
-    micro           # Современный nano
-    helix           # Современный редактор
-    
+    micro # Современный nano
+    helix # Современный редактор
+
     # Системная информация
-    cpufetch        # CPU информация
-    ramfetch        # RAM информация
+    cpufetch # CPU информация
+    ramfetch # RAM информация
   ];
 }
