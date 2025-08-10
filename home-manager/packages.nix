@@ -38,7 +38,7 @@
     # Офисные приложения
     libreoffice-still # Офисный пакет
     evince # PDF viewer (лучше встроенного в GNOME)
-    # obsidian # Заметки
+    obsidian # Заметки
     keepassxc # Менеджер паролей
 
     # Графические редакторы (современные версии)
