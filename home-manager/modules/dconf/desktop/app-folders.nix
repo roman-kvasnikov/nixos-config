@@ -1,8 +1,9 @@
 {
   dconf.settings = {
-    # Default
-    "org/gnome/desktop/app-folders/folder-children" = {
-      apps = [
+
+    # App folders
+    "org/gnome/desktop/app-folders" = {
+      folder-children = [
         "System"
         "Utilities"
         "Tops"
@@ -17,7 +18,7 @@
     };
 
     # Image Editors
-    "org/gnome/desktop/app-folders/ImageEditors" = {
+    "org/gnome/desktop/app-folders/folders/ImageEditors" = {
       apps = [
         "gimp.desktop"
         "org.inkscape.Inkscape.desktop"
@@ -35,7 +36,7 @@
     };
 
     # Development
-    "org/gnome/desktop/app-folders/Development" = {
+    "org/gnome/desktop/app-folders/folders/Development" = {
       apps = [
         "cursor.desktop"
         "filezilla.desktop"
@@ -51,7 +52,7 @@
     };
 
     # Tops
-    "org/gnome/desktop/app-folders/Tops" = {
+    "org/gnome/desktop/app-folders/folders/Tops" = {
       apps = [
         "bottom.desktop"
         "btop.desktop"
@@ -66,7 +67,7 @@
     };
 
     # Terminals
-    "org/gnome/desktop/app-folders/Terminals" = {
+    "org/gnome/desktop/app-folders/folders/Terminals" = {
       apps = [
         "kitty.desktop"
         "fish.desktop"
@@ -82,7 +83,7 @@
     };
 
     # Office
-    "org/gnome/desktop/app-folders/Office" = {
+    "org/gnome/desktop/app-folders/folders/Office" = {
       apps = [
         "startcenter.desktop"
         "base.desktop"
@@ -102,7 +103,7 @@
     };
 
     # Multimedia
-    "org/gnome/desktop/app-folders/Multimedia" = {
+    "org/gnome/desktop/app-folders/folders/Multimedia" = {
       apps = [
         "org.gnome.Decibels.desktop"
         "vlc.desktop"
@@ -118,7 +119,7 @@
     };
 
     # Organizer
-    "org/gnome/desktop/app-folders/Organizer" = {
+    "org/gnome/desktop/app-folders/folders/Organizer" = {
       apps = [
         "org.gnome.Calendar.desktop"
         "org.gnome.Maps.desktop"
@@ -136,7 +137,7 @@
     };
 
     # Text Editors
-    "org/gnome/desktop/app-folders/TextEditors" = {
+    "org/gnome/desktop/app-folders/folders/TextEditors" = {
       apps = [
         "org.gnome.TextEditor.desktop"
         "micro.desktop"
