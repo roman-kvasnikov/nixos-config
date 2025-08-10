@@ -24,8 +24,12 @@
       user = user.name;
     };
 
-    # Отключить X11 forwarding для безопасности
-    openssh.settings.X11Forwarding = false;
+    openssh = {
+      enable = false;
+      settings = {
+        X11Forwarding = false;
+      };
+    };
 
     # Современные аудио настройки
     pipewire = {

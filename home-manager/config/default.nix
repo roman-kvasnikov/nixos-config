@@ -22,6 +22,7 @@
 
   imports = [
     ./gtk.nix
+    ./ssh.nix
     ./xdg.nix
   ];
 }

@@ -22,7 +22,17 @@
       curl
       wget
       git
+      gh # GitHub CLI
       rsync
+
+      # SSH утилиты
+      ssh-to-age      # Конвертация SSH ключей в age
+      ssh-copy-id     # Копирование ключей на сервер
+      ssh-audit       # Аудит SSH безопасности  
+      openssh         # SSH клиент
+      sshfs           # Монтирование по SSH
+      rsync           # Синхронизация по SSH
+      mosh            # Mobile shell (альтернатива SSH)
 
       # Архиваторы (системные зависимости)
       gzip
