@@ -11,5 +11,12 @@
     ../../nixos/packages.nix
   ];
 
+  services.openssh = {
+    enable = false;
+    settings = {
+      X11Forwarding = false;
+    };
+  };
+
   system.stateVersion = version;
 }

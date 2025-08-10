@@ -24,13 +24,6 @@
     #   user = user.name;
     # };
 
-    openssh = {
-      enable = false;
-      settings = {
-        X11Forwarding = false;
-      };
-    };
-
     # Современные аудио настройки
     pipewire = {
       enable = true;
