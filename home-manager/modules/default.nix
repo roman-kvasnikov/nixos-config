@@ -12,7 +12,6 @@
     ./kitty.nix
     ./ssh.nix
     ./stylix.nix
-    ./whatsapp.nix
     ./yazi.nix
   ];
 }
