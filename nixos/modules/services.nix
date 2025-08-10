@@ -45,12 +45,6 @@
     # Firmware updates для безопасности
     fwupd.enable = true;
 
-    # Современная печать (если нужно)
-    printing = {
-      enable = true;
-      drivers = with pkgs; [ hplip cups-pdf ];
-    };
-
     # Bluetooth оптимизация
     blueman.enable = true;
 
