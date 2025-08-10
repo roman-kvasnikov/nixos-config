@@ -78,25 +78,5 @@
       connect-timeout = 10;
       stalled-download-timeout = 300;
     };
-
-    # Дополнительные настройки для 2025
-    extraOptions = ''
-      # Ускорение сборки за счет меньших проверок
-      builders-use-substitutes = true
-
-      # Оптимизация сети
-      http2 = true
-    '';
-
-    # Registry для flakes (2025 best practice)
-    # registry = {
-    #   nixpkgs.flake = pkgs.path;
-    #   templates.flake = "github:NixOS/templates";
-    # };
-
-    # Nixpkgs конфигурация
-    nixPath = [
-      "nixpkgs=${pkgs.path}"
-    ];
   };
 }
