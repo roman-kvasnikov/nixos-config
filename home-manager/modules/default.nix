@@ -4,7 +4,8 @@
     ./code-cursor
     ./dconf
     ./fastfetch
-    ./xray
+    ./obsidian
+    ./xrayctl
     ./discord.nix
     ./fish.nix
     ./git.nix

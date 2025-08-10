@@ -1,6 +1,7 @@
 {
   imports = [
     ./boot.nix
+    # ./battery.nix
     ./environment.nix
     ./fonts.nix
     ./hardware.nix

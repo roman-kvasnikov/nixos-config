@@ -1,16 +1,25 @@
-{pkgs, ...}: let
+{config, pkgs, ...}: let
+  vaultDir = "${config.home.homeDirectory}/Documents/ObsidianVault";
+
   gitSyncObsidian =
-    pkgs.writeScriptBin "git-sync-obsidian"
-    ''
+    pkgs.writeScriptBin "git-sync-obsidian" ''
       #!/bin/sh
 
-      VAULT_DIR="$HOME/para"
+      VAULT_DIR="${vaultDir}"
+
       cd $VAULT_DIR || exit 1
+
       git add .
       git commit -m "$(date '+%Y-%m-%d %H:%M:%S')" || exit 0
+      git push
     '';
 in {
-  home.packages = [gitSyncObsidian];
+  home = {
+    packages = [gitSyncObsidian];
+    file = {
+      "${vaultDir}/.keep".text = "";
+    };
+  };
 
   systemd.user.services.git-sync-obsidian = {
     Unit = {
