@@ -68,7 +68,7 @@
       gnome-console # Console
       gnome-characters # Редко используется
       gnomeExtensions.order-gnome-shell-extensions # Extensions
-      gnome.gnome-shell-extensions # Extensions
+      gnome-shell-extensions # Extensions
       gnome-extension-manager # Extensions
       gnome-tour # Тур по Gnome
       gnome-contacts # Контакты
