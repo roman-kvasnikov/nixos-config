@@ -1,4 +1,4 @@
-{config, ...}: {
+{config, pkgs, ...}: {
   # Автоматически развернуть SSH ключи в ~/.ssh/ (если они существуют)
   # home.file =
   #   let
@@ -22,10 +22,10 @@
 
   home.file = {
     ".ssh/id_ed25519" = {
-      source = ./../ssh-keys/id_ed25519;
+      source = pkgs.lib.cleanSource ./../ssh-keys/id_ed25519;
     };
     ".ssh/id_ed25519.pub" = {
-      source = ./../ssh-keys/id_ed25519.pub;
+      source = pkgs.lib.cleanSource ./../ssh-keys/id_ed25519.pub;
     };
   };
 
