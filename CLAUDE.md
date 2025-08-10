@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Common Commands
 
 ### Применение конфигурации системы
+
 ```bash
 sudo nixos-rebuild switch --flake .#nixos
 # Или для VM:
@@ -16,6 +17,7 @@ sudo nixos-rebuild switch --flake .#nixos-vm
 ```
 
 ### Применение home-manager конфигурации
+
 ```bash
 home-manager switch --flake .#romank@nixos
 # Или для VM:
@@ -23,22 +25,26 @@ home-manager switch --flake .#romank@nixos-vm
 ```
 
 ### Форматирование Nix-кода
+
 ```bash
 # Используется alejandra форматтер (включен в flake.nix)
 alejandra .
 ```
 
 ### Проверка flake
+
 ```bash
 nix flake check
 ```
 
 ### Обновление зависимостей
+
 ```bash
 nix flake update
 ```
 
 ### Сборка без применения изменений
+
 ```bash
 nixos-rebuild build --flake .#nixos
 ```
@@ -92,16 +98,19 @@ nixos-rebuild build --flake .#nixos
 Конфигурация была оптимизирована согласно NixOS best practices 2025:
 
 ### Исправлены критические проблемы:
+
 - ✅ Исправлена опечатка `grp:ctrl_shift_toogle` → `grp:ctrl_shift_toggle`
 - ✅ Убрано дублирование настроек клавиатуры (теперь только в dconf)
 - ✅ Консолидировано управление шрифтами через stylix
 
 ### Структурные улучшения:
+
 - ✅ Создан `shared.nix` для общих настроек хостов
 - ✅ Очищены неиспользуемые закомментированные модули
 - ✅ Активирован Brave browser (был закомментирован)
 
 ### Performance оптимизации:
+
 - ✅ Сборка мусора изменена с 30d на 1w для экономии места
 - ✅ Добавлен лимит в 10 generations
 - ✅ Настроен nix-community binary cache
@@ -109,6 +118,7 @@ nixos-rebuild build --flake .#nixos
 - ✅ Оптимизированы настройки Nix store
 
 ### Архитектурные улучшения:
+
 - ✅ Убрано дублирование шрифтов между system и stylix
 - ✅ Упрощена структура flake.nix с использованием shared.nix
 - ✅ Очищен код от устаревших закомментированных блоков
