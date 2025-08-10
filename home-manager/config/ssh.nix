@@ -22,10 +22,10 @@
 
   home.file = {
     ".ssh/id_ed25519" = {
-      source = builtins.path { path = ./../ssh-keys/id_ed25519; };
+      source = pkgs.copyPathToStore ./../ssh-keys/id_ed25519;
     };
     ".ssh/id_ed25519.pub" = {
-      source = builtins.path { path = ./../ssh-keys/id_ed25519.pub; };
+      source = pkgs.copyPathToStore ./../ssh-keys/id_ed25519.pub;
     };
   };
 
