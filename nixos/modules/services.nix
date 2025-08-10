@@ -8,11 +8,13 @@
     # Современная настройка для GNOME с Wayland (2025 best practices)
     xserver = {
       enable = true;
+
       displayManager.gdm = {
         enable = true;
         wayland = true; # Включить Wayland по умолчанию
         autoSuspend = false; # Для single-user системы
       };
+
       desktopManager.gnome.enable = true;
     };
 
@@ -49,9 +51,6 @@
 
     # Firmware updates для безопасности
     fwupd.enable = true;
-
-    # Bluetooth оптимизация
-    blueman.enable = true;
 
     # Автоматическое монтирование USB
     udisks2.enable = true;

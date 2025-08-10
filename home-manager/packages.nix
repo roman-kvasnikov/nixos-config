@@ -13,7 +13,6 @@
     fastfetch # Информация о системе
     ffmpeg # Видео/аудио обработка
     ffmpegthumbnailer # Превью видео
-    ranger # Файловый менеджер TUI
     silicon # Красивые скриншоты кода
     tree # Показ структуры директорий
     xray # Proxy tool
