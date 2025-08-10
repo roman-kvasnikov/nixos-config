@@ -7,11 +7,11 @@
 
       hinting = {
         enable = true;
-        style = "slight";      # Современный hinting
+        style = "slight"; # Современный hinting
       };
 
       subpixel = {
-        rgba = "rgb";          # Для LCD мониторов
+        rgba = "rgb"; # Для LCD мониторов
         lcdfilter = "default";
       };
     };

@@ -7,9 +7,9 @@
   nixpkgs.config = {
     allowUnfree = true;
     # Оптимизации для single-user системы
-    permittedInsecurePackages = [
-      # При необходимости добавить здесь разрешенные небезопасные пакеты
-    ];
+    # permittedInsecurePackages = [
+    #   # При необходимости добавить здесь разрешенные небезопасные пакеты
+    # ];
   };
 
   environment = {
@@ -54,21 +54,21 @@
     # Минимальные GNOME пакеты (убрать максимально)
     gnome.excludePackages = with pkgs; [
       # Приложения (заменим на лучшие аналоги в home-manager)
-      gnome-tour        # Тур не нужен
-      gnome-music       # Есть более современные альтернативы
-      gnome-photos      # Gimp/другие редакторы лучше
-      gnome-contacts    # Thunderbird или веб-версии
-      gnome-characters  # Редко используется
-      gnome-terminal    # Используем kitty
+      gnome-tour # Тур не нужен
+      gnome-music # Есть более современные альтернативы
+      gnome-photos # Gimp/другие редакторы лучше
+      gnome-contacts # Thunderbird или веб-версии
+      gnome-characters # Редко используется
+      gnome-terminal # Используем kitty
       gnome-font-viewer # Редко нужно
-      gnome-calculator  # Есть лучшие калькуляторы
-      file-roller       # Есть лучшие архиваторы
-      simple-scan       # Редко нужно
-      seahorse          # Используем KeePassXC
-      epiphany          # Используем Brave
-      geary             # Веб-клиенты лучше
-      evolution         # Thunderbird лучше
-      totem             # VLC лучше
+      gnome-calculator # Есть лучшие калькуляторы
+      file-roller # Есть лучшие архиваторы
+      simple-scan # Редко нужно
+      seahorse # Используем KeePassXC
+      epiphany # Используем Brave
+      geary # Веб-клиенты лучше
+      evolution # Thunderbird лучше
+      totem # VLC лучше
 
       # Игры (не нужны для рабочего компьютера)
       aisleriot
@@ -90,8 +90,8 @@
       gnome-user-docs
 
       # Дополнительные приложения
-      cheese            # Камера - редко используется
-      baobab            # Анализатор дисков - есть альтернативы
+      cheese # Камера - редко используется
+      baobab # Анализатор дисков - есть альтернативы
     ];
   };
 }

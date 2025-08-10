@@ -3,7 +3,7 @@
 
   inputs = {
     # === ОСНОВНЫЕ INPUTS ===
-    
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
 
     home-manager = {
@@ -12,7 +12,7 @@
     };
 
     # === СИСТЕМНЫЕ РАСШИРЕНИЯ ===
-    
+
     stylix = {
       url = "github:nix-community/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,17 +24,17 @@
     # };
 
     # === DEVELOPMENT TOOLS ===
-    
+
     alejandra = {
       url = "github:kamadorueda/alejandra/4.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Pre-commit hooks для качества кода (2025)
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # pre-commit-hooks = {
+    #   url = "github:cachix/pre-commit-hooks.nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # === ПЕРСОНАЛЬНЫЕ РЕПОЗИТОРИИ ===
 
@@ -98,12 +98,12 @@
       hosts
     );
 
-    homeConfigurations = builtins.listToAttrs (
-      map (host: {
-        name = "${user.name}@${host.hostname}";
-        value = makeHome host;
-      })
-      hosts
-    );
+    # homeConfigurations = builtins.listToAttrs (
+    #   map (host: {
+    #     name = "${user.name}@${host.hostname}";
+    #     value = makeHome host;
+    #   })
+    #   hosts
+    # );
   };
 }
