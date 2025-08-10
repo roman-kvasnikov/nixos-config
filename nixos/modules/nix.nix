@@ -10,7 +10,7 @@
     gc = {
       automatic = true;
       dates = "daily";
-      options = "--delete-older-than 1w";
+      options = "--delete-older-than 7d";
       randomizedDelaySec = "1h"; # Случайная задержка для SSD
     };
 
