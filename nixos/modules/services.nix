@@ -1,4 +1,4 @@
-{pkgs, user, ...}: {
+{pkgs, lib, user, ...}: {
   services = {
     # Современная настройка для GNOME с Wayland (2025 best practices)
     xserver = {
