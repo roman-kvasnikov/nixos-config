@@ -2,7 +2,7 @@
   # Автоматически развернуть SSH ключи в ~/.ssh/ (если они существуют)
   home.file =
     let
-      keyPath = "./ssh-keys";
+      keyPath = "../ssh-keys";
       # Функция для создания условного файла
       mkSshKey = keyName: {
         "${config.home.homeDirectory}/.ssh/${keyName}" = {
