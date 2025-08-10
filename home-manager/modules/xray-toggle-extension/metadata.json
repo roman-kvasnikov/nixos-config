@@ -1,0 +1,15 @@
+{
+  "uuid": "xray-toggle@romank-nixos",
+  "name": "Xray Toggle",
+  "description": "Быстрое включение/выключение Xray прокси из панели GNOME",
+  "version": 1,
+  "shell-version": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+  ],
+  "url": "https://github.com/roman-kvasnikov/nixos-config",
+  "gettext-domain": "xray-toggle"
+}
