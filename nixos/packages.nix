@@ -64,14 +64,22 @@
     # Минимальные GNOME пакеты (убрать максимально)
     gnome.excludePackages = with pkgs; [
       # Приложения (заменим на лучшие аналоги в home-manager)
-      gnome-console # Используем Kitty
-      gnome-tour # Тур не нужен
-      gnome-music # Есть более современные альтернативы
-      gnome-photos # Gimp/другие редакторы лучше
-      gnome-contacts # Thunderbird или веб-версии
-      gnome-characters # Редко используется
-      gnome-terminal # Используем kitty
-      gnome-font-viewer # Редко нужно
+      gnome-control-center    # Control Center (включая Manage Printing)
+      gnome-extensions-app    # Extensions
+      gnome-console           # Console
+      gnome-characters        # Редко используется
+      gnome-tour              # Тур по Gnome
+      gnome-contacts          # Контакты
+      gnome-music             # Музыка
+      gnome-photos            # Фото
+      gnome-videos            # Видео
+      gnome-software          # Центр приложений
+      gnome-boxes             # Виртуальные машины
+      gnome-builder           # IDE для разработки
+      gnome-font-viewer       # Просмотр шрифтов
+      gnome-terminal          # Используем kitty
+      gnome-tweaks            # Настройки Gnome
+
       file-roller # Есть лучшие архиваторы
       simple-scan # Редко нужно
       seahorse # Используем KeePassXC

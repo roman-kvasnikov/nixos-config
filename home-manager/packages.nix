@@ -51,7 +51,7 @@
     # Мультимедиа
     vlc # Универсальный плеер
     telegram-desktop # Мессенджер
-    vesktop # Discord
+    # vesktop # Discord
 
     # Веб и разработка
     postman # API тестирование

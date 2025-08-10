@@ -17,26 +17,26 @@
       ];
     };
 
-    # Image Editors
-    "org/gnome/desktop/app-folders/folders/ImageEditors" = {
+    # System
+    "org/gnome/desktop/app-folders/folders/System" = {
       apps = [
-        "gimp.desktop"
-        "org.inkscape.Inkscape.desktop"
-        "org.kde.krita.desktop"
-        "pinta.desktop"
+        "org.gnome.Nautilus.desktop"
+        "org.gnome.DiskUtility.desktop"
+        "org.gnome.Logs.desktop"
+        "org.gnome.SystemMonitor.desktop"
       ];
-      name = "Image Editors";
+      name = "System";
       translate = false;
     };
 
-    # Development
-    "org/gnome/desktop/app-folders/folders/Development" = {
+    # Utilities
+    "org/gnome/desktop/app-folders/folders/Utilities" = {
       apps = [
-        "cursor.desktop"
-        "filezilla.desktop"
-        "postman.desktop"
+        "org.gnome.Connections.desktop"
+        "org.gnome.Evince.desktop"
+        "org.gnome.Loupe.desktop"
       ];
-      name = "Development";
+      name = "Utilities";
       translate = false;
     };
 
@@ -87,16 +87,15 @@
       translate = false;
     };
 
-    # Organizer
-    "org/gnome/desktop/app-folders/folders/Organizer" = {
+    # Image Editors
+    "org/gnome/desktop/app-folders/folders/ImageEditors" = {
       apps = [
-        "org.gnome.Calendar.desktop"
-        "org.gnome.Maps.desktop"
-        "org.gnome.Weather.desktop"
-        "org.gnome.clocks.desktop"
-        "org.gnome.Calculator.desktop"
+        "gimp.desktop"
+        "org.inkscape.Inkscape.desktop"
+        "org.kde.krita.desktop"
+        "pinta.desktop"
       ];
-      name = "Organizer";
+      name = "Image Editors";
       translate = false;
     };
 
@@ -107,6 +106,31 @@
         "micro.desktop"
       ];
       name = "Text Editors";
+      translate = false;
+    };
+
+    # Development
+    "org/gnome/desktop/app-folders/folders/Development" = {
+      apps = [
+        "cursor.desktop"
+        "filezilla.desktop"
+        "postman.desktop"
+      ];
+      name = "Development";
+      translate = false;
+    };
+
+    # Organizer
+    "org/gnome/desktop/app-folders/folders/Organizer" = {
+      apps = [
+        "org.gnome.Calendar.desktop"
+        "org.gnome.Maps.desktop"
+        "org.gnome.Weather.desktop"
+        "org.gnome.clocks.desktop"
+        "org.gnome.Calculator.desktop"
+        "obsidian.desktop"
+      ];
+      name = "Organizer";
       translate = false;
     };
   };
