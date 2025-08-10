@@ -64,6 +64,7 @@
     # Минимальные GNOME пакеты (убрать максимально)
     gnome.excludePackages = with pkgs; [
       # Приложения (заменим на лучшие аналоги в home-manager)
+      gnome-console # Используем Kitty
       gnome-tour # Тур не нужен
       gnome-music # Есть более современные альтернативы
       gnome-photos # Gimp/другие редакторы лучше
