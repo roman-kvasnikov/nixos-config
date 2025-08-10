@@ -5,10 +5,17 @@
 
   services.chrome-pwa.enable = true;
 
-  programs.chrome-pwa.apps = {
-    whatsapp = {
-      name = "WhatsApp";
-      url = "https://web.whatsapp.com";
-    };
-  };
+  # Создание .desktop файла для Discord PWA
+  home.file.".local/share/applications/whatsapp-pwa.desktop".text = ''
+    [Desktop Entry]
+    Name=WhatsApp
+    Comment=WhatsApp - Голосовой и текстовый чат для геймеров
+    Exec=brave --app=https://web.whatsapp.com
+    Icon=whatsapp
+    Type=Application
+    Categories=Network;InstantMessaging;
+    Keywords=whatsapp;chat;voice;gaming;
+    StartupWMClass=whatsapp.com
+    NoDisplay=false
+  '';
 }
