@@ -1,6 +1,5 @@
 {
   imports = [
-    ./app-groups.nix
     ./boot.nix
     # ./battery.nix
     ./environment.nix

@@ -19,10 +19,10 @@
     };
 
     # Автоматический логин для единственного пользователя
-    displayManager.autoLogin = {
-      enable = true;
-      user = user.name;
-    };
+    # displayManager.autoLogin = {
+    #   enable = true;
+    #   user = user.name;
+    # };
 
     openssh = {
       enable = false;

@@ -71,7 +71,6 @@
       gnome-characters # Редко используется
       gnome-terminal # Используем kitty
       gnome-font-viewer # Редко нужно
-      gnome-calculator # Есть лучшие калькуляторы
       file-roller # Есть лучшие архиваторы
       simple-scan # Редко нужно
       seahorse # Используем KeePassXC

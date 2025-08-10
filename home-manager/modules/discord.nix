@@ -1,6 +1,4 @@
-{pkgs, ...}: {
-  home.packages = [pkgs.vesktop];
-
+{
   xdg.desktopEntries.vesktop = {
     name = "Discord";
     exec = "vesktop %U";

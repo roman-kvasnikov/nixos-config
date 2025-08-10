@@ -18,6 +18,7 @@
     xray # Proxy tool
 
     # Дополнительные CLI утилиты (2025 recommendations)
+    s3fs # Mount an S3 bucket as filesystem through FUSE
     ripgrep # Быстрый поиск в файлах
     fd # Быстрый find
     dust # Современный du
@@ -50,6 +51,7 @@
     # Мультимедиа
     vlc # Универсальный плеер
     telegram-desktop # Мессенджер
+    vesktop # Discord
 
     # Веб и разработка
     postman # API тестирование
@@ -62,9 +64,9 @@
     # === GNOME ИНТЕГРАЦИЯ ===
 
     # Основные GNOME утилиты (должны быть в home для пользователя)
-    gnome-tweaks # Настройки GNOME
-    gnome-extension-manager # Управление расширениями
-    dconf-editor # Редактор настроек
+    # gnome-tweaks # Настройки GNOME
+    # gnome-extension-manager # Управление расширениями
+    # dconf-editor # Редактор настроек
 
     # GNOME EXTENSIONS (2025 рекомендации)
     gnomeExtensions.bitcoin-markets # Криптовалютные курсы
@@ -77,11 +79,11 @@
     gnomeExtensions.user-themes # Темы
 
     # Новые полезные расширения (2025)
-    gnomeExtensions.appindicator # Системные индикаторы
-    gnomeExtensions.vitals # Мониторинг системы
-    gnomeExtensions.gsconnect # Интеграция с Android
-    gnomeExtensions.pop-shell # Тайловый менеджер окон
-    gnomeExtensions.forge # Альтернативный тайловый менеджер
+    # gnomeExtensions.appindicator # Системные индикаторы
+    # gnomeExtensions.vitals # Мониторинг системы
+    # gnomeExtensions.gsconnect # Интеграция с Android
+    # gnomeExtensions.pop-shell # Тайловый менеджер окон
+    # gnomeExtensions.forge # Альтернативный тайловый менеджер
 
     # Системные утилиты (для пользователя)
 
@@ -91,14 +93,13 @@
     nethogs # Сетевой мониторинг по процессам
 
     # Файловые системы и диски
-    gparted # Разметка дисков
+    # gparted # Разметка дисков
     gnome-disk-utility # Утилита дисков GNOME
 
     # Современные замены классическим утилитам
 
     # Текстовые редакторы
     micro # Современный nano
-    helix # Современный редактор
 
     # Системная информация
     cpufetch # CPU информация
