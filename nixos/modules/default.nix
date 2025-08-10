@@ -1,6 +1,7 @@
 {
   imports = [
     ./boot.nix
+    ./environment.nix
     ./fonts.nix
     ./hardware.nix
     ./home-manager.nix
@@ -10,6 +11,7 @@
     ./programs.nix
     ./security.nix
     ./services.nix
+    ./systemd.nix
     ./time.nix
     ./user.nix
   ];

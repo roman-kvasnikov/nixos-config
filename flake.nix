@@ -2,31 +2,41 @@
   description = "Roman-Kvasnikov's NixOS System Configuration";
 
   inputs = {
-    nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-25.05";
-    };
-
+    # === ОСНОВНЫЕ INPUTS ===
+    
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # === СИСТЕМНЫЕ РАСШИРЕНИЯ ===
+    
     stylix = {
       url = "github:nix-community/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    impermanence = {
+      url = "github:nix-community/impermanence";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # === DEVELOPMENT TOOLS ===
+    
     alejandra = {
       url = "github:kamadorueda/alejandra/4.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    impermanence = {
-      url = "github:nix-community/impermanence";
+    # Pre-commit hooks для качества кода (2025)
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # My own repositories
+    # === ПЕРСОНАЛЬНЫЕ РЕПОЗИТОРИИ ===
 
     wallpapers = {
       url = "github:roman-kvasnikov/wallpapers";

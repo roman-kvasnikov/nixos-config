@@ -4,39 +4,73 @@
   system,
   ...
 }: {
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    # Оптимизации для single-user системы
+    permittedInsecurePackages = [
+      # При необходимости добавить здесь разрешенные небезопасные пакеты
+    ];
+  };
 
   environment = {
+    # Системные пакеты (только необходимые для работы системы)
     systemPackages = with pkgs; [
+      # Управление системой
       home-manager
+
+      # Основные утилиты (должны быть в системе для скриптов)
       curl
       wget
       git
+      rsync
+
+      # Архиваторы (системные зависимости)
       gzip
       p7zip
       zip
       unzip
       unrar
+
+      # Форматирование Nix кода
       inputs.alejandra.defaultPackage.${system}
+
+      # Системная диагностика
+      pciutils
+      usbutils
+      lshw
+
+      # Безопасность
+      gnupg
+
+      # Файловая система
+      ntfs3g
+      exfat
+
+      # Мониторинг (для системных служб)
+      htop
+      btop
     ];
 
+    # Минимальные GNOME пакеты (убрать максимально)
     gnome.excludePackages = with pkgs; [
-      # Applications
-      gnome-tour
-      gnome-music
-      gnome-photos
-      gnome-contacts
-      gnome-characters
-      gnome-terminal
-      file-roller
-      simple-scan
-      seahorse
-      epiphany
-      geary
-      evolution
-      totem
+      # Приложения (заменим на лучшие аналоги в home-manager)
+      gnome-tour        # Тур не нужен
+      gnome-music       # Есть более современные альтернативы
+      gnome-photos      # Gimp/другие редакторы лучше
+      gnome-contacts    # Thunderbird или веб-версии
+      gnome-characters  # Редко используется
+      gnome-terminal    # Используем kitty
+      gnome-font-viewer # Редко нужно
+      gnome-calculator  # Есть лучшие калькуляторы
+      file-roller       # Есть лучшие архиваторы
+      simple-scan       # Редко нужно
+      seahorse          # Используем KeePassXC
+      epiphany          # Используем Brave
+      geary             # Веб-клиенты лучше
+      evolution         # Thunderbird лучше
+      totem             # VLC лучше
 
-      # Games
+      # Игры (не нужны для рабочего компьютера)
       aisleriot
       gnome-chess
       gnome-mahjongg
@@ -44,10 +78,20 @@
       tali
       hitori
       atomix
+      four-in-a-row
+      gnome-robots
+      gnome-sudoku
+      gnome-taquin
+      gnome-tetravex
+      lightsoff
 
-      # Documentation
+      # Документация (не нужна в GUI)
       yelp
       gnome-user-docs
+
+      # Дополнительные приложения
+      cheese            # Камера - редко используется
+      baobab            # Анализатор дисков - есть альтернативы
     ];
   };
 }
