@@ -2,7 +2,7 @@
   # Автоматически развернуть SSH ключи в ~/.ssh/ (если они существуют)
   home.file =
     let
-      keyPath = "${config.home.homeDirectory}/.config/nixos/home-manager/ssh-keys";
+      keyPath = "./ssh-keys";
       # Функция для создания условного файла
       mkSshKey = keyName: {
         ".ssh/${keyName}" = {
