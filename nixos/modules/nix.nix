@@ -98,10 +98,10 @@
     '';
 
     # Registry для flakes (2025 best practice)
-    registry = {
-      nixpkgs.flake = pkgs.path;
-      templates.flake = "github:NixOS/templates";
-    };
+    # registry = {
+    #   nixpkgs.flake = pkgs.path;
+    #   templates.flake = "github:NixOS/templates";
+    # };
 
     # Nixpkgs конфигурация
     nixPath = [

@@ -8,9 +8,11 @@
       settings.General.Experimental = true;  # Для новых функций
     };
 
-    # Современные графические драйверы
-    opengl = {
+    graphics = {
       enable = true;
+
+      driSupport = true;
+      driSupport32Bit = true;
 
       # Для AMD/Intel
       extraPackages = with pkgs; [
