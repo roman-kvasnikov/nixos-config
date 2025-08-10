@@ -94,8 +94,5 @@
       # Отключить NCQ для некоторых SSD (если проблемы)
       ACTION=="add|change", KERNEL=="sd[a-z]*", ATTR{queue/nr_requests}="64"
     '';
-
-    # Автоопределение часового пояса
-    automatic-timezoned.enable = true;  
   };
 }
