@@ -10,6 +10,7 @@
       disable-user-extensions = false;
 
       enabled-extensions = with pkgs.gnomeExtensions; [
+        "auto-move-windows@gnome-shell-extensions.gcampax.github.com"
         "bitcoin-markets@ottoallmendinger.github.com"
         "blur-my-shell@aunetx"
         "caffeine@patapon.info"

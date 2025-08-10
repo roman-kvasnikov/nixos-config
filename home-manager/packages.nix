@@ -49,8 +49,8 @@
     pinta # Простой редактор
 
     # Видеоредакторы
-    davinci-resolve # Профессиональный видеоредактор
-    # kdenlive # Видеоредактор
+    # davinci-resolve # Профессиональный видеоредактор
+    kdePackages.kdenlive # Видеоредактор
 
     # Мультимедиа
     vlc # Универсальный плеер
@@ -73,6 +73,7 @@
     # dconf-editor # Редактор настроек
 
     # GNOME EXTENSIONS (2025 рекомендации)
+    gnomeExtensions.auto-move-windows # Автоматическое перемещение окон
     gnomeExtensions.bitcoin-markets # Криптовалютные курсы
     gnomeExtensions.blur-my-shell # Размытие
     gnomeExtensions.caffeine # Предотвращение блокировки
