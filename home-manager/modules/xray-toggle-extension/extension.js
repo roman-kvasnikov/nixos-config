@@ -9,6 +9,7 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
+const XrayToggleIndicator = GObject.registerClass(
 class XrayToggleIndicator extends PanelMenu.Button {
     _init() {
         super._init(0.0, 'Xray Toggle');
@@ -138,7 +139,7 @@ class XrayToggleIndicator extends PanelMenu.Button {
     destroy() {
         super.destroy();
     }
-}
+});
 
 export default class XrayToggleExtension extends Extension {
     constructor(metadata) {
