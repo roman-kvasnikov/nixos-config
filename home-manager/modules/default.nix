@@ -10,6 +10,7 @@
     ./git-sync-obsidian.nix
     ./git.nix
     ./kitty.nix
+    ./ssh.nix
     ./stylix.nix
     ./yazi.nix
   ];
