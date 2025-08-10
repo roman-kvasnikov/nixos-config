@@ -5,6 +5,7 @@
     ./dconf
     ./fastfetch
     ./xrayctl
+    ./app-groups.nix
     ./discord.nix
     ./fish.nix
     ./git-sync-obsidian.nix
