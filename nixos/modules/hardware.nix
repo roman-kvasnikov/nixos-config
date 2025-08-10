@@ -11,9 +11,6 @@
     graphics = {
       enable = true;
 
-      driSupport = true;
-      driSupport32Bit = true;
-
       # Для AMD/Intel
       extraPackages = with pkgs; [
         intel-media-driver    # Intel VAAPI
