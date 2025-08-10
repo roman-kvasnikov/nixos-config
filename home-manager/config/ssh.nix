@@ -1,34 +1,24 @@
 {config, pkgs, ...}: {
   # Автоматически развернуть SSH ключи в ~/.ssh/ (если они существуют)
-  # home.file =
-  #   let
-  #     keyPath = toString ./../ssh-keys;
-  #     # keyPath = "../../home-manager/ssh-keys";
-  #     # Функция для создания условного файла
-  #     mkSshKey = keyName: {
-  #       "${config.home.homeDirectory}/.ssh/${keyName}" = {
-  #         source = "${keyPath}/${keyName}";
-  #       };
-  #     };
-  #   in
-  #   # Основные ключи (раскомментируйте после создания)
-  #   mkSshKey "id_ed25519" //
-  #   mkSshKey "id_ed25519.pub" //
-  #   # mkSshKey "github_id_ed25519" //
-  #   # mkSshKey "github_id_ed25519.pub" //
-  #   # mkSshKey "vps_id_ed25519" //
-  #   # mkSshKey "vps_id_ed25519.pub" //
-  #   {};
-
-  home.file = {
-    ".ssh/id_ed25519" = {
-      text = builtins.readFile ../../ssh-keys/id_ed25519;
-    };
-    ".ssh/id_ed25519.pub" = {
-      text = builtins.readFile ../../ssh-keys/id_ed25519.pub;
-    };
-  };
-
+  home.file =
+    let
+      keyPath = "../ssh-keys";
+      # keyPath = "../../home-manager/ssh-keys";
+      # Функция для создания условного файла
+      mkSshKey = keyName: {
+        "${config.home.homeDirectory}/.ssh/${keyName}" = {
+          source = "${keyPath}/${keyName}";
+        };
+      };
+    in
+    # Основные ключи (раскомментируйте после создания)
+    mkSshKey "id_ed25519" //
+    mkSshKey "id_ed25519.pub" //
+    # mkSshKey "github_id_ed25519" //
+    # mkSshKey "github_id_ed25519.pub" //
+    # mkSshKey "vps_id_ed25519" //
+    # mkSshKey "vps_id_ed25519.pub" //
+    {};
 
   # Установить правильные права доступа для SSH ключей
   home.activation.fixSshPermissions = config.lib.dag.entryAfter ["writeBoundary"] ''
