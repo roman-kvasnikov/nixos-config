@@ -1,7 +1,23 @@
 {
   dconf.settings = {
+    # Default
+    "org/gnome/desktop/app-folders/folder-children" = {
+      apps = [
+        "System"
+        "Utilities"
+        "Tops"
+        "Terminals"
+        "Office"
+        "Multimedia"
+        "ImageEditors"
+        "TextEditors"
+        "Development"
+        "Organizer"
+      ];
+    };
+
     # Image Editors
-    "org/gnome/desktop/app-folders/image-editors" = {
+    "org/gnome/desktop/app-folders/ImageEditors" = {
       apps = [
         "gimp.desktop"
         "org.inkscape.Inkscape.desktop"
@@ -19,7 +35,7 @@
     };
 
     # Development
-    "org/gnome/desktop/app-folders/development" = {
+    "org/gnome/desktop/app-folders/Development" = {
       apps = [
         "cursor.desktop"
         "filezilla.desktop"
@@ -35,7 +51,7 @@
     };
 
     # Tops
-    "org/gnome/desktop/app-folders/tops" = {
+    "org/gnome/desktop/app-folders/Tops" = {
       apps = [
         "bottom.desktop"
         "btop.desktop"
@@ -50,7 +66,7 @@
     };
 
     # Terminals
-    "org/gnome/desktop/app-folders/terminals" = {
+    "org/gnome/desktop/app-folders/Terminals" = {
       apps = [
         "kitty.desktop"
         "fish.desktop"
@@ -66,7 +82,7 @@
     };
 
     # Office
-    "org/gnome/desktop/app-folders/office" = {
+    "org/gnome/desktop/app-folders/Office" = {
       apps = [
         "startcenter.desktop"
         "base.desktop"
@@ -86,7 +102,7 @@
     };
 
     # Multimedia
-    "org/gnome/desktop/app-folders/multimedia" = {
+    "org/gnome/desktop/app-folders/Multimedia" = {
       apps = [
         "org.gnome.Decibels.desktop"
         "vlc.desktop"
@@ -102,7 +118,7 @@
     };
 
     # Organizer
-    "org/gnome/desktop/app-folders/organizer" = {
+    "org/gnome/desktop/app-folders/Organizer" = {
       apps = [
         "org.gnome.Calendar.desktop"
         "org.gnome.Maps.desktop"
@@ -120,7 +136,7 @@
     };
 
     # Text Editors
-    "org/gnome/desktop/app-folders/text-editors" = {
+    "org/gnome/desktop/app-folders/TextEditors" = {
       apps = [
         "org.gnome.TextEditor.desktop"
         "micro.desktop"
