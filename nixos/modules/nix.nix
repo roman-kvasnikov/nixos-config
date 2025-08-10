@@ -86,12 +86,6 @@
 
       # Оптимизация сети
       http2 = true
-
-      # Предварительная загрузка зависимостей
-      pre-build-hook = ${pkgs.writeScript "pre-build-hook" ''
-        #!/bin/sh
-        echo "Starting build of $1"
-      ''}
     '';
 
     # Registry для flakes (2025 best practice)
