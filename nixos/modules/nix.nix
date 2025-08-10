@@ -87,9 +87,6 @@
       # Оптимизация сети
       http2 = true
 
-      # Лучший кеш для повторных сборок
-      build-cache = true
-
       # Предварительная загрузка зависимостей
       pre-build-hook = ${pkgs.writeScript "pre-build-hook" ''
         #!/bin/sh
