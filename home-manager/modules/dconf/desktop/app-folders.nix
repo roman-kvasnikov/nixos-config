@@ -25,12 +25,6 @@
         "org.kde.krita.desktop"
         "pinta.desktop"
       ];
-      categories = [
-        "Graphics"
-        "2DGraphics"
-        "RasterGraphics"
-        "ImageEditor"
-      ];
       name = "Image Editors";
       translate = false;
     };
@@ -41,11 +35,6 @@
         "cursor.desktop"
         "filezilla.desktop"
         "postman.desktop"
-      ];
-      categories = [
-        "Development"
-        "Network"
-        "WebDevelopment"
       ];
       name = "Development";
       translate = false;
@@ -58,10 +47,6 @@
         "btop.desktop"
         "htop.desktop"
       ];
-      categories = [
-        "System"
-        "Monitor"
-      ];
       name = "Tops";
       translate = false;
     };
@@ -72,11 +57,6 @@
         "kitty.desktop"
         "fish.desktop"
         "dev.warp.Warp.desktop"
-      ];
-      categories = [
-        "TerminalEmulator"
-        "Shell"
-        "Development"
       ];
       name = "Terminals";
       translate = false;
@@ -93,11 +73,6 @@
         "math.desktop"
         "writer.desktop"
       ];
-      categories = [
-        "Office"
-        "OfficeSuite"
-        "OfficeSuiteSuite"
-      ];
       name = "Office";
       translate = false;
     };
@@ -107,12 +82,6 @@
       apps = [
         "org.gnome.Decibels.desktop"
         "vlc.desktop"
-      ];
-      categories = [
-        "Multimedia"
-        "AudioVideo"
-        "Audio"
-        "Video"
       ];
       name = "Multimedia";
       translate = false;
@@ -127,11 +96,6 @@
         "org.gnome.clocks.desktop"
         "org.gnome.Calculator.desktop"
       ];
-      categories = [
-        "Office"
-        "OfficeSuite"
-        "OfficeSuiteSuite"
-      ];
       name = "Organizer";
       translate = false;
     };
@@ -141,11 +105,6 @@
       apps = [
         "org.gnome.TextEditor.desktop"
         "micro.desktop"
-      ];
-      categories = [
-        "TextEditor"
-        "Text"
-        "OfficeSuiteSuite"
       ];
       name = "Text Editors";
       translate = false;
