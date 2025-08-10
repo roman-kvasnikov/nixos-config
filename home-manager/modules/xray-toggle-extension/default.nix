@@ -12,6 +12,10 @@
     ".local/share/gnome-shell/extensions/xray-toggle@romank-nixos/metadata.json" = {
       source = ./metadata.json;
     };
+
+    ".local/share/gnome-shell/extensions/xray-toggle@romank-nixos/stylesheet.css" = {
+      source = ./stylesheet.css;
+    };
   };
 
   # Включаем расширение в dconf

@@ -1,0 +1,11 @@
+.xray-toggle-button.xray-enabled {
+	color: #4caf50;
+}
+
+.xray-toggle-button.xray-disabled {
+	color: #f44336;
+}
+
+.xray-toggle-button:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
