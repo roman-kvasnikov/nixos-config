@@ -30,12 +30,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Pre-commit hooks для качества кода (2025)
-    # pre-commit-hooks = {
-    #   url = "github:cachix/pre-commit-hooks.nix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     # === ПЕРСОНАЛЬНЫЕ РЕПОЗИТОРИИ ===
 
     wallpapers = {
