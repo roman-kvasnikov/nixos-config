@@ -15,7 +15,7 @@
         # /dev/vdb - виртуальный диск (для VM)
         # /dev/sda - первый SATA диск
         # /dev/nvme0n1 - первый NVMe SSD
-        device = "/dev/vdb";
+        device = "/dev/sda";
         
         # Содержимое диска - схема разметки
         content = {
