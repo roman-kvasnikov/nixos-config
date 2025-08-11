@@ -1,6 +1,8 @@
 {config, pkgs, ...}: let
   vaultDir = "${config.home.homeDirectory}/Documents/ObsidianVault";
 
+  repoUrl = "git@github.com:roman-kvasnikov/obsidian-vault.git";
+
   gitSyncObsidian =
     pkgs.writeScriptBin "git-sync-obsidian" ''
       #!/bin/sh
@@ -16,10 +18,22 @@
 in {
   home = {
     packages = [gitSyncObsidian];
-    file = {
-      "${vaultDir}/.keep".text = "";
-    };
   };
+
+  # Автоматический клон репозитория при развертывании
+  home.activation.cloneObsidianVault = config.lib.dag.entryAfter ["writeBoundary"] ''
+    if [ ! -d "${vaultDir}/.git" ]; then
+      echo "Клонирование Obsidian Vault из ${repoUrl}..."
+      run rm -rf "${vaultDir}"
+      run ${pkgs.git}/bin/git clone "${repoUrl}" "${vaultDir}"
+      echo "Obsidian Vault успешно склонирован!"
+    else
+      echo "Obsidian Vault уже существует, пропускаем клонирование."
+      cd "${vaultDir}"
+      run ${pkgs.git}/bin/git pull
+      echo "Obsidian Vault обновлен."
+    fi
+  '';
 
   systemd.user.services.git-sync-obsidian = {
     Unit = {
