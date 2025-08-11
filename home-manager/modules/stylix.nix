@@ -10,7 +10,7 @@
 
     image = "${inputs.wallpapers}/jost-van-dyke-british-virgin-islands-beach-boats-clouds-3840x2160-4074.jpg";
     # или
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-hard.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
 
     polarity = "dark";
 
