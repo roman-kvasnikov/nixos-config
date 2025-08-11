@@ -5,18 +5,28 @@
   ...
 }: {
   services = {
-    # Современная настройка для GNOME с Wayland (2025 best practices)
-    xserver = {
+
+    # github:nixos/nixpkgs/nixos-unstable
+    displayManager.gdm = {
       enable = true;
-
-      displayManager.gdm = {
-        enable = true;
-        wayland = true; # Включить Wayland по умолчанию
-        autoSuspend = false; # Для single-user системы
-      };
-
-      desktopManager.gnome.enable = true;
+      wayland = true; # Включить Wayland по умолчанию
+      autoSuspend = false; # Для single-user системы
     };
+
+    desktopManager.gnome.enable = true;
+
+    # github:nixos/nixpkgs/nixos-25.05
+    # xserver = {
+    #   enable = true;
+
+    #   displayManager.gdm = {
+    #     enable = true;
+    #     wayland = true; # Включить Wayland по умолчанию
+    #     autoSuspend = false; # Для single-user системы
+    #   };
+
+    #   desktopManager.gnome.enable = true;
+    # };
 
     # Автоматический логин для единственного пользователя
     # displayManager.autoLogin = {
