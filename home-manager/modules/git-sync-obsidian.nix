@@ -22,9 +22,12 @@ in {
 
   # Автоматический клон репозитория при развертывании
   home.activation.cloneObsidianVault = config.lib.dag.entryAfter ["writeBoundary"] ''
+    export GIT_SSH_COMMAND="${pkgs.openssh}/bin/ssh -i ~/.ssh/id_ed25519"
+
     if [ ! -d "${vaultDir}/.git" ]; then
       echo "Клонирование Obsidian Vault из ${repoUrl}..."
       run rm -rf "${vaultDir}"
+      run mkdir -p "${vaultDir}"
       run ${pkgs.git}/bin/git clone "${repoUrl}" "${vaultDir}"
       echo "Obsidian Vault успешно склонирован!"
     else
