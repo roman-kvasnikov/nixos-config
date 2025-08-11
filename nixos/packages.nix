@@ -64,7 +64,7 @@
     # Минимальные GNOME пакеты (убрать максимально)
     gnome.excludePackages = with pkgs; [
       # Приложения (заменим на лучшие аналоги в home-manager)
-      gnome-control-center # Control Center (включая Manage Printing)
+      # gnome-control-center # Control Center (включая Manage Printing)
       gnome-console # Console
       gnome-characters # Редко используется
       gnomeExtensions.order-gnome-shell-extensions # Extensions
