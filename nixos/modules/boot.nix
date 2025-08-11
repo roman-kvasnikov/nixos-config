@@ -2,18 +2,18 @@
   boot = {
     loader = {
       # systemd-boot is the default loader for NixOS
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 20; # 20 boot entries
-      };
+      # systemd-boot = {
+      #   enable = true;
+      #   configurationLimit = 20; # 20 boot entries
+      # };
 
       # grub is the default loader for NixOS
-      # grub = {
-      #   enable = true;
-      #   efiSupport = true;
-      #   device = "nodev";
-      #   useOSProber = true;
-      # };
+      grub = {
+        enable = true;
+        efiSupport = true;
+        device = "nodev";
+        useOSProber = true;
+      };
 
       efi.canTouchEfiVariables = true;
     };
