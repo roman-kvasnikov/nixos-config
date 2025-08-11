@@ -11,7 +11,7 @@
 
     sessionVariables = {
       TERMINAL = "kitty";
-      EDITOR = "nano";
+      EDITOR = "micro";
       XDG_BIN_HOME = "${config.home.homeDirectory}/.local/bin";
     };
 
