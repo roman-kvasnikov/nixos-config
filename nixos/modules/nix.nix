@@ -17,6 +17,7 @@
     settings = {
       # Производительность
       auto-optimise-store = true;
+
       experimental-features = [
         "nix-command"
         "flakes"
@@ -24,6 +25,8 @@
         "fetch-closure" # Closure fetching optimization
         "recursive-nix" # Recursive nix builds
       ];
+
+      download-buffer-size = 536870912; # 512 MB
 
       # Максимальная производительность сборки
       cores = 0; # Использовать все ядра
