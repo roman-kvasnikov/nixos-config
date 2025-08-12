@@ -1,7 +1,7 @@
 {config, pkgs, ...}: let
   wallpapersDir = "${config.home.homeDirectory}/Pictures/Wallpapers";
 
-  repoUrl = "git@github.com:roman-kvasnikov/wallpapers";
+  repoUrl = "git@github.com:roman-kvasnikov/wallpapers.git";
 
   gitSyncWallpapers =
     pkgs.writeScriptBin "git-sync-wallpapers" ''

@@ -36,16 +36,19 @@
     # === ПЕРСОНАЛЬНЫЕ РЕПОЗИТОРИИ ===
 
     obsidianVault = {
-      url = "github:roman-kvasnikov/obsidian-vault";
+      url = "git@github.com:roman-kvasnikov/obsidian-vault.git";
+      # url = "github:roman-kvasnikov/obsidian-vault";
       flake = false;
     };
 
     wallpapers = {
+      # url = "git@github.com:roman-kvasnikov/wallpapers";
       url = "github:roman-kvasnikov/wallpapers";
       flake = false;
     };
 
     vscode-settings = {
+      # url = "git@github.com:roman-kvasnikov/vscode-settings";
       url = "github:roman-kvasnikov/vscode-settings";
       flake = false;
     };

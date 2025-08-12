@@ -260,11 +260,24 @@
         "type": "github"
       }
     },
+    "obsidianVault": {
+      "flake": false,
+      "locked": {
+        "path": "git@github.com:roman-kvasnikov/obsidian-vault.git",
+        "type": "path"
+      },
+      "original": {
+        "path": "git@github.com:roman-kvasnikov/obsidian-vault.git",
+        "type": "path"
+      },
+      "parent": []
+    },
     "root": {
       "inputs": {
         "alejandra": "alejandra",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "obsidianVault": "obsidianVault",
         "stylix": "stylix",
         "vscode-settings": "vscode-settings",
         "wallpapers": "wallpapers"

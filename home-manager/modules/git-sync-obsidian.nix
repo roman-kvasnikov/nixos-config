@@ -1,7 +1,7 @@
 {config, pkgs, ...}: let
   vaultDir = "${config.home.homeDirectory}/Documents/ObsidianVault";
 
-  repoUrl = "git@github.com:roman-kvasnikov/obsidian-vault";
+  repoUrl = "git@github.com:roman-kvasnikov/obsidian-vault.git";
 
   gitSyncObsidian =
     pkgs.writeScriptBin "git-sync-obsidian" ''
