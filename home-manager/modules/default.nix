@@ -6,7 +6,7 @@
     ./fastfetch
     ./xrayctl
     # ./xray-toggle-extension
-    ./discord.nix
+    # ./discord.nix
     ./fish.nix
     ./git-sync-obsidian.nix
     ./git.nix
