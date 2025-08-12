@@ -1,9 +1,7 @@
-{config, pkgs, inputs, ...}: let
-  inherit (inputs) wallpapers;
-
+{config, pkgs, ...}: let
   wallpapersDir = "${config.home.homeDirectory}/Pictures/Wallpapers";
 
-  repoUrl = wallpapers.url;
+  repoUrl = "git@github.com:roman-kvasnikov/wallpapers";
 
   gitSyncWallpapers =
     pkgs.writeScriptBin "git-sync-wallpapers" ''
@@ -43,17 +41,27 @@ in {
   systemd.user.services.git-sync-wallpapers = {
     Unit = {
       Description = "Sync Wallpapers with GitHub";
-      Wants = "git-sync-wallpapers.timer";
+      After = ["network-online.target"];
+      Wants = ["network-online.target"];
     };
+
     Service = {
       ExecStart = "${gitSyncWallpapers}/bin/git-sync-wallpapers";
-      Type = "simple";
+      Type = "oneshot";
+      WorkingDirectory = wallpapersDir;
     };
+
+    Install.WantedBy = ["default.target"];
   };
 
   systemd.user.timers.git-sync-wallpapers = {
     Unit.Description = "Run Git Sync for Wallpapers";
-    Timer.OnCalendar = "*:0/15";
+
+    Timer = {
+      OnCalendar = "*:0/15";
+      Persistent = true;
+    };
+
     Install.WantedBy = ["timers.target"];
   };
 }

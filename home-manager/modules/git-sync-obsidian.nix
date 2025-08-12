@@ -1,7 +1,7 @@
 {config, pkgs, ...}: let
   vaultDir = "${config.home.homeDirectory}/Documents/ObsidianVault";
 
-  repoUrl = "git@github.com:roman-kvasnikov/obsidian-vault.git";
+  repoUrl = "git@github.com:roman-kvasnikov/obsidian-vault";
 
   gitSyncObsidian =
     pkgs.writeScriptBin "git-sync-obsidian" ''
@@ -41,17 +41,27 @@ in {
   systemd.user.services.git-sync-obsidian = {
     Unit = {
       Description = "Sync Obsidian Vault with GitHub";
-      Wants = "git-sync-obsidian.timer";
+      After = ["network-online.target"];
+      Wants = ["network-online.target"];
     };
+
     Service = {
       ExecStart = "${gitSyncObsidian}/bin/git-sync-obsidian";
-      Type = "simple";
+      Type = "oneshot";
+      WorkingDirectory = vaultDir;
     };
+
+    Install.WantedBy = ["default.target"];
   };
 
   systemd.user.timers.git-sync-obsidian = {
     Unit.Description = "Run Git Sync for Obsidian Vault";
-    Timer.OnCalendar = "*:0/15";
+
+    Timer = {
+      OnCalendar = "*:0/15";
+      Persistent = true;
+    };
+
     Install.WantedBy = ["timers.target"];
   };
 }
