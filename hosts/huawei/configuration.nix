@@ -33,7 +33,7 @@
 
     initrd.luks.devices = {
       "crypted" = {
-        device = "/dev/disk/by-uuid/a6cea734-ab18-47c0-b130-e922ba9d678b"; # UUID зашифрованного раздела!
+        device = "/dev/nvme0n1p8"; # UUID зашифрованного раздела!
         preLVM = true; # LUKS расшифровывается ДО активации LVM
       };
     };

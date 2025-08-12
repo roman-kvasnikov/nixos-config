@@ -31,7 +31,7 @@
 
   swapDevices = [
     {
-      device = "/dev/mapper/nixos--vg-swap";
+      device = "/dev/nixos-vg/swap";
       randomEncryption.enable = true;
     }
   ];
