@@ -35,6 +35,11 @@
 
     # === ПЕРСОНАЛЬНЫЕ РЕПОЗИТОРИИ ===
 
+    obsidianVault = {
+      url = "github:roman-kvasnikov/obsidian-vault";
+      flake = false;
+    };
+
     wallpapers = {
       url = "github:roman-kvasnikov/wallpapers";
       flake = false;
