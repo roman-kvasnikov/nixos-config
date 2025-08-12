@@ -11,17 +11,13 @@
     version = "25.05";
   };
 
-  # Список всех хостов
-  hosts = [
-    {
-      hostname = "nixos";
-      system = "x86_64-linux";
-      version = "25.05";
-    }
-    {
-      hostname = "nixos-vm";
-      system = "x86_64-linux";
-      version = "25.05";
-    }
-  ];
+  # Список всех хостов (объединяется с hostDefaults)
+  hosts = let
+    hostList = [
+      { hostname = "huawei"; }
+      { hostname = "nixos"; }
+      { hostname = "nixos-vm"; }
+    ];
+  in
+    map (host: hostDefaults // host) hostList;
 }
