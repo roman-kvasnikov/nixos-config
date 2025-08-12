@@ -8,9 +8,9 @@
   stylix = {
     enable = true;
 
-    image = "${inputs.wallpapers}/jost-van-dyke-british-virgin-islands-beach-boats-clouds-3840x2160-4074.jpg";
+    image = "${inputs.wallpapers}/NixOS/nix-wallpaper-binary-black.png";
     # или
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
 
     polarity = "dark";
 
