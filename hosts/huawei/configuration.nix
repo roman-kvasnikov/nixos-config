@@ -11,11 +11,31 @@
     ../../nixos/packages.nix
   ];
 
-  # Настройка LUKS
-  boot.initrd.luks.devices = {
-    "crypted" = {
-      device = "/dev/disk/by-uuid/a6cea734-ab18-47c0-b130-e922ba9d678b"; # UUID зашифрованного раздела!
-      preLVM = true; # LUKS расшифровывается ДО активации LVM
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
+      efi.efiSysMountPoint = "/boot";
+
+      systemd-boot = {
+        enable = false;
+        configurationLimit = 10; # 10 boot entries
+      };
+
+      grub = {
+        enable = true;
+        efiSupport = true;
+        device = "nodev";
+        useOSProber = true;
+        configurationLimit = 10;
+        default = "saved";  # Запоминать последний выбор
+      };
+    };
+
+    initrd.luks.devices = {
+      "crypted" = {
+        device = "/dev/disk/by-uuid/a6cea734-ab18-47c0-b130-e922ba9d678b"; # UUID зашифрованного раздела!
+        preLVM = true; # LUKS расшифровывается ДО активации LVM
+      };
     };
   };
 

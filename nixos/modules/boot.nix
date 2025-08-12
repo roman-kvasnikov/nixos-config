@@ -1,23 +1,5 @@
 {pkgs, ...}: {
   boot = {
-    loader = {
-      # systemd-boot is the default loader for NixOS
-      # systemd-boot = {
-      #   enable = true;
-      #   configurationLimit = 20; # 20 boot entries
-      # };
-
-      # grub is the default loader for NixOS
-      grub = {
-        enable = true;
-        efiSupport = true;
-        device = "nodev";
-        useOSProber = true;
-      };
-
-      efi.canTouchEfiVariables = true;
-    };
-
     kernel.sysctl = {
       # Оптимизация виртуальной памяти для desktop
       "vm.swappiness" = 10; # Меньше swap для SSD
