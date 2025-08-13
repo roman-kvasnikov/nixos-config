@@ -6,6 +6,7 @@
         # "Discord.desktop:2"
         # "WhatsApp.desktop:2"
         "org.telegram.desktop.desktop:3"
+        "cursor.desktop:4"
         "org.keepassxc.KeePassXC.desktop:5"
       ];
     };
