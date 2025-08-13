@@ -21,6 +21,7 @@ in {
       extensions = with pkgs.vscode-extensions;
         [
           jnoortheen.nix-ide
+          kamadorueda.alejandra
           esbenp.prettier-vscode
           github.github-vscode-theme
           ms-vscode-remote.remote-ssh

@@ -30,7 +30,7 @@
         efiSupport = true;
         useOSProber = true;
         configurationLimit = 10;
-        default = "saved";  # Запоминать последний выбор
+        default = "saved"; # Запоминать последний выбор
       };
     };
 
