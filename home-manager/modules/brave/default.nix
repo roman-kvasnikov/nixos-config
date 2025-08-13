@@ -12,7 +12,6 @@
       {id = "bnjjngeaknajbdcgpfkgnonkmififhfo";} # Fake Filler
       {id = "lfncinhjhjgebfnnblppmbmkgjgifhdf";} # IP Address & Geolocation
       {id = "oboonakemofpalcgghocfoadofidjkkk";} # KeePassXC-Browser
-      {id = "padekgcemlokbadohgkifijomclgjgif";} # Proxy SwitchyOmega
       {id = "nkbihfbeogaeaoehlefnkodbefgpgknn";} # MetaMask
       {id = "egjidjbpglichdcondbcbdnbeeppgdph";} # Trust Wallet
     ];
