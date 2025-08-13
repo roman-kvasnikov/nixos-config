@@ -8,8 +8,8 @@
     # ./xray-toggle-extension
     # ./discord.nix
     ./fish.nix
-    ./git-sync-obsidian.nix
-    ./git-sync-wallpapers.nix
+    # ./git-sync-obsidian.nix
+    # ./git-sync-wallpapers.nix
     ./git.nix
     ./keepassxc.nix
     ./kitty.nix

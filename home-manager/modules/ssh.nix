@@ -6,23 +6,23 @@
 }: {
   programs.ssh = {
     enable = true;
-    
+
     # Глобальные настройки SSH клиента
     extraConfig = ''
       # Используем KeePassXC SSH Agent
       IdentityAgent $SSH_AUTH_SOCK
-      
+
       # Безопасность
       StrictHostKeyChecking ask
       VerifyHostKeyDNS yes
       HashKnownHosts yes
-      
+
       # Оптимизация подключения
       Compression yes
       ServerAliveInterval 60
       ServerAliveCountMax 3
       TCPKeepAlive yes
-      
+
       # Современные алгоритмы шифрования
       KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512
       HostKeyAlgorithms ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,rsa-sha2-512,rsa-sha2-256
@@ -32,13 +32,6 @@
 
     # Примеры хостов (можете настроить под свои нужды)
     matchBlocks = {
-      "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        port = 22;
-        # identityFile будет автоматически управляться через KeePassXC
-      };
-      
       # Пример для других серверов
       # "myserver" = {
       #   hostname = "example.com";
