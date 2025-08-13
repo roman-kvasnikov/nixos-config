@@ -50,7 +50,7 @@
 
     # Видеоредакторы
     # davinci-resolve # Профессиональный видеоредактор
-    kdePackages.kdenlive # Видеоредактор
+    # kdePackages.kdenlive # Видеоредактор
 
     # Мультимедиа
     vlc # Универсальный плеер

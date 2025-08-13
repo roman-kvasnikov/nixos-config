@@ -1,4 +1,5 @@
 {
+  pkgs,
   hostname,
   system,
   version,
@@ -13,8 +14,10 @@
 
   boot = {
     loader = {
-      efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = "/boot";
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot/efi";
+      };
 
       systemd-boot = {
         enable = false;
@@ -23,8 +26,8 @@
 
       grub = {
         enable = true;
-        efiSupport = true;
         device = "nodev";
+        efiSupport = true;
         useOSProber = true;
         configurationLimit = 10;
         default = "saved";  # Запоминать последний выбор
@@ -33,11 +36,15 @@
 
     initrd.luks.devices = {
       "crypted" = {
-        device = "/dev/nvme0n1p8"; # UUID зашифрованного раздела!
+        device = "/dev/nvme0n1p9"; # UUID зашифрованного раздела!
         preLVM = true; # LUKS расшифровывается ДО активации LVM
       };
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    os-prober
+  ];
 
   services.openssh = {
     enable = false;
