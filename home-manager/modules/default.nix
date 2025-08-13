@@ -11,6 +11,7 @@
     ./git-sync-obsidian.nix
     ./git-sync-wallpapers.nix
     ./git.nix
+    ./keepassxc.nix
     ./kitty.nix
     ./ssh.nix
     ./stylix.nix
