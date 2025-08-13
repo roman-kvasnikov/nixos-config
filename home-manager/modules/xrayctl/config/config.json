@@ -71,12 +71,12 @@
 			},
 			{
 				"type": "field",
-				"domain": ["geosite:ru", "geosite:category-ru"],
+				"domain": ["geosite:category-ru"],
 				"outboundTag": "direct"
 			},
 			{
 				"type": "field",
-				"domain": ["regexp:\\.ru$", "regexp:\\.su$"],
+				"domain": ["regexp:.*\\.ru$", "regexp:.*\\.su$"],
 				"outboundTag": "direct"
 			}
 		]
