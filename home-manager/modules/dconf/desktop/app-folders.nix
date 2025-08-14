@@ -131,6 +131,7 @@
     "org/gnome/desktop/app-folders/folders/Crypto" = {
       apps = [
         "electrum.desktop"
+        "exodus.desktop"
       ];
       name = "Crypto";
       translate = false;
