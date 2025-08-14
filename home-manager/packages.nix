@@ -58,6 +58,10 @@
     (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
     (callPackage ./modules/discord-electron/discord-electron.nix {}) # Discord
 
+    # AI assistants
+    (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant
+    (callPackage ./modules/deepseek-electron/deepseek-electron.nix {}) # DeepSeek AI assistant
+
     # Веб и разработка
     postman # API тестирование
     filezilla # FTP клиент

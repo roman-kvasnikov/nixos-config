@@ -24,7 +24,8 @@
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
         "brave-browser.desktop"
-        # "DeepSeek.desktop"
+        "claude-electron.desktop"
+        "deepseek-electron.desktop"
         "discord-electron.desktop"
         "whatsapp-electron.desktop"
         "org.telegram.desktop.desktop"
