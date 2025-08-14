@@ -9,6 +9,15 @@ const {
 } = require('electron')
 const path = require('path')
 
+// Устанавливаем имя приложения до создания окон
+app.setName('whatsapp-electron')
+app.setDesktopName('whatsapp-electron')
+
+// Устанавливаем AppUserModelId для Windows (если будете использовать)
+if (process.platform === 'win32') {
+	app.setAppUserModelId('com.whatsapp.electron')
+}
+
 let mainWindow
 let tray
 

@@ -17,7 +17,7 @@
     desktopName = "WhatsApp";
     comment = "WhatsApp Web in Electron";
     categories = ["Network" "InstantMessaging"];
-    startupWMClass = "WhatsApp";
+    startupWMClass = "whatsapp-electron"; # Должно совпадать с WM_CLASS
   };
 in
   stdenv.mkDerivation rec {
@@ -50,7 +50,10 @@ in
       makeWrapper ${electron}/bin/electron $out/bin/${pname} \
         --add-flags "$out/lib/${pname}/main.js" \
         --add-flags "--enable-features=UseOzonePlatform" \
-        --add-flags "--ozone-platform=wayland"
+        --add-flags "--ozone-platform=wayland" \
+        --set WM_CLASS "whatsapp-electron" \
+        --add-flags "--name=whatsapp-electron" \
+        --add-flags "--class=whatsapp-electron"
 
       # Устанавливаем desktop файл
       cp ${desktopItem}/share/applications/* $out/share/applications/
