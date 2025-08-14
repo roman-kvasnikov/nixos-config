@@ -1,7 +1,5 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {})
-
     # Пользовательские CLI утилиты
     bat # Лучший аналог cat
     bc # Калькулятор
@@ -56,7 +54,8 @@
 
     # Мультимедиа
     vlc # Универсальный плеер
-    telegram-desktop # Мессенджер
+    telegram-desktop # Telegram
+    (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
     # vesktop # Discord
 
     # Веб и разработка

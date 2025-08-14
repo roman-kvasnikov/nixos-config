@@ -1,4 +1,3 @@
-# whatsapp-electron-simple.nix
 {
   lib,
   stdenv,

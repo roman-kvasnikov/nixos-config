@@ -13,11 +13,6 @@ const path = require('path')
 app.setName('whatsapp-electron')
 app.setDesktopName('whatsapp-electron')
 
-// Устанавливаем AppUserModelId для Windows (если будете использовать)
-if (process.platform === 'win32') {
-	app.setAppUserModelId('com.whatsapp.electron')
-}
-
 let mainWindow
 let tray
 
