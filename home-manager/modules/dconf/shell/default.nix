@@ -25,7 +25,8 @@
         "org.gnome.Nautilus.desktop"
         "brave-browser.desktop"
         # "DeepSeek.desktop"
-        # "WhatsApp.desktop"
+        "discord-electron.desktop"
+        "whatsapp-electron.desktop"
         "org.telegram.desktop.desktop"
         "org.keepassxc.KeePassXC.desktop"
       ];

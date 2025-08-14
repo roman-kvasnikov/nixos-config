@@ -56,7 +56,7 @@
     vlc # Универсальный плеер
     telegram-desktop # Telegram
     (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
-    # vesktop # Discord
+    (callPackage ./modules/discord-electron/discord-electron.nix {}) # Discord
 
     # Веб и разработка
     postman # API тестирование

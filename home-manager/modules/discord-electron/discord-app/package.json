@@ -1,0 +1,20 @@
+{
+	"name": "discord-electron",
+	"version": "1.0.0",
+	"description": "Discord in Electron",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron .",
+		"build": "echo 'Build complete'"
+	},
+	"keywords": [
+		"discord",
+		"electron",
+		"messaging"
+	],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"electron": "^28.0.0"
+	}
+}
