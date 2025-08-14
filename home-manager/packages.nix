@@ -1,5 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {})
+
     # Пользовательские CLI утилиты
     bat # Лучший аналог cat
     bc # Калькулятор
