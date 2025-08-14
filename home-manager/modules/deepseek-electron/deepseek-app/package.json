@@ -10,7 +10,8 @@
 	"keywords": [
 		"deepseek",
 		"electron",
-		"ai"
+		"ai",
+		"chat"
 	],
 	"author": "",
 	"license": "MIT",

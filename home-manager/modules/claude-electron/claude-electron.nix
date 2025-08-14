@@ -15,7 +15,7 @@
     icon = pname;
     desktopName = "Claude";
     comment = "Claude in Electron";
-    categories = ["AI" "Chat"];
+    categories = ["Utility" "Network" "X-AI" "Chat"];
     startupWMClass = "claude-electron"; # Должно совпадать с WM_CLASS
   };
 in

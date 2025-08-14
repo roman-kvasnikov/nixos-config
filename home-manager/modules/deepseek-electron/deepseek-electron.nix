@@ -15,7 +15,7 @@
     icon = pname;
     desktopName = "DeepSeek";
     comment = "DeepSeek in Electron";
-    categories = ["AI" "Chat"];
+    categories = ["Utility" "Network" "X-AI" "Chat"];
     startupWMClass = "deepseek-electron"; # Должно совпадать с WM_CLASS
   };
 in

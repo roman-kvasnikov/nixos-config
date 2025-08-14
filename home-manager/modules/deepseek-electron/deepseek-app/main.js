@@ -182,7 +182,7 @@ const packageJson = {
 		start: 'electron .',
 		build: "echo 'Build complete'",
 	},
-	keywords: ['deepseek', 'electron', 'ai'],
+	keywords: ['deepseek', 'electron', 'ai', 'chat'],
 	author: '',
 	license: 'MIT',
 	devDependencies: {
