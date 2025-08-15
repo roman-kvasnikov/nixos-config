@@ -49,7 +49,7 @@
 
       [Security]
       ClearClipboardTimeout=20
-      LockDatabaseIdle=true
+      LockDatabaseIdle=false
       LockDatabaseIdleSeconds=900
       LockDatabaseMinimize=false
       LockDatabaseScreenLock=true
