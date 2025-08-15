@@ -22,6 +22,7 @@
       ];
 
       favorite-apps = [
+        "org.keepassxc.KeePassXC.desktop"
         "org.gnome.Nautilus.desktop"
         "brave-browser.desktop"
         "claude-electron.desktop"
@@ -29,7 +30,6 @@
         # "discord-electron.desktop"
         "whatsapp-electron.desktop"
         "org.telegram.desktop.desktop"
-        "org.keepassxc.KeePassXC.desktop"
       ];
     };
   };

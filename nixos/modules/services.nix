@@ -49,13 +49,11 @@
     pulseaudio.enable = false;
 
     # Системные сервисы для single-user
-    gnome = {
+    gnome = lib.mkForce {
       gnome-keyring.enable = false;
       # Оптимизация для производительности
       at-spi2-core.enable = true;
     };
-
-    pam.services.gdm.enableGnomeKeyring = false;
 
     # Firmware updates для безопасности
     fwupd.enable = true;

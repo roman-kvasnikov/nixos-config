@@ -18,7 +18,7 @@
 
       Service = {
         Type = "simple";
-        ExecStart = "${pkgs.keepassxc}/bin/keepassxc --pw-stdin ${config.services.keepassxcctl.database}";
+        ExecStart = "${pkgs.keepassxc}/bin/keepassxc --minimized --pw-stdin ${config.services.keepassxcctl.database}";
         Restart = "on-failure";
         RestartSec = "3s";
 
@@ -33,22 +33,29 @@
     xdg.configFile."keepassxc/keepassxc.ini".text = ''
       [General]
       ConfigVersion=2
+      HideWindowOnCopy=true
+      MinimizeAfterUnlock=true
+      MinimizeOnOpenUrl=true
       AutoSaveAfterEveryChange=true
       AutoTypeDelay=25
-
-      [Browser]
-      Enabled=true
+      StartMinimized=true
+      SingleInstance=true
 
       [GUI]
+      MinimizeOnStartup=false
+      MinimizeOnClose=true
       ApplicationTheme=dark
       TrayIconAppearance=monochrome-light
 
       [Security]
+      ClearClipboardTimeout=20
       LockDatabaseIdle=true
       LockDatabaseIdleSeconds=900
       LockDatabaseMinimize=false
       LockDatabaseScreenLock=true
-      ClearClipboardTimeout=20
+
+      [Browser]
+      Enabled=true
 
       [SSHAgent]
       Enabled=true
