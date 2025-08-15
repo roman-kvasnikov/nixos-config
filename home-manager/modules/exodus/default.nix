@@ -3,7 +3,15 @@
     exodus
   ];
 
-  xdg.dataFile."icons/exodus.png".source = ./icon.png;
+  xdg = {
+    dataFile."icons/exodus.png".source = ./icon.png;
 
-  xdg.desktopEntries.exodus.icon = "exodus";
+    desktopEntries.exodus = {
+      name = "Exodus";
+      comment = "Crypto wallet";
+      exec = "exodus";
+      icon = "exodus";
+      categories = ["X-Crypto Wallet"];
+    };
+  };
 }

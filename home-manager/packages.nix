@@ -68,7 +68,6 @@
 
     # Финансы и криптовалюты
     electrum # Bitcoin кошелек
-    exodus # Crypto кошелек
 
     # === GNOME ИНТЕГРАЦИЯ ===
 
