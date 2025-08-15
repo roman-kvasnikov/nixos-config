@@ -1,4 +1,4 @@
-{
+{lib, ...}: {
   dconf.settings = {
     # App folders
     "org/gnome/desktop/app-folders" = {
@@ -13,6 +13,35 @@
         "Development"
         "Organizer"
         "Crypto"
+      ];
+    };
+
+    "org/gnome/shell" = let
+      apps = [
+        "System"
+        "Utilities"
+        "Terminals"
+        "Development"
+        "Office"
+        "Multimedia"
+        "ImageEditors"
+        "TextEditors"
+        "Organizer"
+        "Crypto"
+        "org.gnome.Extensions.desktop"
+        "nixos-manual.desktop"
+        "org.gnome.Settings.desktop"
+      ];
+
+      mkAppEntry = name: pos:
+        with lib.hm.gvariant;
+          mkDictionaryEntry [
+            name
+            (mkVariant (mkDictionaryEntry ["position" (mkVariant (mkInt32 pos))]))
+          ];
+    in {
+      app-picker-layout = [
+        (lib.imap0 (i: name: mkAppEntry name i) apps)
       ];
     };
 

@@ -1,20 +1,23 @@
-{config, pkgs, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   vaultDir = "${config.home.homeDirectory}/Documents/ObsidianVault";
 
   repoUrl = "git@github.com:roman-kvasnikov/obsidian-vault.git";
 
-  gitSyncObsidian =
-    pkgs.writeScriptBin "git-sync-obsidian" ''
-      #!/bin/sh
+  gitSyncObsidian = pkgs.writeScriptBin "git-sync-obsidian" ''
+    #!/bin/sh
 
-      VAULT_DIR="${vaultDir}"
+    VAULT_DIR="${vaultDir}"
 
-      cd $VAULT_DIR || exit 1
+    cd $VAULT_DIR || exit 1
 
-      git add .
-      git commit -m "$(date '+%Y-%m-%d %H:%M:%S')" || exit 0
-      git push
-    '';
+    git add .
+    git commit -m "$(date '+%Y-%m-%d %H:%M:%S')" || exit 0
+    git push
+  '';
 in {
   home = {
     packages = [gitSyncObsidian];
@@ -31,7 +34,6 @@ in {
       run ${pkgs.git}/bin/git clone "${repoUrl}" "${vaultDir}"
       echo "Obsidian Vault успешно склонирован!"
     else
-      echo "Obsidian Vault уже существует, пропускаем клонирование."
       cd "${vaultDir}"
       run ${pkgs.git}/bin/git pull
       echo "Obsidian Vault обновлен."

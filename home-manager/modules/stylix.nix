@@ -9,6 +9,7 @@
     enable = true;
 
     image = "${inputs.wallpapers}/NixOS/nix-wallpaper-binary-black.png";
+    imageScalingMode = "fill"; # "fill", "fit", "stretch", "center", "tile"
     # или
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
 
@@ -34,8 +35,16 @@
       };
     };
 
+    opacity = {
+      applications = 1.0; # Непрозрачность приложений
+      desktop = 1.0; # Непрозрачность элементов рабочего стола
+      popups = 0.9; # Прозрачность всплывающих окон
+      terminal = 0.95; # Прозрачность терминала
+    };
+
     targets = {
       gnome.enable = true;
+      kitty.enable = true;
       vscode.enable = false;
     };
   };

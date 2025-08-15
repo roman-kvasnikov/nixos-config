@@ -1,4 +1,4 @@
-// main.js для DeepSeek
+// main.js
 const {
 	app,
 	BrowserWindow,
@@ -9,16 +9,16 @@ const {
 } = require('electron')
 const path = require('path')
 
-// Устанавливаем имя приложения
+// Устанавливаем имя приложения до создания окон
 app.setName('deepseek-electron')
 app.setDesktopName('deepseek-electron')
 
 let mainWindow
 let tray
 
-// ВАЖНО: User Agent от реального Chrome браузера
+// Настройки для DeepSeek
 const USER_AGENT =
-	'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+	'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 
 function createWindow() {
 	// Создаем главное окно
@@ -33,82 +33,17 @@ function createWindow() {
 			webviewTag: false,
 			spellcheck: true,
 			partition: 'persist:deepseek',
-			webSecurity: true,
-			allowRunningInsecureContent: false,
 		},
 		autoHideMenuBar: true,
-		backgroundColor: '#1a1a1a',
+		backgroundColor: '#131C21',
 	})
 
-	// КРИТИЧЕСКИ ВАЖНО: Настройка сессии перед загрузкой
-	const ses = session.fromPartition('persist:deepseek')
-
-	// Устанавливаем User Agent для всей сессии
-	ses.setUserAgent(USER_AGENT)
-
-	// Разрешаем необходимые функции для Cloudflare
-	ses.webRequest.onBeforeSendHeaders((details, callback) => {
-		details.requestHeaders['User-Agent'] = USER_AGENT
-		// Добавляем заголовки как у настоящего браузера
-		details.requestHeaders['Accept'] =
-			'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8'
-		details.requestHeaders['Accept-Language'] = 'en-US,en;q=0.9'
-		details.requestHeaders['Accept-Encoding'] = 'gzip, deflate, br'
-		details.requestHeaders['Sec-Ch-Ua'] =
-			'"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"'
-		details.requestHeaders['Sec-Ch-Ua-Mobile'] = '?0'
-		details.requestHeaders['Sec-Ch-Ua-Platform'] = '"Linux"'
-		details.requestHeaders['Sec-Fetch-Dest'] = 'document'
-		details.requestHeaders['Sec-Fetch-Mode'] = 'navigate'
-		details.requestHeaders['Sec-Fetch-Site'] = 'none'
-		details.requestHeaders['Upgrade-Insecure-Requests'] = '1'
-
-		callback({ requestHeaders: details.requestHeaders })
-	})
-
-	// Включаем WebGL и другие функции, которые проверяет Cloudflare
-	app.commandLine.appendSwitch('enable-webgl')
-	app.commandLine.appendSwitch('enable-accelerated-2d-canvas')
-	app.commandLine.appendSwitch('enable-gpu-rasterization')
-	app.commandLine.appendSwitch('ignore-gpu-blocklist')
-
-	// Отключаем automation режим
-	app.commandLine.appendSwitch('disable-blink-features', 'AutomationControlled')
+	// Устанавливаем User Agent для совместимости
+	mainWindow.webContents.setUserAgent(USER_AGENT)
 
 	// Загружаем DeepSeek
 	mainWindow.loadURL('https://chat.deepseek.com', {
 		userAgent: USER_AGENT,
-	})
-
-	// Инжектим скрипт для обхода детекции автоматизации
-	mainWindow.webContents.on('did-finish-load', () => {
-		mainWindow.webContents.executeJavaScript(`
-      // Удаляем признаки автоматизации
-      Object.defineProperty(navigator, 'webdriver', {
-        get: () => undefined
-      });
-      
-      // Переопределяем navigator.plugins для имитации реального браузера
-      Object.defineProperty(navigator, 'plugins', {
-        get: () => [1, 2, 3, 4, 5]
-      });
-      
-      // Имитируем наличие chrome
-      window.chrome = {
-        runtime: {},
-        loadTimes: function() {},
-        csi: function() {},
-        app: {}
-      };
-      
-      // Переопределяем navigator.permissions
-      const originalQuery = window.navigator.permissions.query;
-      window.navigator.permissions.query = (parameters) => (
-        parameters.name === 'notifications' ?
-          Promise.resolve({ state: Notification.permission }) :
-          originalQuery(parameters)
-      );
-    `)
 	})
 
 	// Обработка внешних ссылок
@@ -125,7 +60,6 @@ function createWindow() {
 				'media',
 				'mediaKeySystem',
 				'clipboard-read',
-				'clipboard-write',
 			]
 			if (allowedPermissions.includes(permission)) {
 				callback(true)
@@ -148,23 +82,6 @@ function createWindow() {
 		{
 			label: 'File',
 			submenu: [
-				{
-					label: 'Reload',
-					accelerator: 'Ctrl+R',
-					click: () => {
-						mainWindow.reload()
-					},
-				},
-				{
-					label: 'Clear Data & Reload',
-					accelerator: 'Ctrl+Shift+R',
-					click: async () => {
-						const ses = session.fromPartition('persist:deepseek')
-						await ses.clearStorageData()
-						mainWindow.reload()
-					},
-				},
-				{ type: 'separator' },
 				{
 					label: 'Quit',
 					accelerator: 'Ctrl+Q',
@@ -241,7 +158,7 @@ app.whenReady().then(() => {
 	createTray()
 })
 
-// Обработка активации приложения
+// Обработка активации приложения (macOS)
 app.on('activate', () => {
 	if (BrowserWindow.getAllWindows().length === 0) {
 		createWindow()
@@ -254,3 +171,21 @@ app.on('activate', () => {
 app.on('window-all-closed', event => {
 	event.preventDefault()
 })
+
+// package.json
+const packageJson = {
+	name: 'deepseek-electron',
+	version: '1.0.0',
+	description: 'DeepSeek in Electron',
+	main: 'main.js',
+	scripts: {
+		start: 'electron .',
+		build: "echo 'Build complete'",
+	},
+	keywords: ['deepseek', 'electron', 'ai', 'chat'],
+	author: '',
+	license: 'MIT',
+	devDependencies: {
+		electron: '^28.0.0',
+	},
+}

@@ -56,11 +56,11 @@
     vlc # Универсальный плеер
     telegram-desktop # Telegram
     (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
-    (callPackage ./modules/discord-electron/discord-electron.nix {}) # Discord
+    # (callPackage ./modules/discord-electron/discord-electron.nix {}) # Discord
 
     # AI assistants
     (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant
-    (callPackage ./modules/deepseek-electron/deepseek-electron.nix {}) # DeepSeek AI assistant
+    # (callPackage ./modules/deepseek-electron/deepseek-electron.nix {}) # DeepSeek AI assistant
 
     # Веб и разработка
     postman # API тестирование

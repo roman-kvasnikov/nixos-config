@@ -16,15 +16,23 @@ app.setDesktopName('discord-electron')
 let mainWindow
 let tray
 
-// ВАЖНО: User Agent от реального Chrome браузера
+// User Agent от реального Chrome браузера
 const USER_AGENT =
 	'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
 
 function createWindow() {
-	// Создаем главное окно
+	// ВАЖНО: Получаем персистентную сессию ДО создания окна
+	const ses = session.fromPartition('persist:discord')
+
+	// Настраиваем cookies для длительного хранения
+	ses.cookies.flushStore(() => {
+		console.log('Cookie store initialized')
+	})
+
+	// Создаем главное окно с персистентной сессией
 	mainWindow = new BrowserWindow({
-		width: 1200,
-		height: 800,
+		width: 1280,
+		height: 720,
 		title: 'Discord',
 		icon: path.join(__dirname, 'icon.png'),
 		webPreferences: {
@@ -32,24 +40,29 @@ function createWindow() {
 			contextIsolation: true,
 			webviewTag: false,
 			spellcheck: true,
-			partition: 'persist:discord',
+			partition: 'persist:discord', // Персистентная сессия для сохранения логина
 			webSecurity: true,
-			allowRunningInsecureContent: false,
+			// Добавляем дополнительные настройки для сохранения данных
+			backgroundThrottling: false,
+			offscreen: false,
 		},
 		autoHideMenuBar: true,
-		backgroundColor: '#1a1a1a',
+		backgroundColor: '#202225',
+		// Сохраняем размеры и позицию окна
+		show: false,
 	})
 
-	// КРИТИЧЕСКИ ВАЖНО: Настройка сессии перед загрузкой
-	const ses = session.fromPartition('persist:discord')
+	// Показываем окно когда оно готово
+	mainWindow.once('ready-to-show', () => {
+		mainWindow.show()
+	})
 
 	// Устанавливаем User Agent для всей сессии
 	ses.setUserAgent(USER_AGENT)
 
-	// Разрешаем необходимые функции для Cloudflare
+	// Разрешаем необходимые функции для Discord
 	ses.webRequest.onBeforeSendHeaders((details, callback) => {
 		details.requestHeaders['User-Agent'] = USER_AGENT
-		// Добавляем заголовки как у настоящего браузера
 		details.requestHeaders['Accept'] =
 			'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8'
 		details.requestHeaders['Accept-Language'] = 'en-US,en;q=0.9'
@@ -58,15 +71,11 @@ function createWindow() {
 			'"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"'
 		details.requestHeaders['Sec-Ch-Ua-Mobile'] = '?0'
 		details.requestHeaders['Sec-Ch-Ua-Platform'] = '"Linux"'
-		details.requestHeaders['Sec-Fetch-Dest'] = 'document'
-		details.requestHeaders['Sec-Fetch-Mode'] = 'navigate'
-		details.requestHeaders['Sec-Fetch-Site'] = 'none'
-		details.requestHeaders['Upgrade-Insecure-Requests'] = '1'
 
 		callback({ requestHeaders: details.requestHeaders })
 	})
 
-	// Включаем WebGL и другие функции, которые проверяет Cloudflare
+	// Включаем функции, необходимые для Discord
 	app.commandLine.appendSwitch('enable-webgl')
 	app.commandLine.appendSwitch('enable-accelerated-2d-canvas')
 	app.commandLine.appendSwitch('enable-gpu-rasterization')
@@ -75,12 +84,23 @@ function createWindow() {
 	// Отключаем automation режим
 	app.commandLine.appendSwitch('disable-blink-features', 'AutomationControlled')
 
-	// Загружаем Discord
-	mainWindow.loadURL('https://discord.com/channels/@me', {
+	// Включаем аудио/видео функции для Discord
+	app.commandLine.appendSwitch('use-fake-ui-for-media-stream')
+	app.commandLine.appendSwitch('enable-media-stream')
+
+	// Загружаем Discord с дополнительными заголовками
+	mainWindow.loadURL('https://discord.com/app', {
 		userAgent: USER_AGENT,
+		httpReferrer: 'https://discord.com/',
+		extraHeaders: 'pragma: no-cache\n',
 	})
 
-	// Инжектим скрипт для обхода детекции автоматизации
+	// Обрабатываем навигацию для сохранения токена
+	mainWindow.webContents.on('did-navigate', (event, url) => {
+		console.log('Navigated to:', url)
+	})
+
+	// Инжектим скрипт для сохранения localStorage и токена
 	mainWindow.webContents.on('did-finish-load', () => {
 		mainWindow.webContents.executeJavaScript(`
       // Удаляем признаки автоматизации
@@ -88,7 +108,7 @@ function createWindow() {
         get: () => undefined
       });
       
-      // Переопределяем navigator.plugins для имитации реального браузера
+      // Переопределяем navigator.plugins
       Object.defineProperty(navigator, 'plugins', {
         get: () => [1, 2, 3, 4, 5]
       });
@@ -101,39 +121,63 @@ function createWindow() {
         app: {}
       };
       
-      // Переопределяем navigator.permissions
-      const originalQuery = window.navigator.permissions.query;
-      window.navigator.permissions.query = (parameters) => (
-        parameters.name === 'notifications' ?
-          Promise.resolve({ state: Notification.permission }) :
-          originalQuery(parameters)
-      );
+      // Сохраняем localStorage при изменениях
+      const originalSetItem = localStorage.setItem;
+      localStorage.setItem = function(key, value) {
+        originalSetItem.apply(this, arguments);
+        // Принудительно сохраняем
+        if (key.includes('token') || key.includes('auth')) {
+          console.log('Saving auth data:', key);
+        }
+      };
     `)
 	})
 
 	// Обработка внешних ссылок
 	mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-		require('electron').shell.openExternal(url)
-		return { action: 'deny' }
+		// Разрешаем открытие окон авторизации Discord
+		if (
+			url.includes('discord.com/oauth') ||
+			url.includes('discord.com/login')
+		) {
+			return {
+				action: 'allow',
+				overrideBrowserWindowOptions: {
+					width: 500,
+					height: 700,
+					autoHideMenuBar: true,
+				},
+			}
+		}
+		// Внешние ссылки открываем в браузере
+		if (!url.includes('discord.com')) {
+			require('electron').shell.openExternal(url)
+			return { action: 'deny' }
+		}
+		return { action: 'allow' }
 	})
 
 	// Настройка разрешений
-	session.defaultSession.setPermissionRequestHandler(
-		(webContents, permission, callback) => {
-			const allowedPermissions = [
-				'notifications',
-				'media',
-				'mediaKeySystem',
-				'clipboard-read',
-				'clipboard-write',
-			]
-			if (allowedPermissions.includes(permission)) {
-				callback(true)
-			} else {
-				callback(false)
-			}
+	ses.setPermissionRequestHandler((webContents, permission, callback) => {
+		const allowedPermissions = [
+			'notifications',
+			'media',
+			'mediaKeySystem',
+			'clipboard-read',
+			'clipboard-write',
+			'microphone', // Для голосовых чатов
+			'camera', // Для видео
+			'audioCapture',
+			'videoCapture',
+			'displayCapture', // Для демонстрации экрана
+			'persistent-storage',
+		]
+		if (allowedPermissions.includes(permission)) {
+			callback(true)
+		} else {
+			callback(false)
 		}
-	)
+	})
 
 	// Обработка закрытия окна
 	mainWindow.on('close', event => {
@@ -156,12 +200,10 @@ function createWindow() {
 					},
 				},
 				{
-					label: 'Clear Data & Reload',
+					label: 'Force Reload',
 					accelerator: 'Ctrl+Shift+R',
-					click: async () => {
-						const ses = session.fromPartition('persist:discord')
-						await ses.clearStorageData()
-						mainWindow.reload()
+					click: () => {
+						mainWindow.webContents.reloadIgnoringCache()
 					},
 				},
 				{ type: 'separator' },
@@ -234,6 +276,14 @@ function createTray() {
 		mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
 	})
 }
+
+// ВАЖНО: Устанавливаем путь для userData ДО app.whenReady()
+// Это критически важно для сохранения сессии
+const userDataPath = path.join(app.getPath('appData'), 'discord-electron')
+app.setPath('userData', userDataPath)
+
+// Убеждаемся, что используем правильный путь для сессии
+app.setPath('sessionData', path.join(userDataPath, 'Session'))
 
 // Запуск приложения
 app.whenReady().then(() => {
