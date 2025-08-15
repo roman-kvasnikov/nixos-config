@@ -8,7 +8,7 @@
 
     settings = {
       logo = {
-        source = "${config.home.homeDirectory}/.config/nixos/home-manager/modules/fastfetch/nixos-logo.png";
+        source = "${config.xdg.configHome}/nixos/home-manager/modules/fastfetch/nixos-logo.png";
         height = 22;
         padding = {
           top = 0;

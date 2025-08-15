@@ -35,9 +35,9 @@
         ProtectSystem = "strict";
         ProtectHome = "read-only";
         ReadWritePaths = [
-          "%h/.config/xray"
-          "%h/.local/share/xray"
-          "%h/.cache/xray"
+          "${config.xdg.configHome}/xray"
+          "${config.xdg.dataHome}/xray"
+          "${config.xdg.cacheHome}/xray"
         ];
 
         # Network
@@ -50,10 +50,10 @@
     };
 
     # Создать необходимые директории
-    home.file = {
-      ".config/xray/.keep".text = "";
-      ".local/share/xray/.keep".text = "";
-      ".cache/xray/.keep".text = "";
+    xdg = {
+      configFile."xray/.keep".text = "";
+      dataFile."xray/.keep".text = "";
+      cacheFile."xray/.keep".text = "";
     };
   };
 }

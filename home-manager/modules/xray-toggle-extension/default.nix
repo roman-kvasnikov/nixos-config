@@ -4,12 +4,12 @@
   ...
 }: {
   # Устанавливаем наше расширение в локальную папку расширений
-  home.file = {
-    ".local/share/gnome-shell/extensions/xray-toggle@romank-nixos/extension.js" = {
+  xdg.datafile = {
+    "gnome-shell/extensions/xray-toggle@romank-nixos/extension.js" = {
       source = ./extension.js;
     };
-    
-    ".local/share/gnome-shell/extensions/xray-toggle@romank-nixos/metadata.json" = {
+
+    "gnome-shell/extensions/xray-toggle@romank-nixos/metadata.json" = {
       source = ./metadata.json;
     };
   };

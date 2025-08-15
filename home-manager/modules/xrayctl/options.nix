@@ -8,7 +8,7 @@
 
     configFile = lib.mkOption {
       type = lib.types.path;
-      default = "${config.home.homeDirectory}/.config/xray/config.json";
+      default = "${config.xdg.configHome}/xray/config.json";
       description = "Path to Xray configuration file";
     };
   };

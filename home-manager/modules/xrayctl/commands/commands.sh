@@ -9,7 +9,7 @@ IFS=$'\n\t'
 # =============================================================================
 
 # Основные пути
-readonly CONFIG_DIR="@homeDirectory@/.config/xray"
+readonly CONFIG_DIR="@configDirectory@/xray"
 readonly PROXY_ENV_FILE="$CONFIG_DIR/proxy-env"
 readonly PROXY_ENV_FISH_FILE="$CONFIG_DIR/proxy-env.fish"
 readonly PROXY_ENABLED_FILE="$CONFIG_DIR/.proxy-enabled"
@@ -95,7 +95,7 @@ check_user() {
 # Создать конфигурационный файл из примера, если его нет
 ensure_config() {
     if [ ! -f "@configFile@" ]; then
-        local example_file="@homeDirectory@/.config/xray/config/config.example.json"
+        local example_file="@configDirectory@/xray/config/config.example.json"
         
         if [ ! -f "$example_file" ]; then
             print_error "Example config file not found: $example_file"
@@ -278,7 +278,7 @@ FISH_VARS
 # Определить тип shell и информацию о профиле
 get_shell_info() {
     if command -v fish >/dev/null 2>&1; then
-        echo "fish @homeDirectory@/.config/fish/conf.d/xray-proxy.fish"
+        echo "fish @configDirectory@/fish/conf.d/xray-proxy.fish"
     elif [ -f "@homeDirectory@/.zshrc" ]; then
         echo "zsh @homeDirectory@/.zshrc"
     elif [ -f "@homeDirectory@/.bashrc" ]; then
@@ -407,7 +407,7 @@ cleanup_shell_profile() {
     
     case "$shell_type" in
         "fish")
-            rm -f "@homeDirectory@/.config/fish/conf.d/xray-proxy.fish"
+            rm -f "@configDirectory@/fish/conf.d/xray-proxy.fish"
             ;;
         *)
             if [ -f "$profile_path" ]; then
@@ -477,7 +477,7 @@ main() {
             ensure_config
             print_header "Xray Configuration:"
             print_info "Config file: @configFile@"
-            print_info "Example file: @homeDirectory@/.config/xray/config.example.json"
+            print_info "Example file: @configDirectory@/xray/config.example.json"
             ;;
         proxy-on)
             ensure_config

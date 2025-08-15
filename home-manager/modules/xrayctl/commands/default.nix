@@ -13,10 +13,12 @@
           [
             "@configFile@"
             "@homeDirectory@"
+            "@configDirectory@"
           ]
           [
             config.services.xrayctl.configFile
             config.home.homeDirectory
+            config.xdg.configHome
           ]
           (builtins.readFile ./commands.sh)
         )
