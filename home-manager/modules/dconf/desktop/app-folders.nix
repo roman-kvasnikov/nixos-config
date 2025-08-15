@@ -155,12 +155,15 @@
         "org.gnome.Settings.desktop"
       ];
 
-      mkAppEntry = name: pos:
-        with lib.hm.gvariant;
-          mkDictionaryEntry [
+      mkAppEntry = with lib.hm.gvariant;
+        name: (
+          position: (mkDictionaryEntry [
             name
-            (mkVariant (mkDictionaryEntry ["position" (mkVariant (mkInt32 pos))]))
-          ];
+            (mkVariant [
+              (mkDictionaryEntry ["position" (mkVariant position)])
+            ])
+          ])
+        );
     in {
       app-picker-layout = [
         (lib.imap0 (i: name: mkAppEntry name i) apps)
