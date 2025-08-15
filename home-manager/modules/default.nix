@@ -3,12 +3,12 @@
     ./brave
     ./code-cursor
     ./dconf
+    ./exodus
     ./fastfetch
     ./xrayctl
     ./bottom.nix
     ./btop.nix
     # ./xray-toggle-extension
-    # ./discord.nix
     ./fish.nix
     ./git-sync-obsidian.nix
     ./git-sync-wallpapers.nix

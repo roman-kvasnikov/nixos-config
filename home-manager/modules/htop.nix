@@ -7,7 +7,7 @@
     name = "Htop";
     comment = "Interactive process viewer";
     exec = "kitty -e htop";
-    icon = "utilities-system-monitor";
+    icon = "htop";
     categories = ["System" "Monitor"];
   };
 }

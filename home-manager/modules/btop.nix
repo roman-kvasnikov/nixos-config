@@ -7,7 +7,7 @@
     name = "Btop++";
     comment = "Resource monitor";
     exec = "kitty -e btop";
-    icon = "utilities-system-monitor";
+    icon = "btop";
     categories = ["System" "Monitor"];
   };
 }
