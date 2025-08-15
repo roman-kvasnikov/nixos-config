@@ -1,5 +1,6 @@
 {
   imports = [
+    ./bottom
     ./brave
     ./code-cursor
     ./dconf
