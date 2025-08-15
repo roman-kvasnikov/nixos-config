@@ -5,6 +5,7 @@
     ./dconf
     ./exodus
     ./fastfetch
+    ./keepassxcctl
     ./xrayctl
     ./bottom.nix
     ./btop.nix

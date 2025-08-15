@@ -44,7 +44,7 @@
 
     targets = {
       gnome.enable = true;
-      kitty.enable = true;
+      kitty.enable = false;
       vscode.enable = false;
     };
   };

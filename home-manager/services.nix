@@ -7,5 +7,9 @@
     xrayctl = {
       enable = true;
     };
+
+    keepassxcctl = {
+      enable = true;
+    };
   };
 }
