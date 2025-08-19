@@ -8,7 +8,7 @@
   stylix = {
     enable = true;
 
-    image = "${inputs.wallpapers}/NixOS/nix-wallpaper-binary-black.png";
+    image = "${inputs.wallpapers}/NixOS/wp12329533-nixos-wallpapers.png";
     imageScalingMode = "fill"; # "fill", "fit", "stretch", "center", "tile"
     # или
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";

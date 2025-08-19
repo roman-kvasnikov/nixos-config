@@ -53,6 +53,12 @@
       gnupg
       libsecret
 
+      # L2TP/IPsec VPN
+      networkmanager-l2tp # GUI и интеграция
+      xl2tpd # L2TP протокол
+      libreswan # IPsec шифрование (если есть PSK)
+      iproute2 # Нужен для libreswan
+
       # Файловая система
       ntfs3g
       exfat

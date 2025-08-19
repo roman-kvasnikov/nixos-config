@@ -1,6 +1,8 @@
 {
   dconf.settings = {
     "org/gnome/shell/extensions/auto-move-windows" = {
+      activate-workspace = true;
+
       application-list = [
         "brave-browser.desktop:1"
         # "discord-electron.desktop:2"

@@ -3,6 +3,10 @@
   pkgs,
   ...
 }: {
+  nixpkgs.overlays = [
+    ./overlays/networkmanager-l2tp.nix
+  ];
+
   networking = {
     hostName = hostname;
 
@@ -27,7 +31,11 @@
 
       # Разрешить локальные сервисы для разработки
       allowedTCPPorts = [];
-      allowedUDPPorts = [];
+      allowedUDPPorts = [
+        500 # ISAKMP
+        4500 # NAT-T
+        1701 # L2TP
+      ];
     };
   };
 }

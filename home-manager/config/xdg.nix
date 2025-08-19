@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   xdg = {
     userDirs = {
       enable = true;
@@ -18,6 +15,39 @@
     };
 
     configFile."gtk-3.0/bookmarks".force = true;
+
+    mimeApps = {
+      enable = true;
+
+      # [Default Applications]
+      # x-scheme-handler/tg=org.telegram.desktop.desktop
+      # x-scheme-handler/tonsite=org.telegram.desktop.desktop
+      # application/vnd.ms-publisher=org.gnome.TextEditor.desktop
+      # text/plain=org.gnome.TextEditor.desktop
+      # application/octet-stream=org.gnome.TextEditor.desktop
+      # image/png=org.gnome.Loupe.desktop
+      # image/jpeg=org.gnome.Loupe.desktop
+      # image/gif=org.gnome.Loupe.desktop
+      # [Added Associations]
+      # x-scheme-handler/tg=org.telegram.desktop.desktop;
+      # x-scheme-handler/tonsite=org.telegram.desktop.desktop;
+      # application/vnd.ms-publisher=org.gnome.TextEditor.desktop;
+      # text/plain=org.gnome.TextEditor.desktop;
+      # application/octet-stream=org.gnome.TextEditor.desktop;
+      # image/png=org.gnome.Loupe.desktop;
+      # image/jpeg=org.gnome.Loupe.desktop;
+      # image/gif=org.gnome.Loupe.desktop;
+
+      defaultApplications = {
+        "application/pdf" = ["org.gnome.Evince.desktop"];
+        "text/plain" = ["org.gnome.TextEditor.desktop"];
+        "image/*" = ["org.gnome.Loupe.desktop"];
+      };
+
+      associations.added = {
+        "application/pdf" = ["firefox.desktop"];
+      };
+    };
   };
 
   home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";

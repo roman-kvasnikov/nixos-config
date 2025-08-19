@@ -62,7 +62,8 @@
 
       [FdoSecrets]
       Enabled=true
-      ShowNotification=true
+      ShowNotification=false
+      ConfirmAccessItem=false
     '';
   };
 }

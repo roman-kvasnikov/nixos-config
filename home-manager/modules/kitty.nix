@@ -29,9 +29,9 @@
       window_margin_width = 5;
       window_padding_width = 0;
       window_border_width = "1.5pt";
-      remember_window_size = "no";
-      initial_window_width = 1280;
-      initial_window_height = 720;
+      remember_window_size = "yes";
+      initial_window_width = 1920;
+      initial_window_height = 1080;
       hide_window_decorations = "no";
 
       # Tabs
