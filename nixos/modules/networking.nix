@@ -3,10 +3,6 @@
   pkgs,
   ...
 }: {
-  nixpkgs.overlays = [
-    ./overlays/networkmanager-l2tp.nix
-  ];
-
   networking = {
     hostName = hostname;
 
@@ -16,10 +12,6 @@
       wifi.powersave = false; # Отключить powersave для Wi-Fi
       ethernet.macAddress = "preserve"; # Сохранить MAC адрес
       dns = "systemd-resolved"; # Современный DNS resolver
-
-      plugins = with pkgs; [
-        networkmanager-l2tp
-      ];
     };
 
     # Современный firewall

@@ -7,6 +7,7 @@
     ./hardware.nix
     ./home-manager.nix
     ./i18n.nix
+    ./l2tp-ipsec.nix
     ./networking.nix
     ./nix.nix
     ./programs.nix
