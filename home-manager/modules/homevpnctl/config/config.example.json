@@ -1,0 +1,6 @@
+{
+	"server": "vpn.example.com",
+	"login": "username",
+	"password": "password",
+	"psk": "preshared_key"
+}

@@ -20,6 +20,14 @@
         networkmanager-l2tp
       ];
     };
+
+    firewall = {
+      allowedUDPPorts = [
+        500 # IKE
+        4500 # IPsec NAT-T
+        1701 # L2TP
+      ];
+    };
   };
 
   services = {
@@ -29,12 +37,12 @@
       enable = true;
 
       configSetup = ''
+        ikev1-policy=accept
         protostack=netkey
         plutodebug=none
         logfile=/var/log/pluto.log
         dumpdir=/run/pluto
         virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
-        ikev1-policy=accept
       '';
     };
   };

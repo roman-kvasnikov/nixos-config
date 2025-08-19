@@ -95,7 +95,7 @@ check_user() {
 # Создать конфигурационный файл из примера, если его нет
 ensure_config() {
     if [ ! -f "@configFile@" ]; then
-        local example_file="@configDirectory@/xray/config/config.example.json"
+        local example_file="@configDirectory@/xray/config.example.json"
         
         if [ ! -f "$example_file" ]; then
             print_error "Example config file not found: $example_file"

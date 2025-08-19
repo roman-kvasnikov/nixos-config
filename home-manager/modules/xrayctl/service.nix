@@ -49,7 +49,6 @@
       };
     };
 
-    # Создать необходимые директории
     xdg = {
       configFile."xray/.keep".text = "";
       dataFile."xray/.keep".text = "";
