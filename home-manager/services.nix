@@ -8,6 +8,10 @@
       enable = true;
     };
 
+    homevpnctl = {
+      enable = true;
+    };
+
     keepassxcctl = {
       enable = true;
     };

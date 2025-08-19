@@ -15,7 +15,7 @@
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.callPackage ./package {inherit config pkgs;};
+      default = pkgs.callPackage ./package/package.nix {inherit config pkgs;};
       description = "Home VPN L2TP/IPsec management tool package";
     };
   };

@@ -7,7 +7,6 @@
     ./options.nix
     ./service.nix
     ./config
-    ./package
   ];
 
   config = lib.mkIf config.services.homevpnctl.enable {

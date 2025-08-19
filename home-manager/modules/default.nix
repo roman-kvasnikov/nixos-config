@@ -5,6 +5,7 @@
     ./dconf
     ./exodus
     ./fastfetch
+    ./homevpnctl
     ./keepassxcctl
     ./xrayctl
     ./bottom.nix

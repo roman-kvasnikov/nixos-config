@@ -1,7 +1,7 @@
 {
-  pkgs,
   lib,
   config,
+  pkgs,
   ...
 }: {
   config = lib.mkIf config.services.homevpnctl.enable {
@@ -12,17 +12,17 @@
         Wants = ["network-online.target"];
       };
 
-      Install = {
-        WantedBy = ["default.target"];
-      };
-
       Service = {
         Type = "simple";
-        ExecStart = "${config.services.homevpnctl.package}/bin/homevpnctl start";
-        ExecStop = "${config.services.homevpnctl.package}/bin/homevpnctl stop";
+        ExecStart = "${config.services.homevpnctl.package}/bin/homevpnctl enable";
+        ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
         Restart = "on-failure";
         RestartSec = "10s";
         KillMode = "mixed";
+      };
+
+      Install = {
+        WantedBy = ["default.target"];
       };
     };
 
