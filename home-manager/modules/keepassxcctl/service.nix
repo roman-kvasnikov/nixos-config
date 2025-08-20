@@ -12,10 +12,6 @@
         PartitionOf = ["graphical-session.target"];
       };
 
-      Install = {
-        WantedBy = ["graphical-session.target"];
-      };
-
       Service = {
         Type = "simple";
         ExecStart = "${pkgs.keepassxc}/bin/keepassxc --minimized --pw-stdin ${config.services.keepassxcctl.database}";
@@ -27,6 +23,10 @@
           "QT_QPA_PLATFORM=xcb"
           "DISPLAY=:0"
         ];
+      };
+
+      Install = {
+        WantedBy = ["graphical-session.target"];
       };
     };
 

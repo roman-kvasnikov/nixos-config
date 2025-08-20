@@ -16,8 +16,8 @@ readonly LOG_FILE="$CONFIG_DIR/connections.log"
 readonly PID_FILE="$CONFIG_DIR/.daemon.pid"
 
 # Константы
-readonly CHECK_INTERVAL=30
-readonly ENABLE_HEALTH_CHECK=true
+readonly CHECK_INTERVAL=@checkInterval@
+readonly ENABLE_HEALTH_CHECK=@enableHealthCheck@
 
 # Цвета для вывода (ANSI escape codes)
 readonly RED='\033[0;31m'
@@ -75,7 +75,7 @@ check_dependencies() {
 
     if [ ${#missing_deps[@]} -gt 0 ]; then
         print_error "Missing required dependencies: ${missing_deps[*]}"
-        print_error "Make sure NetworkManager and jq are installed"
+        print_error "Make sure nmcli and jq are installed"
         exit 1
     fi
 }
@@ -161,7 +161,7 @@ create_vpn_connection() {
     password=$(get_vpn_config "password")
     psk=$(get_vpn_config "psk")
 
-    print_info "Creating L2TP/IPsec VPN connection: $VPN_CONNECTION_NAME"
+    print_info "Creating L2TP/IPsec VPN connection: $VPN_CONNECTION_NAME ..."
 
     # Удалить существующее подключение если есть
     if nmcli connection show "$VPN_CONNECTION_NAME" >/dev/null 2>&1; then
@@ -180,7 +180,7 @@ create_vpn_connection() {
     # Добавить IPsec настройки если есть PSK
     if [ -n "$psk" ] && [ "$psk" != "null" ]; then
         nmcli connection modify "$VPN_CONNECTION_NAME" \
-            vpn.data "gateway=$server,user=$login,password-flags=0,ipsec-enabled=yes,ipsec-psk=$psk,ipsec-disable-pfs=yes" \
+            vpn.data "gateway=$server,user=$login,password-flags=0,ipsec-enabled=yes,ipsec-psk=$psk,ipsec-pfs=no" \
             >/dev/null 2>&1
     fi
 
@@ -543,9 +543,9 @@ show_help() {
     echo ""
 
     print_status "🚀 Quick commands:"
-    echo -e "  ${GREEN}connect${NC}         Connect to Home VPN"
-    echo -e "  ${RED}disconnect${NC}       Disconnect from Home VPN"
-    echo -e "  ${CYAN}reconnect${NC}       Reconnect to Home VPN"
+    echo -e "  ${GREEN}connect${NC}                Connect to Home VPN"
+    echo -e "  ${RED}disconnect${NC}             Disconnect from Home VPN"
+    echo -e "  ${CYAN}reconnect${NC}              Reconnect to Home VPN"
     echo ""
 
     print_status "⚙️ VPN management:"
@@ -556,7 +556,7 @@ show_help() {
     echo ""
 
     print_status "🔧 Service management:"
-    echo -e "  ${GREEN}service-enable${NC}       Enable autostart"
+    echo -e "  ${GREEN}service-enable${NC}         Enable autostart"
     echo -e "  ${GREEN}service-start${NC}          Start systemd service"
     echo -e "  ${RED}service-stop${NC}           Stop systemd service"
     echo -e "  ${CYAN}service-restart${NC}        Restart systemd service"
@@ -568,10 +568,10 @@ show_help() {
     echo ""
 
     print_status "💡 Example usage:"
-    echo -e "  homevpnctl connect         # Connect to VPN"
-    echo -e "  homevpnctl status          # Check connection status"
-    echo -e "  homevpnctl logs            # View connection logs"
-    echo -e "  homevpnctl disconnect      # Disconnect from VPN"
+    echo -e "  homevpnctl connect     # Connect to VPN"
+    echo -e "  homevpnctl status      # Check connection status"
+    echo -e "  homevpnctl logs        # View connection logs"
+    echo -e "  homevpnctl disconnect  # Disconnect from VPN"
     echo ""
 
     print_info "Configuration file: $CONFIG_FILE"

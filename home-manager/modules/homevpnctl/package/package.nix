@@ -16,8 +16,8 @@ pkgs.writeShellScriptBin "homevpnctl"
   [
     "${config.xdg.configHome}/homevpn"
     homevpnctlConfig.configFile
-    homevpnctlConfig.checkInterval
-    homevpnctlConfig.enableHealthCheck
+    "${toString homevpnctlConfig.checkInterval}"
+    "${toString homevpnctlConfig.enableHealthCheck}"
   ]
   (builtins.readFile ./source.sh)
 )
