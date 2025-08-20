@@ -2,8 +2,10 @@
   lib,
   config,
   ...
-}: {
-  config = lib.mkIf config.services.homevpnctl.enable {
+}: let
+  homevpnctlConfig = config.services.homevpnctl;
+in {
+  config = lib.mkIf homevpnctlConfig.enable {
     xdg.configFile."homevpn/config.example.json".source = ./config.example.json;
   };
 }

@@ -9,10 +9,15 @@ IFS=$'\n\t'
 # =============================================================================
 
 # Основные пути
-readonly CONFIG_DIR="@configDirectory@/homevpn"
+readonly CONFIG_DIR="@configDirectory@"
+readonly CONFIG_FILE="@configFile@"
 readonly VPN_CONNECTION_NAME="Home-L2TP-IPSec"
-readonly STATUS_FILE="$CONFIG_DIR/.vpn-status"
-readonly CONNECTION_LOG="$CONFIG_DIR/connection.log"
+readonly LOG_FILE="$CONFIG_DIR/connections.log"
+readonly PID_FILE="$CONFIG_DIR/.daemon.pid"
+
+# Константы
+readonly CHECK_INTERVAL=30
+readonly ENABLE_HEALTH_CHECK=true
 
 # Цвета для вывода (ANSI escape codes)
 readonly RED='\033[0;31m'
@@ -59,15 +64,15 @@ print_status() {
 # Проверить наличие необходимых команд
 check_dependencies() {
     local missing_deps=()
-    
+
     if ! command -v nmcli >/dev/null 2>&1; then
         missing_deps+=("nmcli")
     fi
-    
+
     if ! command -v jq >/dev/null 2>&1; then
         missing_deps+=("jq")
     fi
-    
+
     if [ ${#missing_deps[@]} -gt 0 ]; then
         print_error "Missing required dependencies: ${missing_deps[*]}"
         print_error "Make sure NetworkManager and jq are installed"
@@ -91,78 +96,78 @@ check_user() {
 ensure_config() {
     mkdir -p "$CONFIG_DIR"
 
-    if [ ! -f "@configFile@" ]; then
-        local example_file="@configDirectory@/homevpn/config.example.json"
-        
+    if [ ! -f "$CONFIG_FILE" ]; then
+        local example_file="$CONFIG_DIR/config.example.json"
+
         if [ ! -f "$example_file" ]; then
             print_error "Example config file not found: $example_file"
             exit 1
         fi
-        
+
         print_info "Creating default config from example..."
-        cp "$example_file" "@configFile@"
-        print_success "Config created at: @configFile@"
+        cp "$example_file" "$CONFIG_FILE"
+        print_success "Config created at: $CONFIG_FILE"
     fi
 }
 
 # Получить настройки VPN из config.json
 get_vpn_config() {
     local field="$1"  # "server", "login", "password", "psk"
-    
-    if [ ! -f "@configFile@" ]; then
+
+    if [ ! -f "$CONFIG_FILE" ]; then
         return 1
     fi
-    
-    jq -r ".$field // empty" "@configFile@" 2>/dev/null
+
+    jq -r ".$field // empty" "$CONFIG_FILE" 2>/dev/null
 }
 
 # Проверить валидность конфигурации VPN
 validate_config() {
     local server login password psk
-    
+
     server=$(get_vpn_config "server")
     login=$(get_vpn_config "login")
     password=$(get_vpn_config "password")
     psk=$(get_vpn_config "psk")
-    
+
     if [ -z "$server" ] || [ "$server" = "null" ]; then
         print_error "VPN server not configured"
         return 1
     fi
-    
+
     if [ -z "$login" ] || [ "$login" = "null" ]; then
         print_error "VPN login not configured"
         return 1
     fi
-    
+
     if [ -z "$password" ] || [ "$password" = "null" ]; then
         print_error "VPN password not configured"
         return 1
     fi
-    
+
     if [ -z "$psk" ] || [ "$psk" = "null" ]; then
         print_warning "No PSK configured - connection might fail"
     fi
-    
+
     return 0
 }
 
 # Создать NetworkManager L2TP соединение
 create_vpn_connection() {
     local server login password psk
-    
+
     server=$(get_vpn_config "server")
     login=$(get_vpn_config "login")  
     password=$(get_vpn_config "password")
     psk=$(get_vpn_config "psk")
-    
+
     print_info "Creating L2TP/IPsec VPN connection: $VPN_CONNECTION_NAME"
-    
+
     # Удалить существующее подключение если есть
     if nmcli connection show "$VPN_CONNECTION_NAME" >/dev/null 2>&1; then
         nmcli connection delete "$VPN_CONNECTION_NAME" >/dev/null 2>&1 || true
     fi
-    
+
     # Создать новое L2TP подключение
     nmcli connection add \
         type vpn \
@@ -171,14 +176,14 @@ create_vpn_connection() {
         vpn.data "gateway=$server,user=$login,password-flags=0" \
         vpn.secrets "password=$password" \
         >/dev/null 2>&1
-    
+
     # Добавить IPsec настройки если есть PSK
     if [ -n "$psk" ] && [ "$psk" != "null" ]; then
         nmcli connection modify "$VPN_CONNECTION_NAME" \
             vpn.data "gateway=$server,user=$login,password-flags=0,ipsec-enabled=yes,ipsec-psk=$psk,ipsec-disable-pfs=yes" \
             >/dev/null 2>&1
     fi
-    
+
     print_success "VPN connection created successfully"
 }
 
@@ -189,14 +194,14 @@ create_vpn_connection() {
 # Проверить статус VPN соединения
 get_vpn_status() {
     local connection_state
-    
+
     if ! nmcli connection show "$VPN_CONNECTION_NAME" >/dev/null 2>&1; then
         echo "not_configured"
         return
     fi
-    
+
     connection_state=$(nmcli -t -f GENERAL.STATE connection show "$VPN_CONNECTION_NAME" 2>/dev/null | cut -d: -f2)
-    
+
     case "$connection_state" in
         "activated")
             echo "connected"
@@ -210,44 +215,26 @@ get_vpn_status() {
     esac
 }
 
-# Записать статус в файл
-write_status() {
-    local status="$1"
-    local timestamp
-    
-    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    echo "$status|$timestamp" > "$STATUS_FILE"
-}
-
-# Получить сохраненный статус
-read_status() {
-    if [ -f "$STATUS_FILE" ]; then
-        cut -d'|' -f1 "$STATUS_FILE"
-    else
-        echo "unknown"
-    fi
-}
-
 # Логирование подключений
 log_connection() {
     local action="$1"
     local timestamp status
-    
+
     timestamp=$(date '+%Y-%m-%d %H:%M:%S')
     status=$(get_vpn_status)
 
     mkdir -p "$CONFIG_DIR"
 
-    echo "[$timestamp] $action - Status: $status" >> "$CONNECTION_LOG"
+    echo "[$timestamp] $action - Status: $status" >> "$LOG_FILE"
 }
 
 # Подключиться к VPN
 connect_vpn() {
-    local current_status
-    
-    current_status=$(get_vpn_status)
-    
-    case "$current_status" in
+    local status
+
+    status=$(get_vpn_status)
+
+    case "$status" in
         "not_configured")
             print_info "VPN connection not configured, creating..."
             create_vpn_connection
@@ -261,21 +248,19 @@ connect_vpn() {
             return 0
             ;;
     esac
-    
+
     print_info "Connecting to VPN: $VPN_CONNECTION_NAME"
-    
+
     if nmcli connection up "$VPN_CONNECTION_NAME" >/dev/null 2>&1; then
-        write_status "connected"
-        log_connection "CONNECT"
+        log_connection "CONNECTED"
         print_success "VPN connected successfully"
-        
+
         # Показать информацию о подключении
         local server
         server=$(get_vpn_config "server")
         print_info "Connected to server: $server"
     else
-        write_status "failed"
-        log_connection "CONNECT_FAILED"
+        log_connection "CONNECTION_FAILED"
         print_error "Failed to connect to VPN"
         return 1
     fi
@@ -283,25 +268,24 @@ connect_vpn() {
 
 # Отключиться от VPN
 disconnect_vpn() {
-    local current_status
-    
-    current_status=$(get_vpn_status)
-    
-    if [ "$current_status" = "not_configured" ]; then
+    local status
+
+    status=$(get_vpn_status)
+
+    if [ "$status" = "not_configured" ]; then
         print_warning "VPN connection not configured"
         return 0
     fi
-    
-    if [ "$current_status" = "disconnected" ]; then
+
+    if [ "$status" = "disconnected" ]; then
         print_warning "VPN already disconnected"
         return 0
     fi
-    
+
     print_info "Disconnecting from VPN: $VPN_CONNECTION_NAME"
-    
+
     if nmcli connection down "$VPN_CONNECTION_NAME" >/dev/null 2>&1; then
-        write_status "disconnected"
-        log_connection "DISCONNECT"
+        log_connection "DISCONNECTED"
         print_success "VPN disconnected successfully"
     else
         print_error "Failed to disconnect from VPN"
@@ -309,6 +293,137 @@ disconnect_vpn() {
     fi
 }
 
+# Функция очистки при завершении
+cleanup() {
+    print_info "Cleaning up..."
+
+    # Отключить VPN если подключен
+    local status
+    status=$(get_vpn_status)
+    if [ "$status" = "connected" ] || [ "$status" = "connecting" ]; then
+        disconnect_vpn
+    fi
+
+    # Удалить PID файл
+    [ -f "$PID_FILE" ] && rm -f "$PID_FILE"
+
+    # Записать в лог
+    log_connection "DAEMON_STOPPED"
+
+    print_info "Cleanup completed"
+}
+
+daemon() {
+    print_header "🏠 Home VPN Daemon starting..."
+
+    # Сохранить PID
+    echo $$ > "$PID_FILE"
+    log_connection "DAEMON_STARTED PID=$(cat "$PID_FILE")"
+
+    # Обработка сигналов
+    # SIGTERM - нормальное завершение (systemctl stop)
+    trap 'print_info "Received SIGTERM, shutting down gracefully..."; cleanup; exit 0' TERM
+
+    # SIGINT - прерывание с клавиатуры (Ctrl+C)
+    trap 'print_warning "Received SIGINT (Ctrl+C), interrupting..."; cleanup; exit 130' INT
+
+    # SIGHUP - перезагрузка/переподключение (systemctl reload)
+    trap 'print_info "Received SIGHUP, reconnecting..."; disconnect_vpn; sleep 2; connect_vpn' HUP
+
+    # EXIT - выполнится при любом завершении
+    trap 'cleanup' EXIT
+
+    while true; do
+        local status
+        status=$(get_vpn_status)
+
+        case "$status" in
+            "not_configured"|"disconnected"|"failed")
+                print_info "VPN not connected, attempting connection..."
+                connect_vpn || true
+                ;;
+            "connected")
+                print_info "VPN connected, monitoring..."
+
+                # Health check - проверить что туннель действительно работает
+                if [ "$ENABLE_HEALTH_CHECK" = "true" ]; then
+                    local vpn_ip
+                    vpn_ip=$(nmcli -t -f IP4.ADDRESS connection show "$VPN_CONNECTION_NAME" 2>/dev/null | cut -d: -f2 | head -1)
+
+                    if [ -z "$vpn_ip" ]; then
+                        print_warning "VPN reports connected but no IP assigned, reconnecting..."
+                        disconnect_vpn
+                        sleep 2
+                        connect_vpn
+                    fi
+                fi
+                ;;
+            "connecting")
+                print_info "VPN connecting, waiting..."
+                ;;
+        esac
+
+        sleep $CHECK_INTERVAL
+    done
+}
+
+# Показать статус
+show_status() {
+    print_header "🔍 Home VPN Status:"
+
+    local status server
+    status=$(get_vpn_status)
+
+    case "$status" in
+        "connected")
+            server=$(get_vpn_config "server")
+            print_success "VPN Status: CONNECTED to $server"
+
+            # Показать детали подключения
+            local vpn_ip vpn_gw dns
+            vpn_ip=$(nmcli -t -f IP4.ADDRESS connection show "$VPN_CONNECTION_NAME" 2>/dev/null | cut -d: -f2 | head -1)
+            vpn_gw=$(nmcli -t -f IP4.GATEWAY connection show "$VPN_CONNECTION_NAME" 2>/dev/null | cut -d: -f2)
+            dns=$(nmcli -t -f IP4.DNS connection show "$VPN_CONNECTION_NAME" 2>/dev/null | cut -d: -f2 | head -1)
+
+            [ -n "$vpn_ip" ] && print_info "VPN IP: $vpn_ip"
+            [ -n "$vpn_gw" ] && print_info "Gateway: $vpn_gw"
+            [ -n "$dns" ] && print_info "DNS: $dns"
+
+            # Показать время подключения
+            if [ -f "$LOG_FILE" ]; then
+                local last_connect
+                last_connect=$(grep "CONNECTED" "$LOG_FILE" | tail -1 | cut -d' ' -f1-2 | tr -d '[]')
+                [ -n "$last_connect" ] && print_info "Connected since: $last_connect"
+            fi
+            ;;
+        "connecting")
+            print_warning "VPN Status: CONNECTING..."
+            ;;
+        "disconnected")
+            print_status "VPN Status: DISCONNECTED"
+            ;;
+        "not_configured")
+            print_warning "VPN Status: NOT CONFIGURED"
+            print_info "Run 'homevpnctl start' to create and connect"
+            ;;
+        *)
+            print_error "VPN Status: UNKNOWN"
+            ;;
+    esac
+
+    # Показать информацию о systemd сервисе
+    echo ""
+    print_header "📋 Systemd Service Status:"
+    systemctl --user status homevpnctl --no-pager -l || true
+
+    # Daemon статус
+    echo ""
+    if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+        print_success "Daemon: RUNNING (PID: $(cat "$PID_FILE"))"
+    else
+        print_info "Daemon: NOT RUNNING"
+    fi
+}
 
 # =============================================================================
 # ОСНОВНАЯ ЛОГИКА
@@ -317,8 +432,13 @@ disconnect_vpn() {
 # Обработка команд
 main() {
     local command="${1:-}"
-    
+
     case "$command" in
+        daemon)
+            ensure_config
+            validate_config || exit 1
+            daemon
+        ;;
         start|connect)
             ensure_config
             validate_config || exit 1
@@ -336,47 +456,13 @@ main() {
             connect_vpn
             ;;
         status)
-            print_header "🔍 Home VPN Status:"
-            local current_status server
-            current_status=$(get_vpn_status)
-            
-            case "$current_status" in
-                "connected")
-                    server=$(get_vpn_config "server")
-                    print_success "VPN Status: CONNECTED to $server"
-                    
-                    # Показать IP информацию
-                    local vpn_ip
-                    vpn_ip=$(nmcli -t -f IP4.ADDRESS connection show "$VPN_CONNECTION_NAME" 2>/dev/null | cut -d: -f2 | head -1)
-                    if [ -n "$vpn_ip" ]; then
-                        print_info "VPN IP: $vpn_ip"
-                    fi
-                    ;;
-                "connecting")
-                    print_warning "VPN Status: CONNECTING..."
-                    ;;
-                "disconnected")
-                    print_status "VPN Status: DISCONNECTED"
-                    ;;
-                "not_configured")
-                    print_warning "VPN Status: NOT CONFIGURED"
-                    print_info "Run 'homevpnctl start' to create and connect"
-                    ;;
-                *)
-                    print_error "VPN Status: UNKNOWN"
-                    ;;
-            esac
-            
-            # Показать информацию о systemd сервисе
-            echo ""
-            print_header "📋 Systemd Service Status:"
-            systemctl --user status homevpnctl --no-pager -l || true
+            show_status
             ;;
         logs)
             print_header "📋 Home VPN Logs:"
-            if [ -f "$CONNECTION_LOG" ]; then
+            if [ -f "$LOG_FILE" ]; then
                 print_info "Connection history:"
-                tail -20 "$CONNECTION_LOG"
+                tail -20 "$LOG_FILE"
                 echo ""
             fi
             print_info "Systemd service logs:"
@@ -394,10 +480,10 @@ main() {
         config)
             ensure_config
             print_header "🔧 Home VPN Configuration:"
-            print_info "Config file: @configFile@"
-            print_info "Example file: @configDirectory@/homevpn/config.example.json"
+            print_info "Config file: $CONFIG_FILE"
+            print_info "Example file: $CONFIG_DIR/config.example.json"
             
-            if [ -f "@configFile@" ]; then
+            if [ -f "$CONFIG_FILE" ]; then
                 echo ""
                 print_info "Current configuration:"
                 local server login
@@ -441,19 +527,19 @@ main() {
             ;;
         clean)
             print_header "🧹 Cleaning up VPN configuration..."
-            
+
             # Остановить соединение
             disconnect_vpn
-            
+
             # Удалить NetworkManager подключение
             if nmcli connection show "$VPN_CONNECTION_NAME" >/dev/null 2>&1; then
                 nmcli connection delete "$VPN_CONNECTION_NAME" >/dev/null 2>&1
                 print_success "Removed NetworkManager connection"
             fi
-            
+
             # Очистить файлы статуса и логи
-            rm -f "$STATUS_FILE" "$CONNECTION_LOG"
-            print_success "Cleaned up status and log files"
+            rm -f "$LOG_FILE"
+            print_success "Log file cleaned"
             ;;
         *)
             show_help
@@ -475,10 +561,10 @@ show_help() {
     echo -e "  ${CYAN}restart${NC}                Reconnect to Home VPN"
     echo ""
     
-    print_status "⚙️  VPN management:"
+    print_status "⚙️ VPN management:"
     echo -e "  ${BLUE}status${NC}                 Show VPN connection status"
     echo -e "  ${CYAN}logs${NC}                   Show connection logs"
-    echo -e "  ${YELLOW}recreate${NC}              Recreate NetworkManager connection"
+    echo -e "  ${YELLOW}recreate${NC}               Recreate NetworkManager connection"
     echo -e "  ${RED}clean${NC}                  Clean up all VPN configuration"
     echo ""
     
@@ -501,7 +587,7 @@ show_help() {
     echo -e "  homevpnctl stop            # Disconnect from VPN"
     echo ""
     
-    print_info "Configuration file: @configFile@"
+    print_info "Configuration file: $CONFIG_FILE"
     print_info "Required format: {\"server\": \"vpn.example.com\", \"login\": \"user\", \"password\": \"pass\", \"psk\": \"key\"}"
 }
 

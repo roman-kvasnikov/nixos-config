@@ -1,4 +1,5 @@
 {
+  homevpnctlConfig,
   config,
   pkgs,
   ...
@@ -7,12 +8,16 @@ pkgs.writeShellScriptBin "homevpnctl"
 (
   builtins.replaceStrings
   [
-    "@configFile@"
     "@configDirectory@"
+    "@configFile@"
+    "@checkInterval@"
+    "@enableHealthCheck@"
   ]
   [
-    config.services.homevpnctl.configFile
-    config.xdg.configHome
+    "${config.xdg.configHome}/homevpn"
+    homevpnctlConfig.configFile
+    homevpnctlConfig.checkInterval
+    homevpnctlConfig.enableHealthCheck
   ]
   (builtins.readFile ./source.sh)
 )

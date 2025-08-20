@@ -3,22 +3,38 @@
   config,
   pkgs,
   ...
-}: {
-  config = lib.mkIf config.services.homevpnctl.enable {
+}: let
+  homevpnctlConfig = config.services.homevpnctl;
+  homevpnctlPackage = pkgs.callPackage ./package/package.nix {inherit homevpnctlConfig config pkgs;};
+in {
+  config = lib.mkIf homevpnctlConfig.enable {
     systemd.user.services.homevpnctl = {
       Unit = {
-        Description = "Home VPN L2TP/IPsec Connection";
-        After = ["network-online.target"];
+        Description = "Home VPN L2TP/IPsec Connection Daemon";
+        After = ["graphical-session.target" "network-online.target"];
         Wants = ["network-online.target"];
+        PartOf = ["graphical-session.target"];
       };
 
       Service = {
         Type = "simple";
-        ExecStart = "${config.services.homevpnctl.package}/bin/homevpnctl enable";
+
+        ExecStart = "${homevpnctlPackage}/bin/homevpnctl daemon";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
+
+        # Restart политика
         Restart = "on-failure";
-        RestartSec = "10s";
+        RestartSec = "30s";
+
+        # Процессы и сигналы
         KillMode = "mixed";
+        KillSignal = "SIGTERM";
+        TimeoutStopSec = "30s";
+
+        # Окружение
+        Environment = [
+          "PATH=${lib.makeBinPath [pkgs.networkmanager pkgs.jq pkgs.coreutils]}"
+        ];
       };
 
       Install = {

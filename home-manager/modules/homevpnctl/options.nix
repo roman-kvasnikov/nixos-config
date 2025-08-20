@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: {
   options.services.homevpnctl = {
@@ -10,13 +9,19 @@
     configFile = lib.mkOption {
       type = lib.types.path;
       default = "${config.xdg.configHome}/homevpn/config.json";
-      description = "Path to Home VPN L2TP/IPsec configuration file";
+      description = "Path to configuration file";
     };
 
-    package = lib.mkOption {
-      type = lib.types.package;
-      default = pkgs.callPackage ./package/package.nix {inherit config pkgs;};
-      description = "Home VPN L2TP/IPsec management tool package";
+    checkInterval = lib.mkOption {
+      type = lib.types.int;
+      default = 30;
+      description = "Check connection interval in seconds";
+    };
+
+    enableHealthCheck = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable connection health checks";
     };
   };
 }
