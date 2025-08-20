@@ -330,9 +330,6 @@ daemon() {
     # SIGHUP - перезагрузка/переподключение (systemctl reload)
     trap 'print_info "Received SIGHUP, reconnecting..."; disconnect_vpn; sleep 2; connect_vpn' HUP
 
-    # EXIT - выполнится при любом завершении
-    trap 'cleanup' EXIT
-
     while true; do
         local status
         status=$(get_vpn_status)
