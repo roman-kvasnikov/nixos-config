@@ -15,7 +15,6 @@
     ffmpegthumbnailer # Превью видео
     silicon # Красивые скриншоты кода
     tree # Показ структуры директорий
-    xray # Proxy tool
 
     # Дополнительные CLI утилиты (2025 recommendations)
     s3fs # Mount an S3 bucket as filesystem through FUSE

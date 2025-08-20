@@ -295,20 +295,24 @@ disconnect_vpn() {
 
 # Функция очистки при завершении
 cleanup() {
-    print_info "Cleaning up..."
+    print_header "🧹 Cleaning up VPN configuration..."
 
-    # Отключить VPN если подключен
-    local status
-    status=$(get_vpn_status)
-    if [ "$status" = "connected" ] || [ "$status" = "connecting" ]; then
-        disconnect_vpn
+    # Остановить соединение
+    disconnect_vpn
+
+    # Удалить NetworkManager подключение
+    if nmcli connection show "$VPN_CONNECTION_NAME" >/dev/null 2>&1; then
+        nmcli connection delete "$VPN_CONNECTION_NAME" >/dev/null 2>&1
+        print_success "Removed NetworkManager connection"
     fi
+
+    # Удалить логи
+    [ -f "$LOG_FILE" ] && rm -f "$LOG_FILE"
+    print_success "Log file cleaned"
 
     # Удалить PID файл
     [ -f "$PID_FILE" ] && rm -f "$PID_FILE"
-
-    # Записать в лог
-    log_connection "DAEMON_STOPPED"
+    print_success "PID file cleaned"
 
     print_info "Cleanup completed"
 }
@@ -436,18 +440,18 @@ main() {
             validate_config || exit 1
             daemon
         ;;
-        start|connect)
+        connect)
             ensure_config
             validate_config || exit 1
             connect_vpn
             ;;
-        stop|disconnect)
+        disconnect)
             disconnect_vpn
             ;;
-        restart)
+        reconnect)
             ensure_config
             validate_config || exit 1
-            print_header "🔄 Restarting VPN connection..."
+            print_header "🔄 Reconnecting to VPN..."
             disconnect_vpn
             sleep 2
             connect_vpn
@@ -465,28 +469,19 @@ main() {
             print_info "Systemd service logs:"
             journalctl --user -u homevpnctl -f --no-pager
             ;;
-        enable)
-            ensure_config
-            systemctl --user enable homevpnctl
-            print_success "Home VPN service enabled for autostart"
-            ;;
-        disable)
-            systemctl --user disable homevpnctl
-            print_success "Home VPN service disabled from autostart"
-            ;;
         config)
             ensure_config
             print_header "🔧 Home VPN Configuration:"
             print_info "Config file: $CONFIG_FILE"
             print_info "Example file: $CONFIG_DIR/config.example.json"
-            
+
             if [ -f "$CONFIG_FILE" ]; then
                 echo ""
                 print_info "Current configuration:"
                 local server login
                 server=$(get_vpn_config "server")
                 login=$(get_vpn_config "login")
-                
+
                 if [ -n "$server" ]; then
                     print_status "  Server: $server"
                 fi
@@ -494,7 +489,7 @@ main() {
                     print_status "  Login: $login"
                 fi
                 print_status "  Password: [configured]"
-                
+
                 local psk
                 psk=$(get_vpn_config "psk")
                 if [ -n "$psk" ] && [ "$psk" != "null" ]; then
@@ -510,6 +505,10 @@ main() {
             print_header "🔧 Recreating VPN connection..."
             create_vpn_connection
             ;;
+        service-enable)
+            systemctl --user enable homevpnctl
+            print_success "Home VPN service enabled for autostart"
+            ;;
         service-start)
             systemctl --user start homevpnctl
             print_success "Home VPN systemd service started"
@@ -522,21 +521,12 @@ main() {
             systemctl --user restart homevpnctl
             print_success "Home VPN systemd service restarted"
             ;;
+        service-disable)
+            systemctl --user disable homevpnctl
+            print_success "Home VPN service disabled from autostart"
+            ;;
         clean)
-            print_header "🧹 Cleaning up VPN configuration..."
-
-            # Остановить соединение
-            disconnect_vpn
-
-            # Удалить NetworkManager подключение
-            if nmcli connection show "$VPN_CONNECTION_NAME" >/dev/null 2>&1; then
-                nmcli connection delete "$VPN_CONNECTION_NAME" >/dev/null 2>&1
-                print_success "Removed NetworkManager connection"
-            fi
-
-            # Очистить файлы статуса и логи
-            rm -f "$LOG_FILE"
-            print_success "Log file cleaned"
+            cleanup
             ;;
         *)
             show_help
@@ -551,39 +541,39 @@ show_help() {
     echo ""
     print_info "Usage: homevpnctl {command}"
     echo ""
-    
+
     print_status "🚀 Quick commands:"
-    echo -e "  ${GREEN}start${NC}, ${GREEN}connect${NC}         Connect to Home VPN"
-    echo -e "  ${RED}stop${NC}, ${RED}disconnect${NC}       Disconnect from Home VPN"
-    echo -e "  ${CYAN}restart${NC}                Reconnect to Home VPN"
+    echo -e "  ${GREEN}connect${NC}         Connect to Home VPN"
+    echo -e "  ${RED}disconnect${NC}       Disconnect from Home VPN"
+    echo -e "  ${CYAN}reconnect${NC}       Reconnect to Home VPN"
     echo ""
-    
+
     print_status "⚙️ VPN management:"
     echo -e "  ${BLUE}status${NC}                 Show VPN connection status"
     echo -e "  ${CYAN}logs${NC}                   Show connection logs"
     echo -e "  ${YELLOW}recreate${NC}               Recreate NetworkManager connection"
     echo -e "  ${RED}clean${NC}                  Clean up all VPN configuration"
     echo ""
-    
+
     print_status "🔧 Service management:"
+    echo -e "  ${GREEN}service-enable${NC}       Enable autostart"
     echo -e "  ${GREEN}service-start${NC}          Start systemd service"
     echo -e "  ${RED}service-stop${NC}           Stop systemd service"
     echo -e "  ${CYAN}service-restart${NC}        Restart systemd service"
-    echo -e "  ${GREEN}enable${NC}                 Enable autostart"
-    echo -e "  ${RED}disable${NC}                Disable autostart"
+    echo -e "  ${RED}service-disable${NC}        Disable autostart"
     echo ""
-    
+
     print_status "📋 Configuration:"
     echo -e "  ${PURPLE}config${NC}                 Show config file paths and settings"
     echo ""
-    
+
     print_status "💡 Example usage:"
-    echo -e "  homevpnctl start           # Connect to VPN"
+    echo -e "  homevpnctl connect         # Connect to VPN"
     echo -e "  homevpnctl status          # Check connection status"
     echo -e "  homevpnctl logs            # View connection logs"
-    echo -e "  homevpnctl stop            # Disconnect from VPN"
+    echo -e "  homevpnctl disconnect      # Disconnect from VPN"
     echo ""
-    
+
     print_info "Configuration file: $CONFIG_FILE"
     print_info "Required format: {\"server\": \"vpn.example.com\", \"login\": \"user\", \"password\": \"pass\", \"psk\": \"key\"}"
 }

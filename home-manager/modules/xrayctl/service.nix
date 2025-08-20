@@ -1,29 +1,40 @@
 {
-  pkgs,
   lib,
   config,
+  pkgs,
   ...
-}: {
-  config = lib.mkIf config.services.xrayctl.enable {
+}: let
+  xrayctlConfig = config.services.xrayctl;
+in {
+  config = lib.mkIf xrayctlConfig.enable {
     systemd.user.services.xray = {
       Unit = {
-        Description = "Xray proxy service (user)";
+        Description = "Xray proxy service";
         Documentation = "https://xtls.github.io/";
-        After = ["network.target"];
-        Wants = ["network.target"];
-      };
-
-      Install = {
-        WantedBy = ["default.target"];
+        After = ["network-online.target"];
+        Wants = ["network-online.target"];
+        PartOf = ["network-online.target"];
       };
 
       Service = {
         Type = "simple";
-        ExecStart = "${pkgs.xray}/bin/xray run -config ${config.services.xrayctl.configFile}";
+
+        ExecStart = "${pkgs.xray}/bin/xray run -config ${xrayctlConfig.configFile}";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
+
+        # Restart политика
         Restart = "on-failure";
-        RestartSec = "3s";
+        RestartSec = "30s";
+
+        # Процессы и сигналы
         KillMode = "mixed";
+        KillSignal = "SIGTERM";
+        TimeoutStopSec = "30s";
+
+        # Окружение
+        Environment = [
+          "PATH=${lib.makeBinPath [pkgs.jq pkgs.coreutils]}"
+        ];
 
         # Логирование
         StandardOutput = "journal";
@@ -36,8 +47,6 @@
         ProtectHome = "read-only";
         ReadWritePaths = [
           "${config.xdg.configHome}/xray"
-          "${config.xdg.dataHome}/xray"
-          "${config.xdg.cacheHome}/xray"
         ];
 
         # Network
@@ -47,12 +56,14 @@
         AmbientCapabilities = "";
         CapabilityBoundingSet = "";
       };
+
+      Install = {
+        WantedBy = ["default.target"];
+      };
     };
 
     xdg = {
       configFile."xray/.keep".text = "";
-      dataFile."xray/.keep".text = "";
-      cacheFile."xray/.keep".text = "";
     };
   };
 }

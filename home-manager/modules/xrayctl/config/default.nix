@@ -2,8 +2,10 @@
   lib,
   config,
   ...
-}: {
-  config = lib.mkIf config.services.xrayctl.enable {
+}: let
+  xrayctlConfig = config.services.xrayctl;
+in {
+  config = lib.mkIf xrayctlConfig.enable {
     xdg.configFile."xray/config.example.json".source = ./config.example.json;
   };
 }

@@ -11,9 +11,9 @@ in {
     systemd.user.services.homevpnctl = {
       Unit = {
         Description = "Home VPN L2TP/IPsec Connection Daemon";
-        After = ["graphical-session.target" "network-online.target"];
+        After = ["network-online.target"];
         Wants = ["network-online.target"];
-        PartOf = ["graphical-session.target"];
+        PartOf = ["network-online.target"];
       };
 
       Service = {
