@@ -5,15 +5,14 @@
   ...
 }: let
   xrayctlConfig = config.services.xrayctl;
+  xrayctl = pkgs.callPackage ./package/package.nix {inherit xrayctlConfig config pkgs;};
 in {
   config = lib.mkIf xrayctlConfig.enable {
     systemd.user.services.xray = {
       Unit = {
-        Description = "Xray proxy service";
+        Description = "Xray Service";
         Documentation = "https://xtls.github.io/";
-        After = ["network-online.target"];
-        Wants = ["network-online.target"];
-        PartOf = ["network-online.target"];
+        After = ["network-online.target" "nss-lookup.target"];
       };
 
       Service = {
@@ -55,6 +54,29 @@ in {
         # Capabilities
         AmbientCapabilities = "";
         CapabilityBoundingSet = "";
+      };
+
+      Install = {
+        WantedBy = ["default.target"];
+      };
+    };
+
+    systemd.user.services.xrayctl = {
+      Unit = {
+        Description = "Xrayctl management tool";
+        After = ["xray.service"];
+      };
+
+      Service = {
+        Type = "oneshot";
+        RemainAfterExit = true; # Сохранить состояние "active" после выполнения
+
+        ExecStart = "${xrayctl}/bin/xrayctl global-enable";
+        ExecStop = "${xrayctl}/bin/xrayctl global-disable";
+
+        # Restart политика
+        Restart = "on-failure";
+        RestartSec = "10s";
       };
 
       Install = {

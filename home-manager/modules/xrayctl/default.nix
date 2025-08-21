@@ -5,7 +5,7 @@
   ...
 }: let
   xrayctlConfig = config.services.xrayctl;
-  xrayctlPackage = pkgs.callPackage ./package/package.nix {inherit xrayctlConfig config pkgs;};
+  xrayctl = pkgs.callPackage ./package/package.nix {inherit xrayctlConfig config pkgs;};
 in {
   imports = [
     ./options.nix
@@ -14,6 +14,6 @@ in {
   ];
 
   config = lib.mkIf xrayctlConfig.enable {
-    home.packages = [pkgs.xray xrayctlPackage];
+    home.packages = [pkgs.xray xrayctl];
   };
 }
