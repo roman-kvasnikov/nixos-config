@@ -5,7 +5,7 @@
   ...
 }: let
   homevpnctlConfig = config.services.homevpnctl;
-  homevpnctlPackage = pkgs.callPackage ./package/package.nix {inherit homevpnctlConfig config pkgs;};
+  homevpnctl = pkgs.callPackage ./package/package.nix {inherit homevpnctlConfig config pkgs;};
 in {
   config = lib.mkIf homevpnctlConfig.enable {
     systemd.user.services.homevpnctl = {
@@ -19,7 +19,7 @@ in {
       Service = {
         Type = "simple";
 
-        ExecStart = "${homevpnctlPackage}/bin/homevpnctl daemon";
+        ExecStart = "${homevpnctl}/bin/homevpnctl daemon";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
 
         # Restart политика

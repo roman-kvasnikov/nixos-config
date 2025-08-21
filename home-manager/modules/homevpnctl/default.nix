@@ -5,7 +5,7 @@
   ...
 }: let
   homevpnctlConfig = config.services.homevpnctl;
-  homevpnctlPackage = pkgs.callPackage ./package/package.nix {inherit homevpnctlConfig config pkgs;};
+  homevpnctl = pkgs.callPackage ./package/package.nix {inherit homevpnctlConfig config pkgs;};
 in {
   imports = [
     ./options.nix
@@ -14,6 +14,6 @@ in {
   ];
 
   config = lib.mkIf homevpnctlConfig.enable {
-    home.packages = [homevpnctlPackage];
+    home.packages = [homevpnctl];
   };
 }
