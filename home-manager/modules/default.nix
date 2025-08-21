@@ -7,6 +7,7 @@
     ./fastfetch
     ./homevpnctl
     ./keepassxcctl
+    ./s3fsctl
     ./xrayctl
     ./bottom.nix
     ./btop.nix

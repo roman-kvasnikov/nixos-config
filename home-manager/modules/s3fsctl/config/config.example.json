@@ -1,0 +1,6 @@
+{
+	"bucket": "bucket-name",
+	"url": "https://s3.example.com",
+	"usePathRequestStyle": false,
+	"dbglevel": "debug"
+}

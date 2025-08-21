@@ -42,6 +42,15 @@
         "application/pdf" = ["org.gnome.Evince.desktop"];
         "text/plain" = ["org.gnome.TextEditor.desktop"];
         "image/*" = ["org.gnome.Loupe.desktop"];
+        "image/png" = ["org.gnome.Loupe.desktop"];
+        "image/jpeg" = ["org.gnome.Loupe.desktop"];
+        "image/gif" = ["org.gnome.Loupe.desktop"];
+        "image/svg+xml" = ["org.gnome.Loupe.desktop"];
+        "image/webp" = ["org.gnome.Loupe.desktop"];
+        "image/tiff" = ["org.gnome.Loupe.desktop"];
+        "image/x-xbitmap" = ["org.gnome.Loupe.desktop"];
+        "image/x-xpixmap" = ["org.gnome.Loupe.desktop"];
+        "image/x-xwindowdump" = ["org.gnome.Loupe.desktop"];
       };
 
       associations.added = {

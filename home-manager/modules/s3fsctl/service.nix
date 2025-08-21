@@ -4,21 +4,22 @@
   pkgs,
   ...
 }: let
-  homevpnctlConfig = config.services.homevpnctl;
-  homevpnctl = pkgs.callPackage ./package/package.nix {inherit homevpnctlConfig config pkgs;};
+  s3fsctlConfig = config.services.s3fsctl;
+  s3fsctl = pkgs.callPackage ./package/package.nix {inherit s3fsctlConfig config pkgs;};
 in {
-  config = lib.mkIf homevpnctlConfig.enable {
-    systemd.user.services.homevpnctl = {
+  config = lib.mkIf s3fsctlConfig.enable {
+    systemd.user.services.s3fsctl = {
       Unit = {
-        Description = "Home VPN L2TP/IPsec Connection Daemon";
+        Description = "S3FS Connection Daemon";
         After = ["network-online.target"];
       };
 
       Service = {
         Type = "simple";
 
-        ExecStart = "${homevpnctl}/bin/homevpnctl daemon";
+        ExecStart = "${s3fsctl}/bin/s3fsctl mount";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
+        ExecStop = "${s3fsctl}/bin/s3fsctl unmount";
 
         # Restart политика
         Restart = "on-failure";
@@ -31,7 +32,7 @@ in {
 
         # Окружение
         Environment = [
-          "PATH=${lib.makeBinPath [pkgs.networkmanager pkgs.jq pkgs.coreutils]}"
+          "PATH=${lib.makeBinPath [pkgs.jq pkgs.coreutils]}"
         ];
       };
 
@@ -41,7 +42,7 @@ in {
     };
 
     xdg = {
-      configFile."homevpn/.keep".text = "";
+      configFile."s3fs/.keep".text = "";
     };
   };
 }

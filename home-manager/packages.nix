@@ -15,9 +15,9 @@
     ffmpegthumbnailer # Превью видео
     silicon # Красивые скриншоты кода
     tree # Показ структуры директорий
+    cmatrix # Матрица
 
     # Дополнительные CLI утилиты (2025 recommendations)
-    s3fs # Mount an S3 bucket as filesystem through FUSE
     ripgrep # Быстрый поиск в файлах
     fd # Быстрый find
     dust # Современный du
