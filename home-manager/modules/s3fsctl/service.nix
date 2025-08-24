@@ -15,24 +15,15 @@ in {
       };
 
       Service = {
-        Type = "simple";
+        Type = "oneshot";
+        RemainAfterExit = true;
 
         ExecStart = "${s3fsctl}/bin/s3fsctl mount";
-        ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
         ExecStop = "${s3fsctl}/bin/s3fsctl unmount";
-
-        # Restart политика
-        Restart = "on-failure";
-        RestartSec = "30s";
-
-        # Процессы и сигналы
-        KillMode = "mixed";
-        KillSignal = "SIGTERM";
-        TimeoutStopSec = "30s";
 
         # Окружение
         Environment = [
-          "PATH=${lib.makeBinPath [pkgs.jq pkgs.coreutils]}"
+          "PATH=${lib.makeBinPath [pkgs.s3fs pkgs.jq pkgs.coreutils]}"
         ];
       };
 

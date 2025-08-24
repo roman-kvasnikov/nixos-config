@@ -610,8 +610,8 @@ show_help() {
     echo ""
 
     print_status "🚀 Quick commands:"
-    echo -e "  ${GREEN}global-enable${NC}                 Start Xray + enable global proxy settings"
-    echo -e "  ${RED}global-disable${NC}                Stop Xray + disable global proxy settings"
+    echo -e "  ${GREEN}global-enable${NC}          Start Xray + enable global proxy settings"
+    echo -e "  ${RED}global-disable${NC}         Stop Xray + disable global proxy settings"
     echo ""
 
     print_status "⚙️ Service management:"
@@ -625,15 +625,15 @@ show_help() {
     echo ""
 
     print_status "🌐 System proxy (GNOME):"
-    echo -e "  ${GREEN}system-enable${NC}               Enable system-wide proxy"
-    echo -e "  ${RED}system-disable${NC}              Disable system-wide proxy"
-    echo -e "  ${BLUE}system-status${NC}           Show system proxy status"
+    echo -e "  ${GREEN}system-enable${NC}          Enable system-wide proxy"
+    echo -e "  ${RED}system-disable${NC}         Disable system-wide proxy"
+    echo -e "  ${BLUE}system-status${NC}          Show system proxy status"
     echo ""
 
     print_status "💻 Terminal proxy:"
-    echo -e "  ${GREEN}terminal-enable${NC}      Enable terminal proxy (persistent)"
-    echo -e "  ${RED}terminal-disable${NC}     Disable terminal proxy"
-    echo -e "  ${BLUE}terminal-status${NC}  Show terminal proxy status"
+    echo -e "  ${GREEN}terminal-enable${NC}        Enable terminal proxy (persistent)"
+    echo -e "  ${RED}terminal-disable${NC}       Disable terminal proxy"
+    echo -e "  ${BLUE}terminal-status${NC}        Show terminal proxy status"
     echo -e "  ${YELLOW}env-proxy${NC}              Show manual environment variables"
     echo -e "  ${YELLOW}clear-env${NC}              Clear proxy environment variables"
     echo ""

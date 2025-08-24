@@ -1,6 +1,8 @@
 {
-	"bucket": "bucket-name",
-	"url": "https://s3.example.com",
-	"usePathRequestStyle": false,
-	"dbglevel": "debug"
+	"Bucket-1": {
+		"bucket": "bucket-1",
+		"url": "https://s3.example.com",
+		"passwordFile": "path/to/.passwd-s3fs",
+		"mountPoint": "path/to/mount/point"
+	}
 }

@@ -9,7 +9,7 @@
     };
 
     homevpnctl = {
-      enable = true;
+      enable = false;
     };
 
     keepassxcctl = {
@@ -17,7 +17,7 @@
     };
 
     s3fsctl = {
-      enable = true;
+      enable = false;
     };
   };
 }
