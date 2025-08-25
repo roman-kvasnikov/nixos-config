@@ -1,7 +1,6 @@
 {
   imports = [
     ./boot.nix
-    ./desktop.nix
     ./fonts.nix
     ./hardware.nix
     ./home-manager.nix

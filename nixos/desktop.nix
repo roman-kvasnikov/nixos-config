@@ -7,13 +7,13 @@
     # Выбрать ОДНО рабочее окружение:
 
     # 🖥️ GNOME (текущее)
-    # ../desktop-environments/gnome
+    ./desktop-environments/gnome
 
     # 🚀 Hyprland (в разработке)
-    ../desktop-environments/hyprland.nix
+    # ./desktop-environments/hyprland.nix
 
     # 🪟 KDE Plasma (планируется)
-    # ../desktop-environments/kde.nix
+    # ./desktop-environments/kde.nix
   ];
 
   # =============================================================================
