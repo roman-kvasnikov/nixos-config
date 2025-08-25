@@ -176,19 +176,25 @@
     };
   };
 
-  # Включить поддержку OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      # VAAPI и VDPAU для аппаратного ускорения видео
-      libvdpau-va-gl
-      vaapiVdpau
-      libva
-      # Mesa драйвера
-      mesa.drivers
-    ];
+  # =============================================================================
+  # HARDWARE
+  # =============================================================================
+
+  hardware = {
+    graphics = {
+      enable = true;
+
+      # Для AMD/Intel
+      extraPackages = with pkgs; [
+        intel-media-driver # Intel VAAPI
+        vaapiIntel # Intel VAAPI
+        vaapiVdpau # NVIDIA через VDPAU
+        libvdpau-va-gl # OpenGL VAAPI
+        libva # VAAPI
+        intel-compute-runtime # Intel OpenCL
+        mesa
+      ];
+    };
   };
 
   # =============================================================================
