@@ -1,4 +1,9 @@
 {
+  config,
+  user,
+  version,
+  ...
+}: {
   imports = [
     ./desktop.nix
     ./packages.nix
