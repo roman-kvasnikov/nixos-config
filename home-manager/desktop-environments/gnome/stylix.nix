@@ -8,14 +8,12 @@
   stylix = {
     enable = true;
 
+    # Wallpaper и цветовая схема
     image = "${inputs.wallpapers}/NixOS/wp12329533-nixos-wallpapers.png";
-    imageScalingMode = "fill"; # "fill", "fit", "stretch", "center", "tile"
-    # или
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
-
+    imageScalingMode = "fill";
     polarity = "dark";
 
-    # Настройки шрифтов
+    # Шрифты для GNOME
     fonts = {
       serif = {
         package = pkgs.nerd-fonts.ubuntu;
@@ -35,17 +33,18 @@
       };
     };
 
+    # Прозрачность элементов
     opacity = {
-      applications = 1.0; # Непрозрачность приложений
-      desktop = 1.0; # Непрозрачность элементов рабочего стола
-      popups = 0.9; # Прозрачность всплывающих окон
-      terminal = 0.95; # Прозрачность терминала
+      applications = 1.0;
+      desktop = 1.0;
+      popups = 0.9;
+      terminal = 0.95;
     };
 
     targets = {
       gnome.enable = true;
-      kitty.enable = false;
-      vscode.enable = false;
+      kitty.enable = false; # Отдельно настроим в модуле kitty
+      vscode.enable = false; # Отдельно настроим в модуле vscode
     };
   };
 }

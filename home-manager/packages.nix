@@ -68,31 +68,6 @@
     # Финансы и криптовалюты
     electrum # Bitcoin кошелек
 
-    # === GNOME ИНТЕГРАЦИЯ ===
-
-    # Основные GNOME утилиты (должны быть в home для пользователя)
-    # gnome-tweaks # Настройки GNOME
-    # gnome-extension-manager # Управление расширениями
-    # dconf-editor # Редактор настроек
-
-    # GNOME EXTENSIONS (2025 рекомендации)
-    gnomeExtensions.auto-move-windows # Автоматическое перемещение окон
-    gnomeExtensions.bitcoin-markets # Криптовалютные курсы
-    gnomeExtensions.blur-my-shell # Размытие
-    gnomeExtensions.caffeine # Предотвращение блокировки
-    gnomeExtensions.clipboard-history # История буфера
-    gnomeExtensions.dash-to-dock # Док панель
-    gnomeExtensions.just-perfection # Настройки интерфейса
-    gnomeExtensions.search-light # Поиск
-    gnomeExtensions.user-themes # Темы
-
-    # Новые полезные расширения (2025)
-    # gnomeExtensions.appindicator # Системные индикаторы
-    # gnomeExtensions.vitals # Мониторинг системы
-    # gnomeExtensions.gsconnect # Интеграция с Android
-    # gnomeExtensions.pop-shell # Тайловый менеджер окон
-    # gnomeExtensions.forge # Альтернативный тайловый менеджер
-
     # Системные утилиты (для пользователя)
 
     # Мониторинг (дополнительно к системным)
