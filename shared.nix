@@ -7,9 +7,9 @@
 
   hosts = let
     hostList = [
-      { hostname = "huawei"; }
-      { hostname = "nixos"; }
-      { hostname = "nixos-vm"; }
+      {hostname = "huawei";}
+      {hostname = "nixos";}
+      {hostname = "nixos-vm";}
     ];
 
     hostDefaults = {

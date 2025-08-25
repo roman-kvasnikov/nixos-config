@@ -31,7 +31,18 @@ in {
 
         # Окружение
         Environment = [
-          "PATH=${lib.makeBinPath [pkgs.networkmanager pkgs.jq pkgs.coreutils]}"
+          "PATH=${lib.makeBinPath [
+            pkgs.coreutils
+            pkgs.jq
+            pkgs.networkmanager
+            pkgs.iproute2
+            pkgs.iputils
+            pkgs.net-tools
+            pkgs.systemd
+            pkgs.gnugrep
+            pkgs.gawk
+            pkgs.gnused
+          ]}"
         ];
       };
 

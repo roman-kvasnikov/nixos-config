@@ -76,9 +76,25 @@ check_dependencies() {
         missing_deps+=("jq")
     fi
 
+    if ! command -v arp >/dev/null 2>&1; then
+        missing_deps+=("arp")
+    fi
+
+    if ! command -v ping >/dev/null 2>&1; then
+        missing_deps+=("ping")
+    fi
+
+    if ! command -v ip >/dev/null 2>&1; then
+        missing_deps+=("ip")
+    fi
+
+    if ! command -v systemctl >/dev/null 2>&1; then
+        missing_deps+=("systemctl")
+    fi
+
     if [ ${#missing_deps[@]} -gt 0 ]; then
         print_error "Missing required dependencies: ${missing_deps[*]}"
-        print_error "Make sure nmcli and jq are installed"
+        print_error "Make sure nmcli, jq, arp, ping, ip, systemctl are installed"
         exit 1
     fi
 }
@@ -107,7 +123,7 @@ ensure_config() {
 
 # Получить настройки из config.json (поддерживает вложенные пути)
 get_config_value() {
-    local field="$1"  # "vpn.server", "vpn.login", "healthcheck.enabled", "name"
+    local field="$1"  # "name", "vpn.server", "vpn.login", "healthcheck.enabled", "network_detection.enabled", "network_detection.methods.gateway_check.enabled", "network_detection.methods.ping_check.enabled", "network_detection.methods.wifi_check.enabled", "network_detection.methods.mac_check.enabled"
 
     ensure_config
 
@@ -231,6 +247,161 @@ create_vpn_connection() {
 }
 
 # =============================================================================
+# ОПРЕДЕЛЕНИЕ ДОМАШНЕЙ СЕТИ
+# =============================================================================
+
+# Проверить, включено ли определение сети
+is_network_detection_enabled() {
+    local enabled
+    enabled=$(get_config_value "network_detection.enabled")
+    [ "$enabled" = "true" ]
+}
+
+# Проверить по шлюзу
+check_home_gateway() {
+    if [ "$(get_config_value "network_detection.methods.gateway_check.enabled")" != "true" ]; then
+        return 1
+    fi
+    
+    local current_gateway home_gateways
+    current_gateway=$(ip route | grep '^default' | awk '{print $3}' | head -1)
+    
+    if [ -z "$current_gateway" ]; then
+        return 1
+    fi
+    
+    # Получаем список домашних шлюзов из конфигурации
+    home_gateways=$(get_config_value "network_detection.methods.gateway_check.home_gateways" | jq -r '.[]?' 2>/dev/null)
+    
+    while IFS= read -r gateway; do
+        if [ -n "$gateway" ] && [ "$current_gateway" = "$gateway" ]; then
+            return 0
+        fi
+    done <<< "$home_gateways"
+    
+    return 1
+}
+
+# Проверить доступность домашних хостов
+check_home_hosts() {
+    if [ "$(get_config_value "network_detection.methods.ping_check.enabled")" != "true" ]; then
+        return 1
+    fi
+    
+    local home_hosts
+    home_hosts=$(get_config_value "network_detection.methods.ping_check.home_hosts" | jq -r '.[]?' 2>/dev/null)
+    
+    while IFS= read -r host; do
+        if [ -n "$host" ]; then
+            if ping -c1 -W2 "$host" >/dev/null 2>&1; then
+                return 0
+            fi
+        fi
+    done <<< "$home_hosts"
+    
+    return 1
+}
+
+# Проверить WiFi SSID
+check_home_wifi() {
+    if [ "$(get_config_value "network_detection.methods.wifi_check.enabled")" != "true" ]; then
+        return 1
+    fi
+    
+    local current_ssid home_ssids
+    current_ssid=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep '^yes:' | cut -d: -f2 | head -1)
+    
+    if [ -z "$current_ssid" ]; then
+        return 1
+    fi
+    
+    home_ssids=$(get_config_value "network_detection.methods.wifi_check.home_ssids" | jq -r '.[]?' 2>/dev/null)
+    
+    while IFS= read -r ssid; do
+        if [ -n "$ssid" ] && [ "$current_ssid" = "$ssid" ]; then
+            return 0
+        fi
+    done <<< "$home_ssids"
+    
+    return 1
+}
+
+# Проверить MAC адрес роутера
+check_home_router_mac() {
+    if [ "$(get_config_value "network_detection.methods.mac_check.enabled")" != "true" ]; then
+        return 1
+    fi
+    
+    local current_gateway router_mac home_macs
+    current_gateway=$(ip route | grep '^default' | awk '{print $3}' | head -1)
+    
+    if [ -z "$current_gateway" ]; then
+        return 1
+    fi
+    
+    # Попытаться получить MAC адрес шлюза
+    router_mac=$(arp -n "$current_gateway" 2>/dev/null | awk 'NR==2{print $3}')
+    
+    if [ -z "$router_mac" ]; then
+        # Попробовать пингануть шлюз чтобы он появился в ARP таблице
+        ping -c1 -W1 "$current_gateway" >/dev/null 2>&1
+        router_mac=$(arp -n "$current_gateway" 2>/dev/null | awk 'NR==2{print $3}')
+    fi
+    
+    if [ -z "$router_mac" ]; then
+        return 1
+    fi
+    
+    home_macs=$(get_config_value "network_detection.methods.mac_check.home_router_macs" | jq -r '.[]?' 2>/dev/null)
+    
+    while IFS= read -r mac; do
+        if [ -n "$mac" ] && [ "$router_mac" = "$mac" ]; then
+            return 0
+        fi
+    done <<< "$home_macs"
+    
+    return 1
+}
+
+# Главная функция определения домашней сети
+is_at_home() {
+    if ! is_network_detection_enabled; then
+        # Если определение отключено, всегда считаем что не дома
+        return 1
+    fi
+    
+    # Проверяем каждый включенный метод - ВСЕ должны пройти
+    # Если хотя бы один включенный метод не прошел - мы НЕ дома
+    
+    if [ "$(get_config_value "network_detection.methods.gateway_check.enabled")" = "true" ]; then
+        if ! check_home_gateway; then
+            return 1
+        fi
+    fi
+    
+    if [ "$(get_config_value "network_detection.methods.ping_check.enabled")" = "true" ]; then
+        if ! check_home_hosts; then
+            return 1
+        fi
+    fi
+    
+    if [ "$(get_config_value "network_detection.methods.wifi_check.enabled")" = "true" ]; then
+        if ! check_home_wifi; then
+            return 1
+        fi
+    fi
+    
+    if [ "$(get_config_value "network_detection.methods.mac_check.enabled")" = "true" ]; then
+        if ! check_home_router_mac; then
+            return 1
+        fi
+    fi
+    
+    # Если дошли сюда - все включенные методы прошли проверку
+    return 0
+}
+
+# =============================================================================
 # УПРАВЛЕНИЕ VPN СОЕДИНЕНИЕМ
 # =============================================================================
 
@@ -271,8 +442,15 @@ log_connection() {
     echo "[$timestamp] $action - Status: $status" >> "$LOG_FILE"
 }
 
-# Подключиться к VPN
+# Подключиться к VPN (с проверкой домашней сети)
 connect_vpn() {
+    # Проверить, находимся ли мы уже в домашней сети
+    if is_at_home; then
+        print_warning "Already at home network, VPN connection not needed"
+        log_connection "SKIPPED_HOME"
+        return 0
+    fi
+    
     local status=$(get_vpn_status)
 
     case "$status" in
@@ -361,6 +539,14 @@ daemon() {
     echo $$ > "$PID_FILE"
     log_connection "DAEMON_STARTED PID=$(cat "$PID_FILE")"
 
+    # Проверить сразу при старте - если дома, завершиться
+    if is_at_home; then
+        print_info "Already at home network during startup, daemon not needed"
+        log_connection "DAEMON_STOPPED_HOME"
+        rm -f "$PID_FILE"
+        exit 0
+    fi
+
     # Обработка сигналов
     # SIGTERM - нормальное завершение (systemctl stop)
     trap 'print_info "Received SIGTERM, shutting down gracefully..."; cleanup; exit 0' TERM
@@ -379,14 +565,27 @@ daemon() {
         healthcheck_interval=$(get_healthcheck_config "interval")
     fi
 
+    # Попробовать подключиться один раз при старте 
+    # (connect_vpn уже проверяет дома ли мы, но мы уже проверили выше)
+    print_info "Initial connection attempt..."
+    connect_vpn || true
+
     while true; do
         local status
         status=$(get_vpn_status)
 
         case "$status" in
             "not_configured"|"disconnected"|"failed")
-                print_info "VPN not connected, attempting connection..."
-                connect_vpn || true
+                print_info "VPN not connected, attempting reconnection..."
+                # НЕ проверяем дома ли мы - если соединение упало, 
+                # значит мы уехали из дома и нужно переподключиться
+                if nmcli connection up "$(get_vpn_connection_name)" >/dev/null 2>&1; then
+                    log_connection "RECONNECTED"
+                    print_success "VPN reconnected successfully"
+                else
+                    log_connection "RECONNECTION_FAILED"
+                    print_error "Failed to reconnect to VPN"
+                fi
                 ;;
             "connected")
                 print_info "VPN connected, monitoring..."
@@ -554,6 +753,43 @@ main() {
                 print_info "Healthcheck settings:"
                 print_status "  Enabled: $(get_healthcheck_config "enabled")"
                 print_status "  Interval: $(get_healthcheck_config "interval")s"
+                
+                # Network detection настройки
+                echo ""
+                print_info "Network detection settings:"
+                if is_network_detection_enabled; then
+                    print_status "  Enabled: true"
+                    
+                    if [ "$(get_config_value "network_detection.methods.gateway_check.enabled")" = "true" ]; then
+                        print_status "  Gateway check: enabled"
+                        local gateways
+                        gateways=$(get_config_value "network_detection.methods.gateway_check.home_gateways" | jq -r '.[]?' 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+                        print_status "    Home gateways: $gateways"
+                    fi
+                    
+                    if [ "$(get_config_value "network_detection.methods.ping_check.enabled")" = "true" ]; then
+                        print_status "  Ping check: enabled"
+                        local hosts
+                        hosts=$(get_config_value "network_detection.methods.ping_check.home_hosts" | jq -r '.[]?' 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+                        print_status "    Home hosts: $hosts"
+                    fi
+                    
+                    if [ "$(get_config_value "network_detection.methods.wifi_check.enabled")" = "true" ]; then
+                        print_status "  WiFi check: enabled"
+                        local ssids
+                        ssids=$(get_config_value "network_detection.methods.wifi_check.home_ssids" | jq -r '.[]?' 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+                        print_status "    Home SSIDs: $ssids"
+                    fi
+                    
+                    if [ "$(get_config_value "network_detection.methods.mac_check.enabled")" = "true" ]; then
+                        print_status "  MAC check: enabled"
+                        local macs
+                        macs=$(get_config_value "network_detection.methods.mac_check.home_router_macs" | jq -r '.[]?' 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+                        print_status "    Router MACs: $macs"
+                    fi
+                else
+                    print_status "  Enabled: false"
+                fi
             else
                 print_warning "Config file not found: $CONFIG_FILE"
             fi
@@ -561,6 +797,101 @@ main() {
         recreate)
             print_header "🔧 Recreating VPN connection..."
             create_vpn_connection
+            ;;
+        check-home)
+            print_header "🏠 Checking if at home network..."
+            
+            if is_at_home; then
+                print_success "Currently at home network"
+                
+                # Показать какие методы сработали
+                echo ""
+                print_info "Detection methods results:"
+                
+                if check_home_gateway; then
+                    local current_gateway
+                    current_gateway=$(ip route | grep '^default' | awk '{print $3}' | head -1)
+                    print_success "  Gateway check: MATCH ($current_gateway)"
+                else
+                    print_warning "  Gateway check: no match"
+                fi
+                
+                if check_home_hosts; then
+                    print_success "  Host ping check: MATCH"
+                else
+                    print_warning "  Host ping check: no match"
+                fi
+                
+                if check_home_wifi; then
+                    local current_ssid
+                    current_ssid=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep '^yes:' | cut -d: -f2 | head -1)
+                    print_success "  WiFi SSID check: MATCH ($current_ssid)"
+                else
+                    print_warning "  WiFi SSID check: no match"
+                fi
+                
+                if check_home_router_mac; then
+                    local current_gateway router_mac
+                    current_gateway=$(ip route | grep '^default' | awk '{print $3}' | head -1)
+                    router_mac=$(arp -n "$current_gateway" 2>/dev/null | awk 'NR==2{print $3}')
+                    print_success "  Router MAC check: MATCH ($router_mac)"
+                else
+                    print_warning "  Router MAC check: no match"
+                fi
+                
+                echo ""
+                print_info "VPN connection will be skipped"
+            else
+                print_info "Not at home network"
+                echo ""
+                print_info "Detection methods results:"
+                
+                if ! is_network_detection_enabled; then
+                    print_warning "  Network detection is disabled"
+                else
+                    print_warning "  Gateway check: no match"
+                    print_warning "  Host ping check: no match"
+                    print_warning "  WiFi SSID check: no match"
+                    print_warning "  Router MAC check: no match"
+                fi
+                
+                echo ""
+                print_info "VPN connection will be attempted"
+            fi
+            ;;
+        force-connect)
+            print_header "⚡ Force connecting to VPN (bypassing home detection)..."
+            
+            local status=$(get_vpn_status)
+
+            case "$status" in
+                "not_configured")
+                    print_info "VPN connection not configured, creating..."
+                    create_vpn_connection
+                    ;;
+                "connected")
+                    print_warning "VPN already connected"
+                    return 0
+                    ;;
+                "connecting")
+                    print_warning "VPN connection already in progress"
+                    return 0
+                    ;;
+            esac
+
+            print_info "Force connecting to VPN: $(get_vpn_connection_name)"
+
+            if nmcli connection up "$(get_vpn_connection_name)" >/dev/null 2>&1; then
+                log_connection "FORCE_CONNECTED"
+                print_success "VPN force connected successfully"
+
+                # Показать информацию о подключении
+                print_info "Connected to server: $(get_vpn_config "server")"
+            else
+                log_connection "FORCE_CONNECTION_FAILED"
+                print_error "Failed to force connect to VPN"
+                exit 1
+            fi
             ;;
         service-enable)
             systemctl --user enable homevpnctl
@@ -600,7 +931,8 @@ show_help() {
     echo ""
 
     print_status "🚀 Quick commands:"
-    echo -e "  ${GREEN}connect${NC}                Connect to Home VPN"
+    echo -e "  ${GREEN}connect${NC}                Connect to Home VPN (with home detection)"
+    echo -e "  ${GREEN}force-connect${NC}          Force connect (bypass home detection)"
     echo -e "  ${RED}disconnect${NC}             Disconnect from Home VPN"
     echo -e "  ${CYAN}reconnect${NC}              Reconnect to Home VPN"
     echo ""
@@ -620,15 +952,21 @@ show_help() {
     echo -e "  ${RED}service-disable${NC}        Disable autostart"
     echo ""
 
+    print_status "🏠 Home network detection:"
+    echo -e "  ${BLUE}check-home${NC}             Check if currently at home network"
+    echo ""
+    
     print_status "📋 Configuration:"
     echo -e "  ${PURPLE}config${NC}                 Show config file paths and settings"
     echo ""
 
     print_status "💡 Example usage:"
-    echo -e "  homevpnctl connect     # Connect to VPN"
-    echo -e "  homevpnctl status      # Check connection status"
-    echo -e "  homevpnctl logs        # View connection logs"
-    echo -e "  homevpnctl disconnect  # Disconnect from VPN"
+    echo -e "  homevpnctl connect       # Smart connect (checks if at home first)"
+    echo -e "  homevpnctl check-home    # Check if currently at home"
+    echo -e "  homevpnctl force-connect # Force connect bypassing home detection"
+    echo -e "  homevpnctl status        # Check connection status"
+    echo -e "  homevpnctl logs          # View connection logs"
+    echo -e "  homevpnctl disconnect    # Disconnect from VPN"
     echo ""
 
     print_info "Configuration file: $CONFIG_FILE"
@@ -644,6 +982,27 @@ show_help() {
     print_info "    \"healthcheck\": {"
     print_info "      \"enabled\": true,"
     print_info "      \"interval\": 30,"
+    print_info "    },"
+    print_info "    \"network_detection\": {"
+    print_info "      \"enabled\": true,"
+    print_info "      \"methods\": {"
+    print_info "        \"gateway_check\": {"
+    print_info "          \"enabled\": true,"
+    print_info "          \"home_gateways\": [\"192.168.1.1\", \"10.0.0.1\"]"
+    print_info "        },"
+    print_info "        \"ping_check\": {"
+    print_info "          \"enabled\": true,"
+    print_info "          \"home_hosts\": [\"192.168.1.1\", \"192.168.1.10\"]"
+    print_info "        },"
+    print_info "        \"wifi_check\": {"
+    print_info "          \"enabled\": true,"
+    print_info "          \"home_ssids\": [\"HomeWiFi\", \"MyRouter\"]"
+    print_info "        },"
+    print_info "        \"mac_check\": {"
+    print_info "          \"enabled\": true,"
+    print_info "          \"home_router_macs\": [\"aa:bb:cc:dd:ee:ff\"]"
+    print_info "        }"
+    print_info "      }"
     print_info "    }"
     print_info "  }"
 }

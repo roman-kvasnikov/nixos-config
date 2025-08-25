@@ -9,7 +9,7 @@
     };
 
     homevpnctl = {
-      enable = false;
+      enable = true;
     };
 
     keepassxcctl = {
@@ -17,7 +17,7 @@
     };
 
     s3fsctl = {
-      enable = false;
+      enable = false; # Временно отключено из-за проблем с бесконечными процессами
     };
   };
 }
