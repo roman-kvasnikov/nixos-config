@@ -12,6 +12,7 @@ in {
       Unit = {
         Description = "Home VPN L2TP/IPsec Connection Daemon";
         After = ["network-online.target"];
+        Wants = ["network-online.target"];
       };
 
       Service = {

@@ -13,6 +13,7 @@ in {
         Description = "Xray Service";
         Documentation = "https://xtls.github.io/";
         After = ["network-online.target" "nss-lookup.target"];
+        Wants = ["network-online.target"];
       };
 
       Service = {
