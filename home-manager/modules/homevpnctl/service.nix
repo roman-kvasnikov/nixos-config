@@ -52,7 +52,7 @@ in {
     };
 
     xdg = {
-      configFile."homevpn/.keep".text = "";
+      configFile."homevpn/README.md".source = ./README.md;
     };
   };
 }

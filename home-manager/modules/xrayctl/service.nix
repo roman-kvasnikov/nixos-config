@@ -32,7 +32,14 @@ in {
 
         # Окружение
         Environment = [
-          "PATH=${lib.makeBinPath [pkgs.jq pkgs.coreutils]}"
+          "PATH=${lib.makeBinPath [
+            pkgs.jq
+            pkgs.coreutils
+            pkgs.glib # gsettings
+            pkgs.systemd
+            pkgs.gnugrep
+            pkgs.gnused
+          ]}"
         ];
 
         # Логирование
@@ -77,6 +84,18 @@ in {
         # Restart политика
         Restart = "on-failure";
         RestartSec = "10s";
+
+        # Окружение
+        Environment = [
+          "PATH=${lib.makeBinPath [
+            pkgs.jq
+            pkgs.coreutils
+            pkgs.glib # gsettings
+            pkgs.systemd
+            pkgs.gnugrep
+            pkgs.gnused
+          ]}"
+        ];
       };
 
       Install = {
@@ -85,7 +104,7 @@ in {
     };
 
     xdg = {
-      configFile."xray/.keep".text = "";
+      configFile."xray/README.md".source = ./README.md;
     };
   };
 }

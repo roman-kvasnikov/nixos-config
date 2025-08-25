@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   hostname,
   system,
@@ -31,6 +32,7 @@
         useOSProber = true;
         configurationLimit = 10;
         default = "saved"; # Запоминать последний выбор
+        theme = inputs.nixos-grub-themes.packages.${system}.nixos;
       };
     };
 

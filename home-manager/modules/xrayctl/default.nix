@@ -14,6 +14,15 @@ in {
   ];
 
   config = lib.mkIf xrayctlConfig.enable {
-    home.packages = [pkgs.xray xrayctl];
+    home.packages = [
+      pkgs.xray
+      xrayctl
+      pkgs.jq
+      pkgs.coreutils
+      pkgs.glib # gsettings
+      pkgs.systemd
+      pkgs.gnugrep
+      pkgs.gnused
+    ];
   };
 }

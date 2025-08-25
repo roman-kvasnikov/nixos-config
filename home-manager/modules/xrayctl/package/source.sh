@@ -83,9 +83,17 @@ check_dependencies() {
         missing_deps+=("gsettings")
     fi
 
+    if ! command -v systemctl >/dev/null 2>&1; then
+        missing_deps+=("systemctl")
+    fi
+
+    if ! command -v grep >/dev/null 2>&1; then
+        missing_deps+=("grep")
+    fi
+
     if [ ${#missing_deps[@]} -gt 0 ]; then
         print_error "Missing required dependencies: ${missing_deps[*]}"
-        print_error "Make sure jq and gsettings are installed"
+        print_error "Make sure jq, gsettings, systemctl, grep are installed"
         exit 1
     fi
 }

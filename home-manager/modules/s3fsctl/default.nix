@@ -14,6 +14,14 @@ in {
   ];
 
   config = lib.mkIf s3fsctlConfig.enable {
-    home.packages = [pkgs.s3fs s3fsctl];
+    home.packages = [
+      s3fsctl
+      pkgs.s3fs
+      pkgs.coreutils
+      pkgs.jq
+      pkgs.util-linux
+      pkgs.gnugrep
+      pkgs.curl
+    ];
   };
 }

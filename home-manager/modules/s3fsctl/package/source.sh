@@ -94,9 +94,21 @@ check_dependencies() {
         missing_deps+=("jq")
     fi
 
+    if ! command -v grep >/dev/null 2>&1; then
+        missing_deps+=("grep")
+    fi
+
+    if ! command -v mount >/dev/null 2>&1; then
+        missing_deps+=("mount")
+    fi
+
+    if ! command -v umount >/dev/null 2>&1; then
+        missing_deps+=("umount")
+    fi
+
     if [ ${#missing_deps[@]} -gt 0 ]; then
         print_error "Missing required dependencies: ${missing_deps[*]}"
-        print_error "Make sure s3fs and jq are installed"
+        print_error "Make sure s3fs, jq, grep, mount, umount are installed"
         log_event "ERROR" "Missing dependencies: ${missing_deps[*]}"
         exit 1
     fi

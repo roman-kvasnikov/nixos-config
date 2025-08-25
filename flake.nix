@@ -15,6 +15,10 @@
 
     # === СИСТЕМНЫЕ РАСШИРЕНИЯ ===
 
+    nixos-grub-themes = {
+      url = "github:jeslie0/nixos-grub-themes";
+    };
+
     stylix = {
       # url = "github:nix-community/stylix/release-25.05";
       url = "github:nix-community/stylix/master";
