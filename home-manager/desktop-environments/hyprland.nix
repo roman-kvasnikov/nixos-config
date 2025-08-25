@@ -11,7 +11,6 @@
 
   # ПРИМЕЧАНИЕ: Этот файл является шаблоном для будущей реализации Hyprland
 
-  /*
   # =============================================================================
   # HYPRLAND КОНФИГУРАЦИЯ
   # =============================================================================
@@ -294,25 +293,25 @@
 
   home.packages = with pkgs; [
     # Hyprland утилиты
-    hyprpaper      # Обои
-    hypridle       # Управление простоем
-    hyprlock       # Блокировка экрана
-    hyprpicker     # Цветовая пипетка
+    hyprpaper # Обои
+    hypridle # Управление простоем
+    hyprlock # Блокировка экрана
+    hyprpicker # Цветовая пипетка
 
     # Wayland утилиты
-    wl-clipboard   # Буфер обмена
-    wf-recorder    # Запись экрана
-    grim           # Скриншоты
-    slurp          # Выбор области
-    swappy         # Редактор скриншотов
-    
+    wl-clipboard # Буфер обмена
+    wf-recorder # Запись экрана
+    grim # Скриншоты
+    slurp # Выбор области
+    swappy # Редактор скриншотов
+
     # Файловый менеджер
     thunar
-    
+
     # Системные утилиты
-    brightnessctl  # Яркость
-    pamixer        # Громкость
-    playerctl      # Медиа управление
+    brightnessctl # Яркость
+    pamixer # Громкость
+    playerctl # Медиа управление
   ];
 
   # =============================================================================
@@ -324,7 +323,7 @@
 
     mimeApps = {
       enable = true;
-      
+
       defaultApplications = {
         # Веб-браузер
         "text/html" = ["brave-browser.desktop"];
@@ -354,19 +353,18 @@
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
-    
+
     # QT
     QT_QPA_PLATFORM = "wayland;xcb";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    
+
     # GTK
     GDK_BACKEND = "wayland,x11";
-    
+
     # NVIDIA (если нужно)
     # WLR_NO_HARDWARE_CURSORS = "1";
     # LIBVA_DRIVER_NAME = "nvidia";
   };
-  */
 
   # =============================================================================
   # ВРЕМЕННАЯ ЗАГЛУШКА
@@ -391,7 +389,7 @@
     - System information display
 
     ### Application Launcher:
-    - programs.wofi configuration  
+    - programs.wofi configuration
     - Custom styling and behavior
     - Application search and launch
 

@@ -62,7 +62,7 @@
       templates = "${config.home.homeDirectory}/Templates";
       publicShare = "${config.home.homeDirectory}";
     };
-
-    home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
   };
+
+  home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
 }

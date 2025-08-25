@@ -7,10 +7,9 @@
   # =============================================================================
   # HYPRLAND DESKTOP ENVIRONMENT (ПЛАНИРУЕТСЯ)
   # =============================================================================
-  
+
   # ПРИМЕЧАНИЕ: Этот файл является шаблоном для будущей реализации Hyprland
-  
-  /* 
+
   # Display Manager для Hyprland
   services.displayManager.sddm = {
     enable = true;
@@ -32,19 +31,19 @@
     # Wayland настройки для приложений
     MOZ_ENABLE_WAYLAND = "1";
     NIXOS_OZONE_WL = "1";
-    
+
     # Hyprland specific
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
-    
+
     # NVIDIA specific (если нужно)
     # WLR_NO_HARDWARE_CURSORS = "1";
     # LIBVA_DRIVER_NAME = "nvidia";
   };
 
   # =============================================================================
-  # АУДИО ПОДСИСТЕМА (PIPEWIRE)  
+  # АУДИО ПОДСИСТЕМА (PIPEWIRE)
   # =============================================================================
 
   services.pipewire = {
@@ -89,7 +88,7 @@
   environment.systemPackages = with pkgs; [
     # Notification daemon
     mako
-    # Application launcher  
+    # Application launcher
     wofi
     # Status bar
     waybar
@@ -121,16 +120,15 @@
     driSupport = true;
     driSupport32Bit = true;
   };
-  */
 
   # Временная заглушка - пока Hyprland не реализован
   environment.etc."hyprland-placeholder".text = ''
     # Hyprland configuration will be implemented here
     # This is a placeholder file for future Hyprland desktop environment
-    
+
     # To implement:
     # 1. Enable SDDM display manager
-    # 2. Configure Hyprland window manager  
+    # 2. Configure Hyprland window manager
     # 3. Setup XDG portals for Wayland
     # 4. Add essential Hyprland tools
     # 5. Configure graphics and audio
