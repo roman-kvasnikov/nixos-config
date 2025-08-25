@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   services = {
     # GDM display manager с Wayland
     displayManager.gdm = {
@@ -11,7 +15,7 @@
     desktopManager.gnome.enable = true;
 
     # GNOME system services
-    gnome = {
+    gnome = lib.mkForce {
       gnome-keyring.enable = false; # Используем KeePassXC
       # Оптимизация для производительности
       at-spi2-core.enable = true;
