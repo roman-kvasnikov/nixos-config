@@ -5,75 +5,13 @@
   ...
 }: {
   services = {
-    # github:nixos/nixpkgs/nixos-unstable
-    displayManager.gdm = {
-      enable = true;
-      wayland = true; # Включить Wayland по умолчанию
-      autoSuspend = false; # Для single-user системы
-    };
-
-    desktopManager.gnome.enable = true;
-
-    # github:nixos/nixpkgs/nixos-25.05
-    # xserver = {
-    #   enable = true;
-
-    #   displayManager.gdm = {
-    #     enable = true;
-    #     wayland = true; # Включить Wayland по умолчанию
-    #     autoSuspend = false; # Для single-user системы
-    #   };
-
-    #   desktopManager.gnome.enable = true;
-    # };
-
-    # Автоматический логин для единственного пользователя
-    # displayManager.autoLogin = {
-    #   enable = true;
-    #   user = user.name;
-    # };
-
-    # Современные аудио настройки
-    pipewire = {
-      enable = true;
-      alsa = {
-        enable = true;
-        support32Bit = true;
-      };
-      pulse.enable = true;
-      # Оптимизация для низкой задержки
-      wireplumber.enable = true;
-    };
-
-    # Отключить PulseAudio полностью (конфликт с PipeWire)
-    pulseaudio.enable = false;
-
-    # Системные сервисы для single-user
-    gnome = lib.mkForce {
-      gnome-keyring.enable = false;
-      # Оптимизация для производительности
-      at-spi2-core.enable = true;
-    };
-
     # Firmware updates для безопасности
     fwupd.enable = true;
 
-    # Автоматическое монтирование USB
-    udisks2.enable = true;
-
-    # Современная индексация файлов для GNOME
-    locate = {
-      enable = true;
-      package = pkgs.mlocate;
-      interval = "hourly";
-    };
-
     # Отключить сетевые службы, если не нужны
     avahi.enable = lib.mkForce false; # mDNS/DNS-SD
-    geoclue2.enable = lib.mkForce true; # Геолокация для часовых поясов
 
     # Энергосбережение для ноутбуков
-    power-profiles-daemon.enable = lib.mkForce true;
     thermald.enable = lib.mkForce true; # Тепловое управление Intel
 
     # Современные сетевые настройки

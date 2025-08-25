@@ -23,15 +23,9 @@
           value = "65536"; # Больше открытых файлов
         }
       ];
-
-      services = {
-        login.enableGnomeKeyring = true;
-        gdm.enableGnomeKeyring = true;
-      };
     };
 
     # Современные security settings
     rtkit.enable = true;
-    polkit.enable = true;
   };
 }
