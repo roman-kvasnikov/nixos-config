@@ -20,7 +20,6 @@
   # Hyprland Window Manager
   programs.hyprland = {
     enable = true;
-    enableNvidiaPatches = false; # Включить если NVIDIA GPU
   };
 
   # =============================================================================
@@ -117,8 +116,6 @@
 
   hardware.opengl = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
   };
 
   # Временная заглушка - пока Hyprland не реализован
