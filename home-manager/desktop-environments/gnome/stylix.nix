@@ -11,6 +11,7 @@
     # Wallpaper и цветовая схема
     image = "${inputs.wallpapers}/NixOS/wp12329533-nixos-wallpapers.png";
     imageScalingMode = "fill";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
     polarity = "dark";
 
     # Шрифты для GNOME
