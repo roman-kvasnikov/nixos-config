@@ -1,10 +1,6 @@
 {
   home.sessionVariables = {
-    # GNOME/GTK настройки
-    GTK_THEME = "default-dark";
-
     # Wayland настройки для GNOME приложений
-    CLUTTER_BACKEND = "wayland";
     GDK_BACKEND = "wayland,x11";
 
     # Масштабирование для HiDPI (если нужно)
