@@ -5,21 +5,26 @@
   ...
 }: {
   # =============================================================================
-  # HYPRLAND DESKTOP ENVIRONMENT (ПЛАНИРУЕТСЯ)
+  # HYPRLAND DESKTOP ENVIRONMENT
   # =============================================================================
-
-  # ПРИМЕЧАНИЕ: Этот файл является шаблоном для будущей реализации Hyprland
 
   # Display Manager для Hyprland
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     theme = "breeze";
+    settings = {
+      Theme = {
+        Current = "breeze";
+        CursorTheme = "breeze_cursors";
+      };
+    };
   };
 
   # Hyprland Window Manager
   programs.hyprland = {
     enable = true;
+    xwayland.enable = true;
   };
 
   # =============================================================================
@@ -89,10 +94,12 @@
     mako
     # Application launcher
     wofi
+    rofi-wayland
     # Status bar
     waybar
     # Wallpaper
     swww
+    hyprpaper
     # Screen locker
     swaylock-effects
     # Screen capture
@@ -101,6 +108,13 @@
     wf-recorder
     # File manager
     thunar
+    # Additional utilities
+    brightnessctl
+    pamixer
+    playerctl
+    wl-clipboard
+    # Terminal
+    kitty
   ];
 
   # =============================================================================
@@ -114,20 +128,19 @@
   # GRAPHICS
   # =============================================================================
 
-  hardware.opengl = {
-    enable = true;
+  hardware = {
+    graphics = {
+      enable = true;
+    };
   };
+  # =============================================================================
+  # ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ
+  # =============================================================================
 
-  # Временная заглушка - пока Hyprland не реализован
-  environment.etc."hyprland-placeholder".text = ''
-    # Hyprland configuration will be implemented here
-    # This is a placeholder file for future Hyprland desktop environment
-
-    # To implement:
-    # 1. Enable SDDM display manager
-    # 2. Configure Hyprland window manager
-    # 3. Setup XDG portals for Wayland
-    # 4. Add essential Hyprland tools
-    # 5. Configure graphics and audio
-  '';
+  # Fonts для системы
+  fonts.packages = with pkgs; [
+    nerd-fonts.ubuntu
+    noto-fonts
+    noto-fonts-emoji
+  ];
 }

@@ -6,10 +6,8 @@
   ...
 }: {
   # =============================================================================
-  # HYPRLAND DESKTOP ENVIRONMENT - HOME MANAGER (ПЛАНИРУЕТСЯ)
+  # HYPRLAND DESKTOP ENVIRONMENT - HOME MANAGER
   # =============================================================================
-
-  # ПРИМЕЧАНИЕ: Этот файл является шаблоном для будущей реализации Hyprland
 
   # =============================================================================
   # HYPRLAND КОНФИГУРАЦИЯ
@@ -32,17 +30,72 @@
 
       # Клавиатурные сокращения
       bind = [
+        # Основные приложения
         "SUPER, Q, exec, kitty"
+        "SUPER, E, exec, thunar"
+        "SUPER, R, exec, wofi --show drun"
+        "SUPER, B, exec, brave"
+        
+        # Управление окнами
         "SUPER, C, killactive,"
         "SUPER, M, exit,"
-        "SUPER, E, exec, thunar"
         "SUPER, V, togglefloating,"
-        "SUPER, R, exec, wofi --show drun"
         "SUPER, P, pseudo,"
         "SUPER, J, togglesplit,"
+        "SUPER, F, fullscreen,"
+        
+        # Перемещение между окнами
+        "SUPER, left, movefocus, l"
+        "SUPER, right, movefocus, r"
+        "SUPER, up, movefocus, u"
+        "SUPER, down, movefocus, d"
+        
+        # Рабочие пространства
+        "SUPER, 1, workspace, 1"
+        "SUPER, 2, workspace, 2"
+        "SUPER, 3, workspace, 3"
+        "SUPER, 4, workspace, 4"
+        "SUPER, 5, workspace, 5"
+        "SUPER, 6, workspace, 6"
+        "SUPER, 7, workspace, 7"
+        "SUPER, 8, workspace, 8"
+        "SUPER, 9, workspace, 9"
+        "SUPER, 0, workspace, 10"
+        
+        # Перенос окон на рабочие пространства
+        "SUPER SHIFT, 1, movetoworkspace, 1"
+        "SUPER SHIFT, 2, movetoworkspace, 2"
+        "SUPER SHIFT, 3, movetoworkspace, 3"
+        "SUPER SHIFT, 4, movetoworkspace, 4"
+        "SUPER SHIFT, 5, movetoworkspace, 5"
+        "SUPER SHIFT, 6, movetoworkspace, 6"
+        "SUPER SHIFT, 7, movetoworkspace, 7"
+        "SUPER SHIFT, 8, movetoworkspace, 8"
+        "SUPER SHIFT, 9, movetoworkspace, 9"
+        "SUPER SHIFT, 0, movetoworkspace, 10"
+
+        # Мультимедиа
+        ", XF86AudioRaiseVolume, exec, pamixer -i 5"
+        ", XF86AudioLowerVolume, exec, pamixer -d 5"
+        ", XF86AudioMute, exec, pamixer -t"
+        ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
+        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+        ", XF86AudioPlay, exec, playerctl play-pause"
+        ", XF86AudioNext, exec, playerctl next"
+        ", XF86AudioPrev, exec, playerctl previous"
 
         # Скриншоты
-        ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
+        ", Print, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
+        "SUPER, Print, exec, grim ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
+        
+        # Блокировка экрана
+        "SUPER, L, exec, hyprlock"
+      ];
+      
+      # Мышь бинды
+      bindm = [
+        "SUPER, mouse:272, movewindow"
+        "SUPER, mouse:273, resizewindow"
       ];
 
       # Настройки окон
@@ -159,14 +212,55 @@
         border: none;
         border-radius: 0;
         font-family: "Ubuntu Nerd Font";
-        font-size: 13px;
+        font-size: 14px;
         min-height: 0;
       }
 
       window#waybar {
-        background: rgba(43, 48, 59, 0.8);
-        border-bottom: 3px solid rgba(100, 114, 125, 0.5);
-        color: #ffffff;
+        background-color: rgba(30, 30, 46, 0.8);
+        border-bottom: 3px solid rgba(137, 180, 250, 0.8);
+        color: #cdd6f4;
+        transition-property: background-color;
+        transition-duration: 0.5s;
+      }
+
+      #workspaces {
+        margin: 0 4px;
+      }
+
+      #workspaces button {
+        padding: 0 8px;
+        background-color: transparent;
+        color: #cdd6f4;
+        border-bottom: 3px solid transparent;
+      }
+
+      #workspaces button:hover {
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      #workspaces button.active {
+        background-color: #64748b;
+        border-bottom: 3px solid #cdd6f4;
+      }
+
+      #network, #pulseaudio, #battery, #clock {
+        padding: 0 10px;
+        margin: 0 3px;
+      }
+      
+      #clock {
+        font-weight: bold;
+      }
+      
+      #battery.critical:not(.charging) {
+        background-color: #f38ba8;
+        color: #1e1e2e;
+        animation-name: blink;
+        animation-duration: 0.5s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
       }
     '';
   };
@@ -177,15 +271,17 @@
 
   services.mako = {
     enable = true;
-    backgroundColor = "#2e3440";
-    borderColor = "#88c0d0";
-    borderRadius = 5;
+    backgroundColor = "#1e1e2e";
+    borderColor = "#89b4fa";
+    borderRadius = 8;
     borderSize = 2;
-    textColor = "#eceff4";
-    font = "Ubuntu 12";
-    width = 300;
-    height = 100;
-    defaultTimeout = 5000;
+    textColor = "#cdd6f4";
+    font = "Ubuntu Nerd Font 11";
+    width = 350;
+    height = 120;
+    defaultTimeout = 8000;
+    maxIconSize = 48;
+    iconPath = "/run/current-system/sw/share/icons/hicolor";
   };
 
   # =============================================================================
@@ -367,52 +463,78 @@
   };
 
   # =============================================================================
-  # ВРЕМЕННАЯ ЗАГЛУШКА
+  # СОЗДАНИЕ ДИРЕКТОРИЙ
   # =============================================================================
 
-  # Пока Hyprland не реализован, создаем placeholder файл
-  xdg.configFile."hyprland-placeholder.md".text = ''
-    # Hyprland Home Manager Configuration
+  home.file."Pictures/Screenshots/.keep".text = "";
 
-    This is a placeholder for future Hyprland desktop environment configuration.
+  # =============================================================================
+  # HYPRPAPER WALLPAPERS
+  # =============================================================================
 
-    ## Planned Components:
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      ipc = "on";
+      splash = false;
+      preload = ["${inputs.wallpapers}/NixOS/wp12329533-nixos-wallpapers.png"];
+      wallpaper = [",${inputs.wallpapers}/NixOS/wp12329533-nixos-wallpapers.png"];
+    };
+  };
 
-    ### Window Manager:
-    - wayland.windowManager.hyprland configuration
-    - Keybindings and window rules
-    - Workspaces and monitors setup
+  # =============================================================================
+  # HYPRIDLE & HYPRLOCK
+  # =============================================================================
 
-    ### Status Bar:
-    - programs.waybar configuration
-    - Custom styling and modules
-    - System information display
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        ignore_dbus_inhibit = false;
+        lock_cmd = "hyprlock";
+      };
+      listener = [
+        {
+          timeout = 900;
+          on-timeout = "hyprlock";
+        }
+        {
+          timeout = 1200;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+      ];
+    };
+  };
 
-    ### Application Launcher:
-    - programs.wofi configuration
-    - Custom styling and behavior
-    - Application search and launch
-
-    ### Notifications:
-    - services.mako configuration
-    - Custom styling and behavior
-    - Notification management
-
-    ### Lock Screen:
-    - programs.swaylock configuration
-    - Security and styling options
-
-    ### Utilities:
-    - Screenshot tools (grim, slurp)
-    - Screen recording (wf-recorder)
-    - Clipboard management (wl-clipboard)
-    - Media controls (playerctl)
-
-    ## To Implement:
-    1. Complete Hyprland window manager setup
-    2. Configure all auxiliary tools
-    3. Setup proper theming integration
-    4. Add custom keybindings
-    5. Integrate with existing packages
-  '';
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        disable_loading_bar = true;
+        grace = 300;
+        hide_cursor = true;
+        no_fade_in = false;
+      };
+      background = [{
+        path = "${inputs.wallpapers}/NixOS/wp12329533-nixos-wallpapers.png";
+        blur_passes = 3;
+        blur_size = 8;
+      }];
+      input-field = [{
+        size = "200, 50";
+        position = "0, -80";
+        monitor = "";
+        dots_center = true;
+        fade_on_empty = false;
+        font_color = "rgb(202, 211, 245)";
+        inner_color = "rgb(91, 96, 120)";
+        outer_color = "rgb(24, 25, 38)";
+        outline_thickness = 5;
+        placeholder_text = "<span foreground=\"##cad3f5\">Password...</span>";
+        shadow_passes = 2;
+      }];
+    };
+  };
 }
