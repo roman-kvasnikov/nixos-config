@@ -35,7 +35,7 @@
         "SUPER, E, exec, thunar"
         "SUPER, R, exec, wofi --show drun"
         "SUPER, B, exec, brave"
-        
+
         # Управление окнами
         "SUPER, C, killactive,"
         "SUPER, M, exit,"
@@ -43,13 +43,13 @@
         "SUPER, P, pseudo,"
         "SUPER, J, togglesplit,"
         "SUPER, F, fullscreen,"
-        
+
         # Перемещение между окнами
         "SUPER, left, movefocus, l"
         "SUPER, right, movefocus, r"
         "SUPER, up, movefocus, u"
         "SUPER, down, movefocus, d"
-        
+
         # Рабочие пространства
         "SUPER, 1, workspace, 1"
         "SUPER, 2, workspace, 2"
@@ -61,7 +61,7 @@
         "SUPER, 8, workspace, 8"
         "SUPER, 9, workspace, 9"
         "SUPER, 0, workspace, 10"
-        
+
         # Перенос окон на рабочие пространства
         "SUPER SHIFT, 1, movetoworkspace, 1"
         "SUPER SHIFT, 2, movetoworkspace, 2"
@@ -87,11 +87,11 @@
         # Скриншоты
         ", Print, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
         "SUPER, Print, exec, grim ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
-        
+
         # Блокировка экрана
         "SUPER, L, exec, hyprlock"
       ];
-      
+
       # Мышь бинды
       bindm = [
         "SUPER, mouse:272, movewindow"
@@ -248,11 +248,11 @@
         padding: 0 10px;
         margin: 0 3px;
       }
-      
+
       #clock {
         font-weight: bold;
       }
-      
+
       #battery.critical:not(.charging) {
         background-color: #f38ba8;
         color: #1e1e2e;
@@ -402,7 +402,7 @@
     swappy # Редактор скриншотов
 
     # Файловый менеджер
-    thunar
+    nautilus
 
     # Системные утилиты
     brightnessctl # Яркость
@@ -517,24 +517,28 @@
         hide_cursor = true;
         no_fade_in = false;
       };
-      background = [{
-        path = "${inputs.wallpapers}/NixOS/wp12329533-nixos-wallpapers.png";
-        blur_passes = 3;
-        blur_size = 8;
-      }];
-      input-field = [{
-        size = "200, 50";
-        position = "0, -80";
-        monitor = "";
-        dots_center = true;
-        fade_on_empty = false;
-        font_color = "rgb(202, 211, 245)";
-        inner_color = "rgb(91, 96, 120)";
-        outer_color = "rgb(24, 25, 38)";
-        outline_thickness = 5;
-        placeholder_text = "<span foreground=\"##cad3f5\">Password...</span>";
-        shadow_passes = 2;
-      }];
+      background = [
+        {
+          path = "${inputs.wallpapers}/NixOS/wp12329533-nixos-wallpapers.png";
+          blur_passes = 3;
+          blur_size = 8;
+        }
+      ];
+      input-field = [
+        {
+          size = "200, 50";
+          position = "0, -80";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = false;
+          font_color = "rgb(202, 211, 245)";
+          inner_color = "rgb(91, 96, 120)";
+          outer_color = "rgb(24, 25, 38)";
+          outline_thickness = 5;
+          placeholder_text = "<span foreground=\"##cad3f5\">Password...</span>";
+          shadow_passes = 2;
+        }
+      ];
     };
   };
 }

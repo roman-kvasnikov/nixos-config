@@ -107,7 +107,7 @@
     slurp
     wf-recorder
     # File manager
-    thunar
+    nautilus
     # Additional utilities
     brightnessctl
     pamixer
