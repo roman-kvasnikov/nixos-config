@@ -2,10 +2,13 @@
   # XDG портал для интеграции приложений с системой
   xdg.portal = {
     enable = true;
+
     wlr.enable = false; # Отключаем wlroots портал для GNOME
+
     extraPortals = with pkgs; [
       xdg-desktop-portal-gnome # GNOME портал для файловых диалогов, etc.
     ];
+
     config = {
       common = {
         default = ["gnome"];

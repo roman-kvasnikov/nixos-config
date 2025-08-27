@@ -26,14 +26,14 @@
         "image/webp" = ["org.gnome.Loupe.desktop"];
 
         # Видео
-        "video/mp4" = ["org.gnome.Totem.desktop"];
-        "video/x-msvideo" = ["org.gnome.Totem.desktop"];
-        "video/quicktime" = ["org.gnome.Totem.desktop"];
+        "video/mp4" = ["vlc.desktop"];
+        "video/x-msvideo" = ["vlc.desktop"];
+        "video/quicktime" = ["vlc.desktop"];
 
         # Аудио
-        "audio/mpeg" = ["org.gnome.Totem.desktop"];
-        "audio/ogg" = ["org.gnome.Totem.desktop"];
-        "audio/x-wav" = ["org.gnome.Totem.desktop"];
+        "audio/mpeg" = ["org.gnome.Decibel.desktop"];
+        "audio/ogg" = ["org.gnome.Decibel.desktop"];
+        "audio/x-wav" = ["org.gnome.Decibel.desktop"];
 
         # Текстовые файлы
         "text/plain" = ["org.gnome.TextEditor.desktop"];

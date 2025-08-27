@@ -1,9 +1,12 @@
 {
-  xdg.desktopEntries.vesktop = {
+  xdg.desktopEntries.discord = {
+    version = "1.0";
     name = "Discord";
-    exec = "vesktop %U";
+    comment = "Discord";
+    exec = "uwsm app -- brave-browser --app=https://discord.com/app";
     terminal = false;
+    type = "Application";
     icon = "discord";
-    categories = ["X-Rofi" "Network" "InstantMessaging"];
+    StartupNotify = true;
   };
 }
