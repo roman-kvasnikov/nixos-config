@@ -15,6 +15,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
+    systemd.enable = true;
     settings = {
       # Мониторы
       monitor = [
@@ -30,14 +31,17 @@
 
       # Клавиатурные сокращения
       bind = [
+        "SUPER, Q, killactive"
+
         # Основные приложения
-        "SUPER, Q, exec, kitty"
-        "SUPER, E, exec, thunar"
-        "SUPER, R, exec, wofi --show drun"
+        "SUPER, RETURN, exec, kitty"
         "SUPER, B, exec, brave"
+        "SUPER, R, exec, wofi --show drun"
+        "SUPER, E, exec, nautilus"
+        "SUPER, C, exec, gnome-calculator"
+        "SUPER SHIFT, S, exec, hyprshot -m region"
 
         # Управление окнами
-        "SUPER, C, killactive,"
         "SUPER, M, exit,"
         "SUPER, V, togglefloating,"
         "SUPER, P, pseudo,"
@@ -116,10 +120,6 @@
           size = 3;
           passes = 1;
         };
-        drop_shadow = true;
-        shadow_range = 4;
-        shadow_render_power = 3;
-        "col.shadow" = "rgba(1a1a1aee)";
       };
 
       # Анимации

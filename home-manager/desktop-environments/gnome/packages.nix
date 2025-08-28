@@ -4,6 +4,7 @@
     # gnome-tweaks # Дополнительные настройки GNOME
     # dconf-editor # Редактор настроек
     # gnome-extension-manager # Управление расширениями
+    gnome-disk-utility # Утилита дисков GNOME
 
     # GNOME расширения
     gnomeExtensions.auto-move-windows # Автоматическое перемещение окон
