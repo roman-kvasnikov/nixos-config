@@ -14,7 +14,7 @@
 
     hostDefaults = {
       system = "x86_64-linux";
-      version = "25.05";
+      version = "25.11";
     };
   in
     map (host: hostDefaults // host) hostList;
