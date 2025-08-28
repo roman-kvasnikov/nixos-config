@@ -10,10 +10,7 @@
     # ./desktop-environments/gnome
 
     # 🚀 Hyprland (в разработке)
-    ./desktop-environments/hyprland.nix
-
-    # 🪟 KDE Plasma (планируется)
-    # ./desktop-environments/kde.nix
+    ./desktop-environments/hyprland
   ];
 
   # =============================================================================

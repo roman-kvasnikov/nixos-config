@@ -36,20 +36,5 @@
       package = pkgs.mlocate;
       interval = "hourly";
     };
-
-    # PipeWire audio subsystem
-    pipewire = {
-      enable = true;
-      alsa = {
-        enable = true;
-        support32Bit = true;
-      };
-      pulse.enable = true;
-      # Оптимизация для низкой задержки
-      wireplumber.enable = true;
-    };
-
-    # Отключить PulseAudio полностью (конфликт с PipeWire)
-    pulseaudio.enable = false;
   };
 }
