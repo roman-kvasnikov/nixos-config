@@ -54,8 +54,8 @@
     # Мультимедиа
     vlc # Универсальный плеер
     telegram-desktop # Telegram
+    discord # Discord
     (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
-    # (callPackage ./modules/discord-electron/discord-electron.nix {}) # Discord
 
     # AI assistants
     (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant
