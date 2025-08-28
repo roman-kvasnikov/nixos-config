@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   environment = {
     # Wayland session variables
     sessionVariables = {
@@ -11,6 +15,11 @@
       # Оптимизации производительности
       MALLOC_CHECK_ = "0"; # Отключаем проверку памяти для производительности
     };
+
+    systemPackages = with pkgs; [
+      xdg-desktop-portal-gtk # GTK портал для файловых диалогов, etc.
+      xdg-desktop-portal-gnome # GNOME портал для файловых диалогов, etc.
+    ];
 
     # GNOME packages to exclude
     gnome.excludePackages = with pkgs; [
