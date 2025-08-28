@@ -269,7 +269,7 @@
   # MAKO УВЕДОМЛЕНИЯ
   # =============================================================================
 
-  services.mako = {
+  services.mako.settings = {
     enable = true;
     backgroundColor = "#1e1e2e";
     borderColor = "#89b4fa";
@@ -453,9 +453,6 @@
     # QT
     QT_QPA_PLATFORM = "wayland;xcb";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-
-    # GTK
-    GDK_BACKEND = "wayland,x11";
 
     # NVIDIA (если нужно)
     # WLR_NO_HARDWARE_CURSORS = "1";

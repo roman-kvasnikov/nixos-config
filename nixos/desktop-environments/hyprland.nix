@@ -24,7 +24,8 @@
   # Hyprland Window Manager
   programs.hyprland = {
     enable = true;
-    xwayland.enable = true;
+    withUWSM = true;
+    # xwayland.enable = true;
   };
 
   # =============================================================================
@@ -112,9 +113,6 @@
     brightnessctl
     pamixer
     playerctl
-    wl-clipboard
-    # Terminal
-    kitty
   ];
 
   # =============================================================================
@@ -133,14 +131,4 @@
       enable = true;
     };
   };
-  # =============================================================================
-  # ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ
-  # =============================================================================
-
-  # Fonts для системы
-  fonts.packages = with pkgs; [
-    nerd-fonts.ubuntu
-    noto-fonts
-    noto-fonts-emoji
-  ];
 }
