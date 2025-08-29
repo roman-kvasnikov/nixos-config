@@ -2,7 +2,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
 
-    systemd.enable = false; # Если включено withUWSM, то тут false
+    systemd.enable = true; # Если включено withUWSM, то тут false
 
     settings = {
       "$terminal" = "kitty";
