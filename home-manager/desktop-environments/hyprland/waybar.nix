@@ -504,6 +504,9 @@
       #tray:hover, #network:hover, #bluetooth:hover, #pulseaudio:hover,
       #battery:hover, #cpu:hover, #memory:hover, #disk:hover,
       #custom-weather:hover, #custom-updates:hover, #custom-swaync:hover,
+      #custom-vpn-home-l2tp:hover {
+        background-color: rgba(137, 180, 250, 0.2);
+      }
     '';
   };
 
