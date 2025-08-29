@@ -75,7 +75,7 @@
           dots_spacing = 0.15; # Scale of dots' absolute size, 0.0 - 1.0
           dots_center = false;
           dots_rounding = -1; # -1 default circle, -2 follow input-field rounding
-          outer_color = "rgb(151515)";
+          outer_color = "rgb(15, 15, 15)";
           inner_color = "rgb(200, 200, 200)";
           font_color = "rgb(10, 10, 10)";
           fade_on_empty = true;

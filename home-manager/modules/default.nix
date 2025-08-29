@@ -2,7 +2,6 @@
   imports = [
     ./brave
     ./code-cursor
-    ./exodus
     ./fastfetch
     ./homevpnctl
     ./keepassxcctl

@@ -1,11 +1,6 @@
 {config, ...}: {
   xdg = {
-    enable = true;
-
-    # MIME ассоциации для GNOME
     mimeApps = {
-      enable = true;
-
       defaultApplications = {
         # Веб-браузер
         "text/html" = ["brave-browser.desktop"];
@@ -46,21 +41,5 @@
         "application/gzip" = ["file-roller.desktop"];
       };
     };
-
-    userDirs = {
-      enable = true;
-      createDirectories = true;
-
-      desktop = "${config.home.homeDirectory}";
-      documents = "${config.home.homeDirectory}/Documents";
-      download = "${config.home.homeDirectory}/Downloads";
-      music = "${config.home.homeDirectory}";
-      pictures = "${config.home.homeDirectory}/Pictures";
-      videos = "${config.home.homeDirectory}/Videos";
-      templates = "${config.home.homeDirectory}/Templates";
-      publicShare = "${config.home.homeDirectory}";
-    };
   };
-
-  home.file."${config.xdg.userDirs.templates}/NewDocument.txt".text = "";
 }

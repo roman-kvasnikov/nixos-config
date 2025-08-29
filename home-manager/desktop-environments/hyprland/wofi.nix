@@ -1,6 +1,7 @@
 {
   programs.wofi = {
     enable = true;
+
     settings = {
       show = "drun";
       width = 600;

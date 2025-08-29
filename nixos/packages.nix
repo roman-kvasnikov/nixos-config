@@ -1,12 +1,7 @@
-{
-  inputs,
-  pkgs,
-  system,
-  ...
-}: {
+{pkgs, ...}: {
   nixpkgs.config = {
     allowUnfree = true;
-    # Оптимизации для single-user системы
+
     permittedInsecurePackages = [
       # При необходимости добавить здесь разрешенные небезопасные пакеты
     ];
@@ -23,16 +18,15 @@
       wget
       git
       gh # GitHub CLI
-      rsync
 
       # SSH утилиты
-      ssh-to-age # Конвертация SSH ключей в age
+      # ssh-to-age # Конвертация SSH ключей в age
       ssh-copy-id # Копирование ключей на сервер
-      ssh-audit # Аудит SSH безопасности
+      # ssh-audit # Аудит SSH безопасности
       openssh # SSH клиент
-      sshfs # Монтирование по SSH
-      rsync # Синхронизация по SSH
-      mosh # Mobile shell (альтернатива SSH)
+      # sshfs # Монтирование по SSH
+      # rsync # Синхронизация по SSH
+      # mosh # Mobile shell (альтернатива SSH)
 
       # Архиваторы (системные зависимости)
       gzip
@@ -41,16 +35,16 @@
       unzip
       unrar
 
-      # Форматирование Nix кода
-      inputs.alejandra.defaultPackage.${system}
+      # Форматирование Nix кода (перенести в home-manager)
+      # inputs.alejandra.defaultPackage.${system}
 
       # Системная диагностика
-      pciutils
-      usbutils
-      lshw
+      # pciutils
+      # usbutils
+      # lshw
 
       # Безопасность
-      gnupg
+      # gnupg
       libsecret
 
       # Файловая система

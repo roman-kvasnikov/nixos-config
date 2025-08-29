@@ -1,18 +1,21 @@
-{pkgs, ...}: {
+{
+  inputs,
+  system,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     # Пользовательские CLI утилиты
     bat # Лучший аналог cat
     bc # Калькулятор
     calc # Расширенный калькулятор
-    jq # JSON процессор
+    eza # Современный ls
     glib # Системные библиотеки
+    jq # JSON процессор
     claude-code # AI ассистент
     cliphist # История буфера
     wl-clipboard # Wayland clipboard
-    eza # Современный ls
     fastfetch # Информация о системе
-    ffmpeg # Видео/аудио обработка
-    ffmpegthumbnailer # Превью видео
     silicon # Красивые скриншоты кода
     tree # Показ структуры директорий
     cmatrix # Матрица
@@ -28,20 +31,25 @@
     hyperfine # Бенчмарки командной строки
     doggo # Современный dig
     gping # Визуальный ping
+    ffmpeg # Видео/аудио обработка
+    ffmpegthumbnailer # Превью видео
+
+    # Форматирование Nix кода (перенести в home-manager)
+    inputs.alejandra.defaultPackage.${system}
 
     # Терминалы и shells
     kitty # Современный терминал (должен быть в home)
-    warp-terminal # Альтернативный терминал
+    warp-terminal # Альтернативный терминал с AI
 
     # Desktop приложения
 
     # Офисные приложения
     libreoffice-still # Офисный пакет
-    evince # PDF viewer (лучше встроенного в GNOME)
+    evince # PDF viewer
     obsidian # Заметки
     keepassxc # Менеджер паролей
 
-    # Графические редакторы (современные версии)
+    # Графические редакторы
     gimp # Растровая графика
     inkscape # Векторная графика
     krita # Цифровая живопись
@@ -67,6 +75,7 @@
 
     # Финансы и криптовалюты
     electrum # Bitcoin кошелек
+    exodus # Crypto кошелек
 
     # Системные утилиты (для пользователя)
 

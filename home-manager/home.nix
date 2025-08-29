@@ -5,6 +5,7 @@
   ...
 }: {
   imports = [
+    ./config
     ./desktop.nix
     ./packages.nix
     ./services.nix
