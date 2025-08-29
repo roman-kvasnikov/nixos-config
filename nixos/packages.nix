@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   nixpkgs.config = {
     allowUnfree = true;
+    # allowUnsupportedSystem = true;
 
     permittedInsecurePackages = [
       # При необходимости добавить здесь разрешенные небезопасные пакеты
