@@ -7,5 +7,6 @@
     ./general.nix
     ./gestures.nix
     ./input.nix
+    ./monitor.nix
   ];
 }
