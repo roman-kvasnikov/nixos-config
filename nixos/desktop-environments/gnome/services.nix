@@ -17,6 +17,10 @@
     # GNOME system services
     gnome = lib.mkForce {
       gnome-keyring.enable = false; # Используем KeePassXC
+
+      # GNOME Games
+      games.enable = false;
+
       # Оптимизация для производительности
       at-spi2-core.enable = true;
     };

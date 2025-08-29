@@ -17,12 +17,12 @@
       };
 
       systemd-boot = {
-        enable = false;
+        enable = true;
         configurationLimit = 10; # 10 boot entries
       };
 
       grub = {
-        enable = true;
+        enable = false;
         device = "nodev";
         efiSupport = true;
         configurationLimit = 10;

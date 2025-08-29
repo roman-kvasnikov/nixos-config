@@ -20,7 +20,8 @@
         "SUPER, Q, killactive"
 
         # Основные приложения
-        "SUPER, RETURN, exec, kitty"
+        "SUPER, RETURN, exec, warp-terminal"
+        "SUPER SHIFT, RETURN, exec, kitty"
         "SUPER, B, exec, brave"
         "SUPER, R, exec, wofi --show drun"
         "SUPER, E, exec, nautilus"
@@ -75,8 +76,8 @@
         ", XF86AudioPrev, exec, playerctl previous"
 
         # Скриншоты
-        ", Print, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
-        "SUPER, Print, exec, grim ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
+        # ", Print, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
+        # "SUPER, Print, exec, grim ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"
 
         # Блокировка экрана
         "SUPER, L, exec, hyprlock"

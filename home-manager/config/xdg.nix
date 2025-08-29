@@ -2,7 +2,7 @@
   xdg = {
     enable = true;
 
-    configFile."gtk-3.0/bookmarks".force = true;
+    # configFile."gtk-3.0/bookmarks".force = true;
 
     mimeApps.enable = true;
 
