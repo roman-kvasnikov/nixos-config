@@ -1,8 +1,10 @@
 {
-  # Hyprland Window Manager
-  programs.hyprland = {
-    enable = true;
+  programs = {
+    hyprland = {
+      enable = true;
 
-    withUWSM = true;
+      withUWSM = true;
+      xwayland.enable = false;
+    };
   };
 }

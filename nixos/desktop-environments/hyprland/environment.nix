@@ -1,10 +1,5 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   environment = {
-    # Wayland session variables
     sessionVariables = {
       MOZ_ENABLE_WAYLAND = "1"; # Firefox поддержка Wayland
       NIXOS_OZONE_WL = "1"; # Chromium/Electron apps поддержка Wayland
@@ -14,35 +9,29 @@
       XDG_SESSION_DESKTOP = "Hyprland";
       XDG_SESSION_TYPE = "wayland";
 
-      # Оптимизации производительности
       MALLOC_CHECK_ = "0"; # Отключаем проверку памяти для производительности
     };
 
     systemPackages = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-hyprland
+      # Hyprland specific
+      hypridle # Idle detection
+      hyprlock # Screen locker
+      hyprpaper # Wallpaper manager
+      hyprpicker # Color picker
+      hyprpolkitagent # Polkit agent
+      hyprshot # Screenshot tool
+      hyprsysteminfo # System info
 
-      # Notification daemon
-      mako
-      # Application launcher
-      wofi
-      # Status bar
-      waybar
-      # Wallpaper
-      hyprpaper
-      # Screen locker
-      hyprlock
-      hypridle
-      # File manager
-      nautilus
-      # Text editor
-      gedit
-      # Logout menu
-      wlogout
+      # Hyprland utilities
+      waybar # Status bar
+      wofi # Application launcher
+      mako # Notification daemon
+      wlogout # Logout menu
+
       # System utilities
-      brightnessctl # Яркость
-      pamixer # Громкость
-      playerctl # Медиа управление
+      brightnessctl # Brightness control
+      pamixer # Volume control
+      playerctl # Media control
     ];
   };
 }

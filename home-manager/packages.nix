@@ -73,7 +73,7 @@
 
     # Веб и разработка
     postman # API тестирование
-    tableplus # SQL клиент
+    dbeaver-bin # DB клиент
     filezilla # FTP клиент
 
     # Финансы и криптовалюты

@@ -1,63 +1,83 @@
-let
-  pkgs = import <nixpkgs> {};
-  tableplus = pkgs.stdenv.mkDerivation {
-    name = "TablePlus";
-    src = pkgs.fetchurl {
-      url = "https://deb.tableplus.com/debian/pool/main/t/tableplus/tableplus_0.1.264_amd64.deb";
-      sha256 = "01bfrv91hrigq5rni9vignlnhfr33zwhya5nivqi545cjmqfrv2w";
-    };
-    sourceRoot = "opt/tableplus";
+{pkgs, ...}: let
+  openldap_2_4 =
+    (import (builtins.fetchTarball {
+        url = "https://github.com/NixOS/nixpkgs/archive/20c060c763107b735f4635faa7722de02f461006.tar.gz";
+        sha256 = "sha256:0m98bkkq94fknb0fjpxsr1kbm69xqq4krxxn4q5kkzxhdjaf2hqv";
+      }) {
+        inherit (pkgs.stdenv.hostPlatform) system;
+      })
+    .openldap;
+in {
+  home.packages = [
+    (pkgs.stdenv.mkDerivation rec {
+      name = "tableplus";
+      version = "0.1.258";
 
-    unpackPhase = ''
-      runHook preUnpack
-      dpkg-deb -x $src .
-      runHook postUnpack
-    '';
+      src =
+        if pkgs.stdenv.hostPlatform.system == "x86_64-linux"
+        then
+          pkgs.fetchurl {
+            url = "https://deb.tableplus.com/debian/pool/main/t/tableplus/tableplus_0.1.264_amd64.deb";
+            sha256 = "uH4Tl7rttTWmw+12IFMOGHIPb1rUxrr8hWPulgR8mpY=";
+          }
+        else if pkgs.stdenv.hostPlatform.system == "aarch64-linux"
+        then
+          pkgs.fetchurl {
+            url = "https://deb.tableplus.com/debian/22-arm/pool/main/t/tableplus/tableplus_${version}_arm64.deb";
+            sha256 = "sha256-placeholder-aarch64";
+          }
+        else throw "Unsupported platform: ${pkgs.stdenv.hostPlatform.system}";
 
-    installPhase = ''
-      runHook preInstall
-      mkdir -p "$out/bin"
-      mkdir -p "$out/share/applications"
-      mkdir -p "$out/share/icons/hicolor/256x256/apps"
+      nativeBuildInputs = [
+        pkgs.dpkg
+        pkgs.autoPatchelfHook
+        pkgs.makeWrapper
+        pkgs.wrapGAppsHook
+      ];
 
-      cp -R "tableplus" "$out/bin/tableplus"
-      cp -R "resource/" "$out/share"
+      buildInputs = [
+        pkgs.glib
+        pkgs.gtk3
+        pkgs.libgee
+        pkgs.json-glib
+        pkgs.gtksourceview3
+        pkgs.libkrb5
+        pkgs.libsecret
+        openldap_2_4
+      ];
 
-      # Создаем desktop файл
-      cat > "$out/share/applications/tableplus.desktop" << EOF
-      [Desktop Entry]
-      Name=TablePlus
-      Comment=Database management tool
-      Exec=$out/bin/tableplus
-      Icon=tableplus
-      Terminal=false
-      Type=Application
-      Categories=Development;Database;
-      EOF
+      unpackPhase = ''
+        runHook preUnpack
+        dpkg-deb -x ${src} .
+        runHook postUnpack
+      '';
 
-      # Копируем иконку
-      cp "resource/icon.png" "$out/share/icons/hicolor/256x256/apps/tableplus.png"
+      installPhase = ''
+        runHook preInstall
 
-      chmod +x "$out/bin/tableplus"
-      runHook postInstall
-    '';
+        mkdir -p "$out/bin"
+        mkdir -p "$out/share/applications"
 
-    nativeBuildInputs = with pkgs; [
-      autoPatchelfHook
-      dpkg
-      makeWrapper
-      wrapGAppsHook
-    ];
+        cp "opt/tableplus/tableplus" "$out/bin/"
+        cp "opt/tableplus/tableplus.desktop" "$out/share/applications/"
+        cp -r "opt/tableplus/resource" "$out/"
 
-    buildInputs = with pkgs; [
-      stdenv.cc.cc.lib
-      libgee
-      json-glib
-      openldap
-      gtksourceview4
-      gnome.libsecret
-      gnome.gtksourceview
-    ];
-  };
-in
-  tableplus
+        substituteInPlace "$out/share/applications/tableplus.desktop" \
+          --replace "/usr/local/bin/tableplus" "$out/bin/tableplus" \
+          --replace "/opt/tableplus/resource/image/logo.png" "$out/resource/image/logo.png"
+
+        chmod -R g-w "$out"
+
+        runHook postInstall
+      '';
+
+      meta = with pkgs.lib; {
+        description = "TablePlus - Native Database GUI for Linux";
+        homepage = "https://tableplus.com/";
+        license = licenses.unfree;
+        platforms = platforms.linux;
+        maintainers = with maintainers; [];
+      };
+    })
+  ];
+}

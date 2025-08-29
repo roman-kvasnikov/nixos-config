@@ -108,6 +108,7 @@
         "cursor.desktop"
         "filezilla.desktop"
         "postman.desktop"
+        "dbeaver-bin.desktop"
       ];
       name = "Development";
       translate = false;

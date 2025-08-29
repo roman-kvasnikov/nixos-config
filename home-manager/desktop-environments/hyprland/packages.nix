@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    gnome-calculator
-    hyprpicker
-    hyprshot
+    gnome-calculator # Calculator
+    nautilus # File manager
+    gedit # Text editor
   ];
 }
