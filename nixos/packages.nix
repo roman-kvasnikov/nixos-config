@@ -44,7 +44,7 @@
       # lshw
 
       # Безопасность
-      # gnupg
+      gnupg
       libsecret
 
       # Файловая система
