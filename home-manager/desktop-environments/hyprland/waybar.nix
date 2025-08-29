@@ -319,193 +319,198 @@
     # =================================================================
 
     style = ''
+      @define-color black #000000;
+      @define-color white #c7c7c7;
+      @define-color green #33cc00;
+      @define-color yellow #ffff66;
+      @define-color red #ff3300;
+      @define-color blue #103cfe;
+
       * {
-        border: none;
-        border-radius: 0;
-        font-family: "Ubuntu Nerd Font";
-        font-size: 13px;
-        min-height: 0;
+          font-family: 'Fira Code', 'FontAwesome', 'Material Design Icons', 'Noto Sans', sans-serif;
+          font-size: 1.2rem;
+          color: @white;
       }
 
       window#waybar {
-        background-color: rgba(26, 27, 38, 0.9);
-        border-bottom: 2px solid rgba(137, 180, 250, 0.6);
-        color: #cdd6f4;
-        transition-property: background-color;
-        transition-duration: 0.3s;
+          background-color: @black;
+          opacity: 0.8;
       }
 
-      /* =================================================================
-         WORKSPACES
-         ================================================================= */
-
       #workspaces {
-        margin: 0 6px;
-        padding: 0 4px;
+          padding: 0 2px;
       }
 
       #workspaces button {
-        padding: 4px 8px;
-        background-color: transparent;
-        color: #7f849c;
-        border-radius: 4px;
-        margin: 2px;
-        transition: all 0.2s ease;
-      }
-
-      #workspaces button:hover {
-        background: rgba(137, 180, 250, 0.1);
-        color: #89b4fa;
+          background-color: @black;
+          opacity: 0.3;
+          border-radius: 0;
+          padding: 0 10px;
       }
 
       #workspaces button.active {
-        background-color: #89b4fa;
-        color: #1e1e2e;
-        font-weight: bold;
+          background: inherit;
+          opacity: 1;
+          box-shadow: inset 0 0 @black;
+          font-weight: bold;
+          min-width: 50px;
       }
 
-      #workspaces button.urgent {
-        background-color: #f38ba8;
-        color: #1e1e2e;
-        animation: blink 1s linear infinite;
-      }
-
-      /* =================================================================
-         GROUPS
-         ================================================================= */
-
-      .modules-left {
-        padding-left: 8px;
-      }
-
-      .modules-center {
-        padding: 0 8px;
-      }
-
-      .modules-right {
-        padding-right: 8px;
-      }
-
-      /* =================================================================
-         COMMON MODULE STYLES
-         ================================================================= */
-
-      #tray, #network, #bluetooth, #pulseaudio, #battery, #clock,
-      #cpu, #memory, #disk, #temperature, #language,
-      #custom-weather, #custom-updates, #custom-swaync, #custom-vpn-home-l2tp,
-      #custom-btc-rate, #custom-gala-rate, #custom-trump-rate {
-        padding: 4px 8px;
-        margin: 0 2px;
-        border-radius: 4px;
-        background-color: rgba(49, 50, 68, 0.7);
-        color: #cdd6f4;
-        transition: all 0.2s ease;
+      #workspaces button:hover {
+          background: inherit;
+          opacity: 1;
+          box-shadow: inset 0 0 @black;
+          text-shadow: inherit;
       }
 
       #custom-delimeter {
-        color: #45475a;
-        padding: 0 4px;
-        font-weight: bold;
+          padding: 2px 10px;
       }
 
-      /* =================================================================
-         SPECIFIC MODULE STYLES
-         ================================================================= */
-
-      #clock {
-        font-weight: bold;
-        background-color: rgba(137, 180, 250, 0.2);
-        color: #89b4fa;
+      #tray,
+      #custom-btc-rate,
+      #custom-gala-rate,
+      #custom-trump-rate,
+      #custom-weather,
+      #clock,
+      #cpu,
+      #memory,
+      #disk,
+      #language,
+      #custom-updates,
+      #network,
+      #custom-vpn-home-l2tp,
+      #bluetooth,
+      #pulseaudio,
+      #custom-swaync,
+      #battery {
+          padding: 0 10px;
+          margin: 0;
       }
 
-      #battery.critical:not(.charging) {
-        background-color: #f38ba8;
-        color: #1e1e2e;
-        animation: blink 0.5s linear infinite alternate;
+      #bluetooth,
+      #custom-updates,
+      #custom-swaync {
+          padding: 0 6px 0 10px;
+      }
+
+      #crypto-rates * {
+          font-size: 1rem;
+          background-position: 8% 46%;
+          background-repeat: no-repeat;
+          background-size: 8%;
+      }
+
+      #custom-btc-rate {
+          background-image: url('/home/romank/.config/waybar/icons/btc-rate/btc-logo.svg');
+      }
+
+      #custom-gala-rate {
+          background-image: url('/home/romank/.config/waybar/icons/gala-rate/gala-logo.svg');
+      }
+
+      #custom-btc-rate.rate-up {
+          background-image: url('/home/romank/.config/waybar/icons/btc-rate/btc-logo-green.svg');
+      }
+
+      #custom-btc-rate.rate-down {
+          background-image: url('/home/romank/.config/waybar/icons/btc-rate/btc-logo-red.svg');
+      }
+
+      #custom-gala-rate.rate-up {
+          background-image: url('/home/romank/.config/waybar/icons/gala-rate/gala-logo-green.svg');
+      }
+
+      #custom-gala-rate.rate-down {
+          background-image: url('/home/romank/.config/waybar/icons/gala-rate/gala-logo-red.svg');
+      }
+
+      /* COLORS */
+
+      #crypto-rates *.rate-up {
+          color: @green;
+      }
+
+      #crypto-rates *.rate-down {
+          color: @red;
+      }
+
+      #crypto-rates *.rate-same {
+          color: @white;
+      }
+
+      #temperature.warning,
+      #cpu.warning,
+      #memory.warning,
+      #disk.warning {
+          color: @yellow;
+      }
+
+      #temperature.critical,
+      #cpu.critical,
+      #memory.critical,
+      #disk.critical {
+          color: @red;
+      }
+
+      #network.wifi,
+      #custom-vpn-home-l2tp.connected,
+      #bluetooth.connected {
+          color: @blue;
+      }
+
+      #network.disconnected,
+      #bluetooth.off {
+          color: @red;
+      }
+
+
+      #custom-updates.green {
+          color: @green;
+      }
+
+      #custom-updates.yellow {
+          color: @yellow;
+      }
+
+      #custom-updates.red {
+          color: @red;
+      }
+
+      #custom-swaync.notification,
+      #custom-swaync.dnd-notification,
+      #custom-swaync.inhibited-notification,
+      #custom-swaync.dnd-inhibited-notification {
+          color: @red;
+      }
+
+      #battery {
+          color: @green;
+      }
+
+      #battery.charging,
+      #battery.plugged {
+          color: @blue;
       }
 
       #battery.warning:not(.charging) {
-        background-color: #f9e2af;
-        color: #1e1e2e;
+          color: @yellow;
       }
-
-      #cpu.warning {
-        background-color: #f9e2af;
-        color: #1e1e2e;
-      }
-
-      #cpu.critical {
-        background-color: #f38ba8;
-        color: #1e1e2e;
-      }
-
-      #memory.warning {
-        background-color: #f9e2af;
-        color: #1e1e2e;
-      }
-
-      #memory.critical {
-        background-color: #f38ba8;
-        color: #1e1e2e;
-      }
-
-      #disk.warning {
-        background-color: #f9e2af;
-        color: #1e1e2e;
-      }
-
-      #disk.critical {
-        background-color: #f38ba8;
-        color: #1e1e2e;
-      }
-
-      /* =================================================================
-         CRYPTO RATES
-         ================================================================= */
-
-      #custom-btc-rate, #custom-gala-rate, #custom-trump-rate {
-        font-weight: bold;
-        background-color: rgba(166, 227, 161, 0.2);
-      }
-
-      /* =================================================================
-         CONNECTIVITY
-         ================================================================= */
-
-      #network.disconnected {
-        background-color: #f38ba8;
-        color: #1e1e2e;
-      }
-
-      #bluetooth.off {
-        background-color: rgba(69, 71, 90, 0.7);
-        color: #6c7086;
-      }
-
-      #pulseaudio.muted {
-        background-color: rgba(69, 71, 90, 0.7);
-        color: #6c7086;
-      }
-
-      /* =================================================================
-         ANIMATIONS
-         ================================================================= */
 
       @keyframes blink {
-        to {
-          background-color: rgba(243, 139, 168, 0.5);
-        }
+          to {
+              color: @black;
+          }
       }
 
-      /* =================================================================
-         HOVER EFFECTS
-         ================================================================= */
-
-      #tray:hover, #network:hover, #bluetooth:hover, #pulseaudio:hover,
-      #battery:hover, #cpu:hover, #memory:hover, #disk:hover,
-      #custom-weather:hover, #custom-updates:hover, #custom-swaync:hover,
-      #custom-vpn-home-l2tp:hover {
-        background-color: rgba(137, 180, 250, 0.2);
+      #battery.critical:not(.charging) {
+          background-color: @red;
+          color: @white;
+          animation-name: blink;
+          animation-duration: 0.5s;
+          animation-timing-function: steps(12);
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
       }
     '';
   };
