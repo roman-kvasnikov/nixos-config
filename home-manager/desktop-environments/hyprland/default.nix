@@ -6,7 +6,7 @@
     ./hyprpaper.nix
     ./mako.nix
     ./packages.nix
-    ./waybar.nix
+    ./waybar
     ./wofi.nix
     ./xdg.nix
   ];
