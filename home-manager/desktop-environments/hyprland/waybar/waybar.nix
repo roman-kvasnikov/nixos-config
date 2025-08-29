@@ -18,7 +18,6 @@
           "custom/weather"
           "custom/delimeter"
           "clock"
-          "custom/delimeter"
         ];
 
         modules-right = [
@@ -26,10 +25,7 @@
           "custom/delimeter"
           "hyprland/language"
           "custom/delimeter"
-          "custom/updates"
-          "custom/delimeter"
           "network"
-          "custom/vpn-home-l2tp"
           "bluetooth"
           "pulseaudio"
           "custom/delimeter"
@@ -519,12 +515,6 @@
   # WAYBAR SCRIPTS DIRECTORY
   # =============================================================================
 
-  home.file.".config/waybar/scripts/.keep".text = "";
-
-  # Note: Waybar scripts should be created manually or via additional modules:
-  # - ~/.config/waybar/scripts/crypto-rates.sh
-  # - ~/.config/waybar/scripts/vpn-home-l2tp/is_connected.sh
-  # - ~/.config/waybar/scripts/vpn-home-l2tp/toggle_connection.sh
-  # - ~/.config/waybar/scripts/updates/updates.sh
-  # - ~/.config/waybar/scripts/updates/install_updates.sh
+  home.file.".config/waybar/scripts/crypto-rates.sh".source = ./scripts/crypto-rates.sh;
+  home.file.".config/waybar/scripts/weather.sh".source = ./scripts/weather.sh;
 }
