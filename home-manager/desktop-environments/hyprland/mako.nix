@@ -6,7 +6,7 @@
     borderRadius = 8;
     borderSize = 2;
     textColor = "#cdd6f4";
-    font = "Ubuntu Nerd Font 11";
+    font = "Ubuntu Nerd Font 14";
     width = 350;
     height = 120;
     defaultTimeout = 8000;
