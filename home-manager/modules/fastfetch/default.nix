@@ -25,7 +25,7 @@
         # Title
         {
           type = "title";
-          format = "{#1}╭───────────── {#}{user-name-colored} ───────────";
+          format = "{#1}╭──────────────── {#}{user-name-colored} ────────────────";
         }
         # System Information
         {
@@ -34,19 +34,15 @@
         }
         {
           type = "os";
-          key = "{#separator}│  {#keys}󰍹 OS";
+          key = "{#separator}│  {#keys}󰍹 OS:      ";
         }
         {
           type = "kernel";
-          key = "{#separator}│  {#keys}󰒋 Kernel";
-        }
-        {
-          type = "uptime";
-          key = "{#separator}│  {#keys}󰅐 Uptime";
+          key = "{#separator}│  {#keys}󰒋 Kernel:  ";
         }
         {
           type = "packages";
-          key = "{#separator}│  {#keys}󰏖 Packages";
+          key = "{#separator}│  {#keys}󰏖 Packages:";
           format = "{all}";
         }
         {
@@ -60,27 +56,27 @@
         }
         {
           type = "de";
-          key = "{#separator}│  {#keys}󰧨 DE";
+          key = "{#separator}│  {#keys}󰧨 DE:      ";
         }
         {
           type = "wm";
-          key = "{#separator}│  {#keys}󱂬 WM";
+          key = "{#separator}│  {#keys}󱂬 WM:      ";
         }
         {
           type = "wmtheme";
-          key = "{#separator}│  {#keys}󰉼 Theme";
+          key = "{#separator}│  {#keys}󰉼 Theme:   ";
         }
         {
           type = "display";
-          key = "{#separator}│  {#keys}󰹑 Resolution";
+          key = "{#separator}│  {#keys}󰹑 Display: ";
         }
         {
           type = "shell";
-          key = "{#separator}│  {#keys}󰞷 Shell";
+          key = "{#separator}│  {#keys}󰞷 Shell:   ";
         }
         {
           type = "terminalfont";
-          key = "{#separator}│  {#keys}󰛖 Font";
+          key = "{#separator}│  {#keys}󰛖 Font:    ";
         }
         {
           type = "custom";
@@ -93,34 +89,52 @@
         }
         {
           type = "cpu";
-          key = "{#separator}│  {#keys}󰻠 CPU";
+          key = "{#separator}│  {#keys}󰻠 CPU:     ";
         }
         {
           type = "gpu";
-          key = "{#separator}│  {#keys}󰢮 GPU";
+          key = "{#separator}│  {#keys}󰢮 GPU:     ";
         }
         {
           type = "memory";
-          key = "{#separator}│  {#keys}󰍛 Memory";
+          key = "{#separator}│  {#keys}󰍛 RAM:     ";
         }
         {
           type = "swap";
-          key = "{#separator}│  {#keys}󰍛 Swap";
+          key = "{#separator}│  {#keys}󰍛 Swap:    ";
         }
         {
           type = "disk";
-          key = "{#separator}│  {#keys}󰋊 Disk (/)";
+          key = "{#separator}│  {#keys}󰋊 (/):     ";
           folders = "/";
         }
         {
           type = "disk";
-          key = "{#separator}│  {#keys}󰋊 Disk (/home)";
+          key = "{#separator}│  {#keys}󰋊 (/home): ";
           folders = "/home";
+        }
+        {
+          type = "custom";
+          format = "{#1}│";
+        }
+        # Uptime / Age
+        {
+          type = "custom";
+          format = "{#1}│ {#}Uptime / Age:";
+        }
+        {
+          type = "uptime";
+          key = "{#separator}│  {#keys}󰅐 Uptime:  ";
+        }
+        {
+          type = "command";
+          key = "{#separator}│  {#keys}󰢮 OS Age:  ";
+          text = "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days";
         }
         # Footer
         {
           type = "custom";
-          format = "{#1}╰────────────────────────────────";
+          format = "{#1}╰─────────────────────────────────────────";
         }
       ];
     };

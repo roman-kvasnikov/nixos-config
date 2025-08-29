@@ -7,10 +7,10 @@
     # Выбрать ОДНО рабочее окружение:
 
     # 🖥️ GNOME (текущее)
-    # ./desktop-environments/gnome
+    ./desktop-environments/gnome
 
     # 🚀 Hyprland (в разработке)
-    ./desktop-environments/hyprland
+    # ./desktop-environments/hyprland
   ];
 
   # =============================================================================
