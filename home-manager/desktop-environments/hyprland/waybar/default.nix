@@ -24,7 +24,7 @@
         ];
 
         modules-right = [
-          "custom/crypto-rates"
+          "group/crypto-rates"
           "hyprland/language"
           "group/hardware"
           "battery"
@@ -82,7 +82,7 @@
         };
 
         "custom/btc-rate" = {
-          format = "   {}{icon}";
+          format = "    {}{icon}";
           format-icons = {
             up = " ";
             down = " ";
@@ -96,7 +96,7 @@
         };
 
         "custom/gala-rate" = {
-          format = "   {}{icon}";
+          format = "    {}{icon}";
           format-icons = {
             up = " ";
             down = " ";
@@ -186,6 +186,13 @@
     };
 
     style = lib.mkForce ''
+      @define-color black #000000;
+      @define-color white #c7c7c7;
+      @define-color green #33cc00;
+      @define-color yellow #ffff66;
+      @define-color red #ff3300;
+      @define-color blue #103cfe;
+
       * {
         border: none;
         border-radius: 0;
@@ -193,6 +200,7 @@
 
         font-family: "Fira Code Nerd Font";
         font-size: 18px;
+        color: @white;
       }
 
       .modules-left {
@@ -204,7 +212,7 @@
       }
 
       window#waybar {
-        background-color: #1e1e2e;
+        background-color: @black;
         opacity: 0.8;
       }
 
@@ -220,7 +228,7 @@
       }
 
       #workspaces button.active {
-          border-bottom: 2px solid #cdd6f4;
+          border-bottom: 2px solid @white;
       }
 
       #workspaces button:hover {
@@ -236,7 +244,6 @@
       }
 
       #crypto-rates * {
-          font-size: 1rem;
           background-position: 8% 46%;
           background-repeat: no-repeat;
           background-size: 8%;
@@ -264,6 +271,18 @@
 
       #custom-gala-rate.rate-down {
           background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo-red.svg');
+      }
+
+      #crypto-rates *.rate-up {
+          color: @green;
+      }
+
+      #crypto-rates *.rate-down {
+          color: @red;
+      }
+
+      #crypto-rates *.rate-same {
+          color: @white;
       }
 
       #network {
