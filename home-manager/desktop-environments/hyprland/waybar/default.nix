@@ -1,4 +1,8 @@
 {
+  config,
+  lib,
+  ...
+}: {
   programs.waybar = {
     enable = true;
 
@@ -12,7 +16,6 @@
 
         modules-left = [
           "hyprland/workspaces"
-          "group/crypto-rates"
         ];
 
         modules-center = [
@@ -21,17 +24,11 @@
         ];
 
         modules-right = [
-          "group/tray-expander"
-          "bluetooth"
-          "network"
-          "pulseaudio"
-          "cpu"
+          "custom/crypto-rates"
+          "hyprland/language"
+          "group/hardware"
           "battery"
         ];
-
-        # =================================================================
-        # HYPRLAND WORKSPACES
-        # =================================================================
 
         "hyprland/workspaces" = {
           on-click = "activate";
@@ -56,6 +53,20 @@
             "4" = [];
             "5" = [];
           };
+        };
+
+        "custom/weather" = {
+          format = "{}";
+          interval = 3600;
+          exec = "curl 'wttr.in/?format=%c+%t&lang=en'";
+          tooltip = false;
+        };
+
+        clock = {
+          format = "{:%a %b %d %H:%M}";
+          interval = 1;
+          on-click-right = "gnome-calendar";
+          tooltip = false;
         };
 
         # =================================================================
@@ -98,92 +109,29 @@
           tooltip = false;
         };
 
-        "custom/trump-rate" = {
-          format = "   {}{icon}";
-          format-icons = {
-            up = " ";
-            down = " ";
-            same = " ";
-          };
-          interval = 10;
-          exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c TRUMP -r 5";
-          return-type = "json";
-          on-click = "xdg-open 'https://www.bybit.com/ru-RU/trade/spot/TRUMP/USDT'";
-          tooltip = false;
+        "group/hardware" = {
+          orientation = "horizontal";
+          modules = ["network" "bluetooth"];
         };
-
-        # =================================================================
-        # WEATHER & TIME
-        # =================================================================
-
-        "custom/weather" = {
-          format = "{}";
-          interval = 3600;
-          exec = "curl 'wttr.in/?format=%c+%t&lang=en'";
-          tooltip = false;
-        };
-
-        clock = {
-          interval = 1;
-          format = "{:%a, %d %b %Y, %H:%M}";
-          on-click-right = "gnome-calendar";
-          tooltip = false;
-        };
-
-        # =================================================================
-        # NETWORK & CONNECTIVITY
-        # =================================================================
 
         network = {
-          format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
-          format = "{icon}";
           format-wifi = "{icon}";
-          format-ethernet = "󰀂";
-          format-disconnected = "󰖪";
-          tooltip-format-wifi = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
-          tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
-          tooltip-format-disconnected = "Disconnected";
-          interval = 3;
-          spacing = 1;
+          format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
+          format-disconnected = "󰤭";
+          format-disabled = "󰤭";
+          tooltip = false;
           on-click = "kitty -e nmtui-connect";
+          on-click-right = "nm-connection-editor";
         };
 
         bluetooth = {
-          format = "";
           format-connected = "󰂯";
-          format-disabled = "󰂲";
           format-on = "󰂯";
           format-off = "󰂲";
+          format-disabled = "󰂲";
           tooltip = false;
-          on-click-right = "blueberry";
+          on-click-right = "blueman-manager";
         };
-
-        # =================================================================
-        # SYSTEM TRAY
-        # =================================================================
-
-        "group/tray-expander" = {
-          orientation = "inherit";
-          drawer = {
-            transition-duration = 600;
-            children-class = "tray-group-item";
-          };
-          modules = ["custom/expand-icon" "tray"];
-        };
-
-        "custom/expand-icon" = {
-          format = " ";
-          tooltip = false;
-        };
-
-        tray = {
-          icon-size = 12;
-          spacing = 12;
-        };
-
-        # =================================================================
-        # AUDIO
-        # =================================================================
 
         pulseaudio = {
           format = "{icon}";
@@ -203,126 +151,48 @@
           on-click-right = "pavucontrol";
         };
 
-        # =================================================================
-        # SYSTEM UPDATES
-        # =================================================================
-
-        "custom/updates" = {
-          format = " <sup>{0}</sup>";
-          escape = true;
-          return-type = "json";
-          exec = "bash ~/.config/waybar/scripts/updates/updates.sh";
-          interval = 900;
-          on-click = "kitty -e ~/.config/waybar/scripts/updates/install_updates.sh";
-          on-click-right = "kitty -e pacseek";
-        };
-
-        # =================================================================
-        # HARDWARE GROUP
-        # =================================================================
-
-        "group/hardware" = {
-          orientation = "horizontal";
-          modules = ["cpu" "memory" "disk"];
-        };
-
-        temperature = {
-          interval = 10;
-          hwmon-path = "/sys/class/hwmon/hwmon7/temp1_input";
-          critical-threshold = 80;
-          format = " {temperatureC}°C";
-          tooltip = false;
-        };
-
-        cpu = {
-          interval = 15;
-          format = " {usage}%";
-          states = {
-            warning = 70;
-            critical = 90;
-          };
-          tooltip = false;
-          on-click = "kitty -e btop";
-        };
-
-        memory = {
-          interval = 15;
-          format = " {}%";
-          states = {
-            warning = 70;
-            critical = 90;
-          };
-          tooltip = false;
-          on-click = "kitty -e htop";
-        };
-
-        disk = {
-          interval = 15;
-          format = " {percentage_used}%";
-          path = "/home";
-          states = {
-            warning = 70;
-            critical = 90;
-          };
-          tooltip = false;
-        };
-
-        # =================================================================
-        # BATTERY
-        # =================================================================
-
-        battery = {
-          format = "{capacity}% {icon}";
-          format-discharging = "{icon}";
-          format-charging = "{icon}";
-          format-plugged = "";
-          format-icons = {
-            charging = ["󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅"];
-            default = ["󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
-          };
-          format-full = "󰂅";
-          tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}%";
-          tooltip-format-charging = "{power:>1.0f}W↑ {capacity}%";
-          interval = 5;
-          states = {
-            warning = 20;
-            critical = 10;
-          };
-        };
-
-        # =================================================================
-        # LANGUAGE & POWER
-        # =================================================================
-
         "hyprland/language" = {
           format = "{}";
-          format-en = "ENG";
-          format-ru = "RUS";
+          format-en = "en";
+          format-ru = "ru";
         };
 
-        "custom/poweroff" = {
-          format = "";
-          on-click = "wlogout";
+        battery = {
+          interval = 5;
+          bat = "BAT0";
+          states = {
+            warning = 30;
+            critical = 15;
+          };
+          format = "{icon} {capacity}%";
+          format-full = "󰁹 {capacity}%";
+          format-charging = "󰂄 {capacity}%";
+          format-plugged = " {capacity}%";
+          format-icons = [
+            "󰁺"
+            "󰁻"
+            "󰁼"
+            "󰁽"
+            "󰁾"
+            "󰁿"
+            "󰂀"
+            "󰂁"
+            "󰂂"
+            "󰁹"
+          ];
           tooltip = false;
         };
       };
     };
 
-    # =================================================================
-    # WAYBAR STYLES (CATPPUCCIN THEME)
-    # =================================================================
-
-    style = ''
-
+    style = lib.mkForce ''
       * {
-        background-color: @background;
-        color: @foreground;
-
         border: none;
         border-radius: 0;
         min-height: 0;
-        font-family: CaskaydiaMono Nerd Font;
-        font-size: 12px;
+
+        font-family: "Fira Code Nerd Font";
+        font-size: 18px;
       }
 
       .modules-left {
@@ -333,47 +203,36 @@
         margin-right: 8px;
       }
 
+      window#waybar {
+        background-color: #1e1e2e;
+        opacity: 0.8;
+      }
+
       #workspaces button {
         all: initial;
         padding: 0 6px;
-        margin: 0 1.5px;
-        min-width: 9px;
+        margin: 0 4px;
+        min-width: 15px;
       }
 
       #workspaces button.empty {
         opacity: 0.5;
       }
 
-      #tray,
-      #cpu,
-      #battery,
-      #network,
-      #bluetooth,
-      #pulseaudio,
-      #custom-omarchy,
-      #custom-update {
-        min-width: 12px;
-        margin: 0 7.5px;
+      #workspaces button.active {
+          border-bottom: 2px solid #cdd6f4;
       }
 
-      #custom-expand-icon {
-        margin-right: 7px;
+      #workspaces button:hover {
+          font-weight: bold;
       }
 
-      tooltip {
-        padding: 2px;
-      }
-
-      #custom-update {
-        font-size: 10px;
+      #custom-weather {
+        margin-right: 10px;
       }
 
       #clock {
-        margin-left: 8.75px;
-      }
-
-      .hidden {
-        opacity: 0;
+        font-weight: bold;
       }
 
       #crypto-rates * {
@@ -384,49 +243,48 @@
       }
 
       #custom-btc-rate {
-          background-image: url('/home/romank/.config/waybar/icons/btc-rate/btc-logo.svg');
+          background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo.svg');
       }
 
       #custom-gala-rate {
-          background-image: url('/home/romank/.config/waybar/icons/gala-rate/gala-logo.svg');
+          background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo.svg');
       }
 
       #custom-btc-rate.rate-up {
-          background-image: url('/home/romank/.config/waybar/icons/btc-rate/btc-logo-green.svg');
+          background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo-green.svg');
       }
 
       #custom-btc-rate.rate-down {
-          background-image: url('/home/romank/.config/waybar/icons/btc-rate/btc-logo-red.svg');
+          background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo-red.svg');
       }
 
       #custom-gala-rate.rate-up {
-          background-image: url('/home/romank/.config/waybar/icons/gala-rate/gala-logo-green.svg');
+          background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo-green.svg');
       }
 
       #custom-gala-rate.rate-down {
-          background-image: url('/home/romank/.config/waybar/icons/gala-rate/gala-logo-red.svg');
+          background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo-red.svg');
       }
 
-      /* COLORS */
-
-      #crypto-rates *.rate-up {
-          color: @green;
+      #network {
+        margin-right: 10px;
       }
 
-      #crypto-rates *.rate-down {
-          color: @red;
-      }
-
-      #crypto-rates *.rate-same {
-          color: @white;
+      #hardware, #language {
+        margin-right: 15px;
       }
     '';
   };
 
-  # =============================================================================
-  # WAYBAR SCRIPTS DIRECTORY
-  # =============================================================================
+  home.file = {
+    ".config/waybar/icons/btc-rate/btc-logo.svg".source = ./icons/btc-rate/btc-logo.svg;
+    ".config/waybar/icons/btc-rate/btc-logo-green.svg".source = ./icons/btc-rate/btc-logo-green.svg;
+    ".config/waybar/icons/btc-rate/btc-logo-red.svg".source = ./icons/btc-rate/btc-logo-red.svg;
+    ".config/waybar/icons/gala-rate/gala-logo.svg".source = ./icons/gala-rate/gala-logo.svg;
+    ".config/waybar/icons/gala-rate/gala-logo-green.svg".source = ./icons/gala-rate/gala-logo-green.svg;
+    ".config/waybar/icons/gala-rate/gala-logo-red.svg".source = ./icons/gala-rate/gala-logo-red.svg;
 
-  home.file.".config/waybar/scripts/crypto-rates.sh".source = ./scripts/crypto-rates.sh;
-  home.file.".config/waybar/scripts/weather.sh".source = ./scripts/weather.sh;
+    ".config/waybar/scripts/crypto-rates.sh".source = ./scripts/crypto-rates.sh;
+    ".config/waybar/scripts/weather.sh".source = ./scripts/weather.sh;
+  };
 }

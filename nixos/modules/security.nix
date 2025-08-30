@@ -25,7 +25,8 @@
       ];
     };
 
-    # Современные security settings
     rtkit.enable = true;
+
+    polkit.enable = true;
   };
 }

@@ -1,6 +1,5 @@
 {
   security = {
-    # GNOME keyring integration for PAM services
     pam.services = {
       login.enableGnomeKeyring = true;
 
@@ -8,7 +7,5 @@
         # enableGnomeKeyring = true;
       };
     };
-
-    polkit.enable = true;
   };
 }
