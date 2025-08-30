@@ -75,7 +75,7 @@
 
         modules = [
           ./hosts/${host.hostname}/configuration.nix
-          ./desktop-environments/${host.desktop}
+          ./nixos/desktop-environments/${host.desktop}
         ];
       };
 
