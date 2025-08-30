@@ -29,6 +29,15 @@
     # Энергосбережение для ноутбуков
     thermald.enable = lib.mkForce true; # Тепловое управление Intel
 
+    # Автоматическое монтирование USB (для Files/Nautilus)
+    udisks2.enable = true;
+
+    # Энергосбережение для ноутбуков
+    power-profiles-daemon.enable = true;
+
+    # Геолокация для часовых поясов
+    geoclue2.enable = true;
+
     # Современные сетевые настройки
     resolved = {
       enable = true;

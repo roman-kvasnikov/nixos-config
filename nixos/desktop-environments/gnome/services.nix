@@ -25,15 +25,6 @@
       at-spi2-core.enable = true;
     };
 
-    # Геолокация для часовых поясов и функций GNOME
-    geoclue2.enable = true;
-
-    # Энергосбережение для ноутбуков (интеграция с GNOME)
-    power-profiles-daemon.enable = true;
-
-    # Автоматическое монтирование USB (для Files/Nautilus)
-    udisks2.enable = true;
-
     # Современная индексация файлов для GNOME Search
     locate = {
       enable = true;

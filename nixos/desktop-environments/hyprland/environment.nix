@@ -29,9 +29,8 @@
       wlogout # Logout menu
 
       # System utilities
-      brightnessctl # Brightness control
       pamixer # Volume control
-      playerctl # Media control
+      brightnessctl # Brightness control
     ];
   };
 }

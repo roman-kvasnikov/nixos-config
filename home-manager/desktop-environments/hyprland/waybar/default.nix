@@ -16,6 +16,7 @@
 
         modules-left = [
           "hyprland/workspaces"
+          "group/crypto-rates"
         ];
 
         modules-center = [
@@ -24,7 +25,6 @@
         ];
 
         modules-right = [
-          "group/crypto-rates"
           "hyprland/language"
           "group/hardware"
           "battery"
@@ -58,14 +58,14 @@
         "custom/weather" = {
           format = "{}";
           interval = 3600;
-          exec = "curl 'wttr.in/?format=%c+%t&lang=en'";
+          exec = "curl 'https://wttr.in/Saint-Petersburg?format=%c+%t&lang=en'";
           tooltip = false;
         };
 
         clock = {
           format = "{:%a %b %d %H:%M}";
           interval = 1;
-          on-click-right = "gnome-calendar";
+          on-click = "gnome-calendar";
           tooltip = false;
         };
 
@@ -111,7 +111,7 @@
 
         "group/hardware" = {
           orientation = "horizontal";
-          modules = ["network" "bluetooth"];
+          modules = ["network" "bluetooth" "pulseaudio" "backlight"];
         };
 
         network = {
@@ -119,9 +119,13 @@
           format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
           format-disconnected = "󰤭";
           format-disabled = "󰤭";
-          tooltip = false;
+          tooltip = true;
+          tooltip-format = "{ifname} via {gwaddr} 󰊗";
+          tooltip-format-wifi = "{essid} ({signalStrength}%) ";
+          tooltip-format-ethernet = "{ifname} ";
+          tooltip-format-disconnected = "Disconnected";
           on-click = "kitty -e nmtui-connect";
-          on-click-right = "nm-connection-editor";
+          on-click-right = "kitty -e nmtui";
         };
 
         bluetooth = {
@@ -129,35 +133,70 @@
           format-on = "󰂯";
           format-off = "󰂲";
           format-disabled = "󰂲";
-          tooltip = false;
-          on-click-right = "blueman-manager";
+          tooltip = true;
+          tooltip-format = "Devices connected: {num_connections}";
+          on-click-right = "blueberry";
         };
 
-        pulseaudio = {
-          format = "{icon}";
-          format-muted = "";
-          format-bluetooth = "{icon} 󰂯";
-          format-bluetooth-muted = " 󰂯";
+        "pulseaudio" = {
+          format = "{icon} ";
+          format-muted = " ";
+          format-bluetooth = "{icon} 󰂯 ";
+          format-bluetooth-muted = " 󰂯 ";
           format-icons = {
-            headphone = "";
-            hands-free = "";
-            headset = "";
-            phone = "";
-            portable = "";
-            car = "";
-            default = ["" "" ""];
+            "headphone" = "";
+            "hands-free" = "";
+            "headset" = "";
+            "phone" = "";
+            "portable" = "";
+            "car" = "";
+            "default" = [
+              ""
+              ""
+              ""
+            ];
           };
-          on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
-          on-click-right = "pavucontrol";
+          "on-scroll-up" = "pamixer --increase 5";
+          "on-scroll-down" = "pamixer --decrease 5";
+          "on-click" = "pamixer --toggle-mute";
+          "on-click-right" = "pavucontrol";
+          tooltip = true;
+          tooltip-format = "Volume: {volume}%";
+        };
+
+        "backlight" = {
+          device = "intel_backlight";
+          format = "{icon} ";
+          scroll-step = 5;
+          format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
+          tooltip = true;
+          tooltip-format = "Brightness: {percent}%";
         };
 
         "hyprland/language" = {
-          format = "{}";
-          format-en = "en";
-          format-ru = "ru";
+          format-en = "🇺🇸 en";
+          format-ru = "🇷🇺 ru";
+          min-length = 4;
+          tooltip = false;
         };
 
-        battery = {
+        "battery" = {
           interval = 5;
           bat = "BAT0";
           states = {
@@ -166,136 +205,19 @@
           };
           format = "{icon} {capacity}%";
           format-full = "󰁹 {capacity}%";
-          format-charging = "󰂄 {capacity}%";
-          format-plugged = " {capacity}%";
-          format-icons = [
-            "󰁺"
-            "󰁻"
-            "󰁼"
-            "󰁽"
-            "󰁾"
-            "󰁿"
-            "󰂀"
-            "󰂁"
-            "󰂂"
-            "󰁹"
-          ];
+          format-charging = " {capacity}%";
+          format-icons = ["" "" "" "" ""];
           tooltip = false;
         };
       };
     };
 
-    style = lib.mkForce ''
-      @define-color black #000000;
-      @define-color white #c7c7c7;
-      @define-color green #33cc00;
-      @define-color yellow #ffff66;
-      @define-color red #ff3300;
-      @define-color blue #103cfe;
-
-      * {
-        border: none;
-        border-radius: 0;
-        min-height: 0;
-
-        font-family: "Fira Code Nerd Font";
-        font-size: 18px;
-        color: @white;
-      }
-
-      .modules-left {
-        margin-left: 8px;
-      }
-
-      .modules-right {
-        margin-right: 8px;
-      }
-
-      window#waybar {
-        background-color: @black;
-        opacity: 0.8;
-      }
-
-      #workspaces button {
-        all: initial;
-        padding: 0 6px;
-        margin: 0 4px;
-        min-width: 15px;
-      }
-
-      #workspaces button.empty {
-        opacity: 0.5;
-      }
-
-      #workspaces button.active {
-          border-bottom: 2px solid @white;
-      }
-
-      #workspaces button:hover {
-          font-weight: bold;
-      }
-
-      #custom-weather {
-        margin-right: 10px;
-      }
-
-      #clock {
-        font-weight: bold;
-      }
-
-      #crypto-rates * {
-          background-position: 8% 46%;
-          background-repeat: no-repeat;
-          background-size: 8%;
-      }
-
-      #custom-btc-rate {
-          background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo.svg');
-      }
-
-      #custom-gala-rate {
-          background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo.svg');
-      }
-
-      #custom-btc-rate.rate-up {
-          background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo-green.svg');
-      }
-
-      #custom-btc-rate.rate-down {
-          background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo-red.svg');
-      }
-
-      #custom-gala-rate.rate-up {
-          background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo-green.svg');
-      }
-
-      #custom-gala-rate.rate-down {
-          background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo-red.svg');
-      }
-
-      #crypto-rates *.rate-up {
-          color: @green;
-      }
-
-      #crypto-rates *.rate-down {
-          color: @red;
-      }
-
-      #crypto-rates *.rate-same {
-          color: @white;
-      }
-
-      #network {
-        margin-right: 10px;
-      }
-
-      #hardware, #language {
-        margin-right: 15px;
-      }
-    '';
+    style = lib.mkForce ./style.css;
   };
 
   home.file = {
+    # ".config/waybar/style.css".source = ./style.css;
+
     ".config/waybar/icons/btc-rate/btc-logo.svg".source = ./icons/btc-rate/btc-logo.svg;
     ".config/waybar/icons/btc-rate/btc-logo-green.svg".source = ./icons/btc-rate/btc-logo-green.svg;
     ".config/waybar/icons/btc-rate/btc-logo-red.svg".source = ./icons/btc-rate/btc-logo-red.svg;

@@ -5,5 +5,7 @@
 
       wayland.enable = true;
     };
+
+    gvfs.enable = true; # File system integration
   };
 }

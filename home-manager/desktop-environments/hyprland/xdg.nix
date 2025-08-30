@@ -13,10 +13,10 @@
         "inode/directory" = ["nautilus.desktop"];
 
         # Изображения
-        # "image/jpeg" = ["org.gnome.Loupe.desktop"];
-        # "image/png" = ["org.gnome.Loupe.desktop"];
-        # "image/gif" = ["org.gnome.Loupe.desktop"];
-        # "image/webp" = ["org.gnome.Loupe.desktop"];
+        "image/jpeg" = ["loupe.desktop"];
+        "image/png" = ["loupe.desktop"];
+        "image/gif" = ["loupe.desktop"];
+        "image/webp" = ["loupe.desktop"];
 
         # Видео
         "video/mp4" = ["vlc.desktop"];
@@ -24,9 +24,9 @@
         "video/quicktime" = ["vlc.desktop"];
 
         # Аудио
-        # "audio/mpeg" = ["org.gnome.Decibel.desktop"];
-        # "audio/ogg" = ["org.gnome.Decibel.desktop"];
-        # "audio/x-wav" = ["org.gnome.Decibel.desktop"];
+        "audio/mpeg" = ["decibels.desktop"];
+        "audio/ogg" = ["decibels.desktop"];
+        "audio/x-wav" = ["decibels.desktop"];
 
         # Текстовые файлы
         "text/plain" = ["gedit.desktop"];

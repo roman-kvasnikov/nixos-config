@@ -10,13 +10,24 @@
     ];
 
     windowrulev2 = [
-      "tag +calculator, class:(org.gnome.Calendar)"
-      "size 768 600, tag:calculator"
+      "tag +blueberry, class:(blueberry.py)"
+      "float, tag:blueberry"
+      "size 500 700, tag:blueberry"
+      "center, tag:blueberry"
+
+      "tag +calculator, class:(org.gnome.Calculator)"
+      "float, tag:calculator"
       "center, tag:calculator"
 
-      "tag +wofi, class:(wofi)"
-      "size 600 600, tag:wofi"
-      "center, tag:wofi"
+      "tag +calendar, class:(org.gnome.Calendar)"
+      "float, tag:calendar"
+      "size 768 600, tag:calendar"
+      "center, tag:calendar"
+
+      "tag +pavucontrol, class:(org.pulseaudio.pavucontrol)"
+      "float, tag:pavucontrol"
+      "size 800 800, tag:pavucontrol"
+      "center, tag:pavucontrol"
     ];
   };
 }
