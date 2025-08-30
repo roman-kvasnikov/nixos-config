@@ -4,58 +4,72 @@
 
     settings = {
       mainBar = {
-        reload_style_on_change = true;
         layer = "top";
         position = "top";
-        spacing = 0;
         height = 30;
 
         modules-left = [
           "hyprland/workspaces"
+          "tray"
           "group/crypto-rates"
         ];
 
         modules-center = [
           "custom/weather"
+          "custom/delimeter"
           "clock"
         ];
 
         modules-right = [
-          "group/tray-expander"
-          "bluetooth"
+          "group/hardware"
+          "custom/delimeter"
+          "hyprland/language"
+          "custom/delimeter"
           "network"
+          "bluetooth"
           "pulseaudio"
-          "cpu"
+          "custom/delimeter"
           "battery"
         ];
+
+        # =================================================================
+        # CUSTOM MODULES
+        # =================================================================
+
+        "custom/delimeter" = {
+          format = "|";
+          tooltip = false;
+        };
 
         # =================================================================
         # HYPRLAND WORKSPACES
         # =================================================================
 
         "hyprland/workspaces" = {
+          cursor = true;
+          on-scroll-up = "hyprctl dispatch workspace r-1";
+          on-scroll-down = "hyprctl dispatch workspace r+1";
           on-click = "activate";
-          format = "{icon}";
+          active-only = false;
+          all-outputs = true;
+          format = "{}";
           format-icons = {
-            default = "";
-            "1" = "1";
-            "2" = "2";
-            "3" = "3";
-            "4" = "4";
-            "5" = "5";
-            "6" = "6";
-            "7" = "7";
-            "8" = "8";
-            "9" = "9";
-            active = "󱓻";
+            urgent = "";
+            active = "";
+            default = "";
           };
           persistent-workspaces = {
-            "1" = [];
-            "2" = [];
-            "3" = [];
-            "4" = [];
-            "5" = [];
+            "*" = [1 2 3 4 5];
           };
+        };
+
+        # =================================================================
+        # SYSTEM TRAY
+        # =================================================================
+
+        tray = {
+          icon-size = 20;
+          spacing = 10;
         };
 
         # =================================================================
@@ -135,50 +149,31 @@
         # =================================================================
 
         network = {
-          format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
-          format = "{icon}";
           format-wifi = "{icon}";
-          format-ethernet = "󰀂";
-          format-disconnected = "󰖪";
-          tooltip-format-wifi = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
-          tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
-          tooltip-format-disconnected = "Disconnected";
-          interval = 3;
-          spacing = 1;
+          format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
+          format-disconnected = "󰤭";
+          format-disabled = "󰤭";
+          tooltip = false;
           on-click = "kitty -e nmtui-connect";
+          on-click-right = "nm-connection-editor";
+        };
+
+        "custom/vpn-home-l2tp" = {
+          format = "";
+          interval = 1;
+          exec = "bash ~/.config/waybar/scripts/vpn-home-l2tp/is_connected.sh";
+          on-click = "bash ~/.config/waybar/scripts/vpn-home-l2tp/toggle_connection.sh";
+          return-type = "json";
+          tooltip-format = "Home L2TP VPN";
         };
 
         bluetooth = {
-          format = "";
           format-connected = "󰂯";
-          format-disabled = "󰂲";
           format-on = "󰂯";
           format-off = "󰂲";
+          format-disabled = "󰂲";
           tooltip = false;
-          on-click-right = "blueberry";
-        };
-
-        # =================================================================
-        # SYSTEM TRAY
-        # =================================================================
-
-        "group/tray-expander" = {
-          orientation = "inherit";
-          drawer = {
-            transition-duration = 600;
-            children-class = "tray-group-item";
-          };
-          modules = ["custom/expand-icon" "tray"];
-        };
-
-        "custom/expand-icon" = {
-          format = " ";
-          tooltip = false;
-        };
-
-        tray = {
-          icon-size = 12;
-          spacing = 12;
+          on-click-right = "blueman-manager";
         };
 
         # =================================================================
@@ -272,22 +267,29 @@
         # =================================================================
 
         battery = {
-          format = "{capacity}% {icon}";
-          format-discharging = "{icon}";
-          format-charging = "{icon}";
-          format-plugged = "";
-          format-icons = {
-            charging = ["󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅"];
-            default = ["󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
-          };
-          format-full = "󰂅";
-          tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}%";
-          tooltip-format-charging = "{power:>1.0f}W↑ {capacity}%";
           interval = 5;
+          bat = "BAT0";
           states = {
-            warning = 20;
-            critical = 10;
+            warning = 30;
+            critical = 15;
           };
+          format = "{icon} {capacity}%";
+          format-full = "󰁹 {capacity}%";
+          format-charging = "󰂄 {capacity}%";
+          format-plugged = " {capacity}%";
+          format-icons = [
+            "󰁺"
+            "󰁻"
+            "󰁼"
+            "󰁽"
+            "󰁾"
+            "󰁿"
+            "󰂀"
+            "󰂁"
+            "󰂂"
+            "󰁹"
+          ];
+          tooltip = false;
         };
 
         # =================================================================
@@ -313,67 +315,79 @@
     # =================================================================
 
     style = ''
+      @define-color black #000000;
+      @define-color white #c7c7c7;
+      @define-color green #33cc00;
+      @define-color yellow #ffff66;
+      @define-color red #ff3300;
+      @define-color blue #103cfe;
 
       * {
-        background-color: @background;
-        color: @foreground;
-
-        border: none;
-        border-radius: 0;
-        min-height: 0;
-        font-family: CaskaydiaMono Nerd Font;
-        font-size: 12px;
+          font-family: 'Fira Code', 'FontAwesome', 'Material Design Icons', 'Noto Sans', sans-serif;
+          font-size: 1.2rem;
+          color: @white;
       }
 
-      .modules-left {
-        margin-left: 8px;
+      window#waybar {
+          background-color: @black;
+          opacity: 0.8;
       }
 
-      .modules-right {
-        margin-right: 8px;
+      #workspaces {
+          padding: 0 2px;
       }
 
       #workspaces button {
-        all: initial;
-        padding: 0 6px;
-        margin: 0 1.5px;
-        min-width: 9px;
+          background-color: @black;
+          opacity: 0.3;
+          border-radius: 0;
+          padding: 0 10px;
       }
 
-      #workspaces button.empty {
-        opacity: 0.5;
+      #workspaces button.active {
+          background: inherit;
+          opacity: 1;
+          box-shadow: inset 0 0 @black;
+          font-weight: bold;
+          min-width: 50px;
+      }
+
+      #workspaces button:hover {
+          background: inherit;
+          opacity: 1;
+          box-shadow: inset 0 0 @black;
+          text-shadow: inherit;
+      }
+
+      #custom-delimeter {
+          padding: 2px 10px;
       }
 
       #tray,
+      #custom-btc-rate,
+      #custom-gala-rate,
+      #custom-trump-rate,
+      #custom-weather,
+      #clock,
       #cpu,
-      #battery,
+      #memory,
+      #disk,
+      #language,
+      #custom-updates,
       #network,
+      #custom-vpn-home-l2tp,
       #bluetooth,
       #pulseaudio,
-      #custom-omarchy,
-      #custom-update {
-        min-width: 12px;
-        margin: 0 7.5px;
+      #custom-swaync,
+      #battery {
+          padding: 0 10px;
+          margin: 0;
       }
 
-      #custom-expand-icon {
-        margin-right: 7px;
-      }
-
-      tooltip {
-        padding: 2px;
-      }
-
-      #custom-update {
-        font-size: 10px;
-      }
-
-      #clock {
-        margin-left: 8.75px;
-      }
-
-      .hidden {
-        opacity: 0;
+      #bluetooth,
+      #custom-updates,
+      #custom-swaync {
+          padding: 0 6px 0 10px;
       }
 
       #crypto-rates * {
@@ -419,6 +433,80 @@
 
       #crypto-rates *.rate-same {
           color: @white;
+      }
+
+      #temperature.warning,
+      #cpu.warning,
+      #memory.warning,
+      #disk.warning {
+          color: @yellow;
+      }
+
+      #temperature.critical,
+      #cpu.critical,
+      #memory.critical,
+      #disk.critical {
+          color: @red;
+      }
+
+      #network.wifi,
+      #custom-vpn-home-l2tp.connected,
+      #bluetooth.connected {
+          color: @blue;
+      }
+
+      #network.disconnected,
+      #bluetooth.off {
+          color: @red;
+      }
+
+
+      #custom-updates.green {
+          color: @green;
+      }
+
+      #custom-updates.yellow {
+          color: @yellow;
+      }
+
+      #custom-updates.red {
+          color: @red;
+      }
+
+      #custom-swaync.notification,
+      #custom-swaync.dnd-notification,
+      #custom-swaync.inhibited-notification,
+      #custom-swaync.dnd-inhibited-notification {
+          color: @red;
+      }
+
+      #battery {
+          color: @green;
+      }
+
+      #battery.charging,
+      #battery.plugged {
+          color: @blue;
+      }
+
+      #battery.warning:not(.charging) {
+          color: @yellow;
+      }
+
+      @keyframes blink {
+          to {
+              color: @black;
+          }
+      }
+
+      #battery.critical:not(.charging) {
+          background-color: @red;
+          color: @white;
+          animation-name: blink;
+          animation-duration: 0.5s;
+          animation-timing-function: steps(12);
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
       }
     '';
   };
