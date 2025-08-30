@@ -44,7 +44,11 @@
 
     targets = {
       hyprland.enable = true;
-      hyprlock.enable = false;
+      waybar.enable = true;
+      wofi.enable = true;
+      mako.enable = true;
+      wlogout.enable = true;
+      hyprlock.enable = true;
       kitty.enable = false; # Отдельно настроим в модуле kitty
       vscode.enable = false; # Отдельно настроим в модуле vscode
     };
