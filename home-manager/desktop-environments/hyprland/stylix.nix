@@ -44,6 +44,7 @@
 
     targets = {
       hyprland.enable = true;
+      hyprlock.enable = false;
       kitty.enable = false; # Отдельно настроим в модуле kitty
       vscode.enable = false; # Отдельно настроим в модуле vscode
     };

@@ -1,6 +1,6 @@
 {
   services = {
-    displayManager.gdm = {
+    displayManager.sddm = {
       enable = true;
 
       wayland = true;

@@ -1,15 +1,22 @@
-# Общие настройки для всех хостов
 {
-  # Информация о пользователе
   user = {
     name = "romank";
   };
 
   hosts = let
     hostList = [
-      {hostname = "huawei";}
-      {hostname = "nixos";}
-      {hostname = "nixos-vm";}
+      {
+        hostname = "huawei";
+        desktop = "gnome";
+      }
+      {
+        hostname = "nixos";
+        desktop = "hyprland";
+      }
+      {
+        hostname = "nixos-vm";
+        desktop = "gnome";
+      }
     ];
 
     hostDefaults = {

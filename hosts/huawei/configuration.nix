@@ -21,7 +21,6 @@
 
       systemd-boot = {
         enable = false;
-        configurationLimit = 10; # 10 boot entries
       };
 
       grub = {

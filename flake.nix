@@ -70,11 +70,12 @@
 
         specialArgs = {
           inherit inputs user;
-          inherit (host) hostname system version;
+          inherit (host) hostname desktop system version;
         };
 
         modules = [
           ./hosts/${host.hostname}/configuration.nix
+          ./desktop-environments/${host.desktop}
         ];
       };
 
@@ -88,11 +89,12 @@
 
         extraSpecialArgs = {
           inherit inputs user;
-          inherit (host) hostname system version;
+          inherit (host) hostname desktop system version;
         };
 
         modules = [
           ./home-manager/home.nix
+          ./home-manager/desktop-environments/${host.desktop}
         ];
       };
   in {
