@@ -11,7 +11,6 @@
       enable = true;
 
       wayland.enable = true;
-      autoSuspend = false;
     };
   };
 }
