@@ -1,6 +1,4 @@
-{inputs, ...}: {
-  imports = [inputs.stylix.homeModules.stylix];
-
+{
   stylix = {
     targets = {
       hyprland.enable = true;
