@@ -16,6 +16,7 @@
     ./htop.nix
     ./kitty.nix
     ./ssh.nix
+    ./stylix.nix
     ./yazi.nix
   ];
 }
