@@ -8,5 +8,6 @@
     ./gestures.nix
     ./input.nix
     ./monitor.nix
+    ./window-rule.nix
   ];
 }
