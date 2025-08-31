@@ -25,6 +25,7 @@
         ];
 
         modules-right = [
+          "group/hardware"
           "hyprland/language"
           "group/adjustments"
           "battery"
