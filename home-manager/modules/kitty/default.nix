@@ -11,7 +11,7 @@
       term = "xterm-kitty";
       kitty_mod = "ctrl+shift";
 
-      # Font (будет использован из stylix)
+      # Font
       font_family = "Fira Code Nerd Font";
       font_size = 12.0;
 
@@ -19,19 +19,19 @@
       enabled_layouts = "tall, *";
 
       # Background
-      background_image = "${inputs.wallpapers}/NixOS/nix-wallpaper-nineish-catppuccin-macchiato-alt.png";
+      background_image = "${inputs.wallpapers}/NixOS/nix-wallpaper-nineish-dark-gray.png";
       background_image_layout = "scaled";
       background_tint = "0.5";
-      background_opacity = "0.9";
-      background_blur = 32;
+      # background_opacity = "0.9";
+      # background_blur = 32;
 
       # Window
       window_margin_width = 5;
       window_padding_width = 0;
       window_border_width = "1.5pt";
-      remember_window_size = "yes";
-      initial_window_width = 1920;
-      initial_window_height = 1080;
+      # remember_window_size = "yes";
+      # initial_window_width = 1920;
+      # initial_window_height = 1080;
       hide_window_decorations = "no";
 
       # Tabs

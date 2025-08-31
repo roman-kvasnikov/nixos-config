@@ -5,29 +5,43 @@
 
       # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
 
+      # MODE 1
+      # bezier = [
+      #   "myBezier, 0.05, 0.9, 0.1, 1.05"
+      #   "flatline, 1.0, 1.0, 0, 0"
+      #   "flatlinetwo, 0, 0, 1, 1"
+      #   "shuff, 0, 0.33, 0.66, 1.0"
+      #   "BorderRotation, 0.45, 0, 0.55, 1"
+      # ];
+
+      # animation = [
+      #   "windows, 1, 3, myBezier"
+      #   "windowsIn, 1, 3, myBezier"
+      #   "windowsOut, 1, 2, default, popin 80%"
+      #   "border, 1, 10, default"
+      #   "borderangle, 1, 30, flatlinetwo, loop"
+      #   "fade, 1, 4, default"
+      #   "workspaces, 1, 3, myBezier"
+      #   "specialWorkspace, 1, 2, myBezier, slidevert"
+      # ];
+
+      # MODE 2
       bezier = [
-        "easeOutQuint,0.23,1,0.32,1"
-        "easeInOutCubic,0.65,0.05,0.36,1"
-        "linear,0,0,1,1"
-        "almostLinear,0.5,0.5,0.75,1.0"
-        "quick,0.15,0,0.1,1"
+        "wind, 0.05, 0.9, 0.1, 1.05"
+        "winIn, 0.1, 1.1, 0.1, 1.1"
+        "winOut, 0.3, -0.3, 0, 1"
+        "liner, 1, 1, 1, 1"
       ];
 
       animation = [
-        "global, 1, 10, default"
-        "border, 1, 5.39, easeOutQuint"
-        "windows, 1, 4.79, easeOutQuint"
-        "windowsIn, 1, 4.1, easeOutQuint, popin 87%"
-        "windowsOut, 1, 1.49, linear, popin 87%"
-        "fadeIn, 1, 1.73, almostLinear"
-        "fadeOut, 1, 1.46, almostLinear"
-        "fade, 1, 3.03, quick"
-        "layers, 1, 3.81, easeOutQuint"
-        "layersIn, 1, 4, easeOutQuint, fade"
-        "layersOut, 1, 1.5, linear, fade"
-        "fadeLayersIn, 1, 1.79, almostLinear"
-        "fadeLayersOut, 1, 1.39, almostLinear"
-        "workspaces, 1, 5, default, slidefade 10%"
+        "windows, 1, 6, wind, slide"
+        "windowsIn, 1, 6, winIn, slide"
+        "windowsOut, 1, 5, winOut, slide"
+        "windowsMove, 1, 5, wind, slide"
+        "border, 1, 1, liner"
+        "borderangle, 1, 30, liner, loop"
+        "fade, 1, 10, default"
+        "workspaces, 1, 5, wind"
       ];
     };
   };
