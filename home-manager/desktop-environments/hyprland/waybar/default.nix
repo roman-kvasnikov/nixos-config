@@ -326,10 +326,6 @@
       	opacity: 0.5;
       }
 
-      #workspaces button_.active {
-      	border-bottom: 2px solid @white;
-      }
-
       #workspaces button:hover {
       	font-weight: bold;
       }
