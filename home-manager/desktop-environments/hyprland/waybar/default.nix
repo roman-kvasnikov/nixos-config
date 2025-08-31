@@ -261,6 +261,7 @@
       window#waybar {
       	background-color: @black;
       	opacity: 0.8;
+        border-bottom: 1px solid @white;
       }
 
       #workspaces button {
