@@ -12,7 +12,7 @@
         layer = "top";
         position = "top";
         spacing = 0;
-        height = 30;
+        height = 32;
 
         modules-left = [
           "hyprland/workspaces"
@@ -260,7 +260,7 @@
 
       window#waybar {
       	background-color: @black;
-      	opacity: 0.8;
+      	opacity: 1;
         border-bottom: 1px solid @white;
       }
 
