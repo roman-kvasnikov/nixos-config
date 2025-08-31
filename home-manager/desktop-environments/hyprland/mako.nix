@@ -7,8 +7,8 @@
     borderSize = 2;
     textColor = "#cdd6f4";
     font = "Ubuntu Nerd Font 14";
-    width = 350;
-    height = 120;
+    width = 450;
+    height = 140;
     defaultTimeout = 8000;
     maxIconSize = 48;
     iconPath = "/run/current-system/sw/share/icons/hicolor";

@@ -17,9 +17,11 @@
       "center, tag:floating-window"
       "size 800 600, tag:floating-window"
 
-      "tag +floating-window, class:(blueberry.py|org.gnome.Calculator|org.gnome.Calendar|org.pulseaudio.pavucontrol|vlc)"
-
       "size 500 700, class:(blueberry.py)"
+      "size 800 1200, class:(org.pulseaudio.pavucontrol)"
+      "size 1280 720, class:(kitty)"
+
+      "tag +floating-window, class:(blueberry.py|org.gnome.Calculator|org.gnome.Calendar|org.pulseaudio.pavucontrol|vlc|kitty)"
     ];
   };
 }

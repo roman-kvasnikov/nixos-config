@@ -68,6 +68,7 @@
           orientation = "horizontal";
           modules = [
             "custom/btc-rate"
+            "custom/eth-rate"
             "custom/gala-rate"
           ];
         };
@@ -83,6 +84,20 @@
           exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c BTC -r 0";
           return-type = "json";
           on-click = "xdg-open 'https://www.bybit.com/ru-RU/trade/spot/BTC/USDT'";
+          tooltip = false;
+        };
+
+        "custom/eth-rate" = {
+          format = "    {}{icon}";
+          format-icons = {
+            up = " ";
+            down = " ";
+            same = " ";
+          };
+          interval = 300;
+          exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c ETH -r 0";
+          return-type = "json";
+          on-click = "xdg-open 'https://www.bybit.com/ru-RU/trade/spot/ETH/USDT'";
           tooltip = false;
         };
 
@@ -353,6 +368,10 @@
       	background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo.svg');
       }
 
+      #custom-eth-rate {
+      	background-image: url('${config.xdg.configHome}/waybar/icons/eth-rate/eth-logo.svg');
+      }
+
       #custom-gala-rate {
       	background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo.svg');
       }
@@ -363,6 +382,14 @@
 
       #custom-btc-rate.rate-down {
       	background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo-red.svg');
+      }
+
+      #custom-eth-rate.rate-up {
+      	background-image: url('${config.xdg.configHome}/waybar/icons/eth-rate/eth-logo-green.svg');
+      }
+
+      #custom-eth-rate.rate-down {
+      	background-image: url('${config.xdg.configHome}/waybar/icons/eth-rate/eth-logo-red.svg');
       }
 
       #custom-gala-rate.rate-up {
