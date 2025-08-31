@@ -30,6 +30,10 @@
           "battery"
         ];
 
+        # =================================================================
+        # WORKSPACES
+        # =================================================================
+
         "hyprland/workspaces" = {
           on-click = "activate";
           format = "{icon}";
@@ -53,20 +57,6 @@
             "4" = [];
             "5" = [];
           };
-        };
-
-        "custom/weather" = {
-          format = "{}";
-          interval = 3600;
-          exec = "curl 'https://wttr.in/Saint-Petersburg?format=%c+%t&lang=en'";
-          tooltip = false;
-        };
-
-        clock = {
-          format = "{:%a %b %d %H:%M}";
-          interval = 1;
-          on-click = "gnome-calendar";
-          tooltip = false;
         };
 
         # =================================================================
@@ -108,6 +98,28 @@
           on-click = "xdg-open 'https://www.bybit.com/ru-RU/trade/spot/GALA/USDT'";
           tooltip = false;
         };
+
+        # =================================================================
+        # WEATHER AND CLOCK
+        # =================================================================
+
+        "custom/weather" = {
+          format = "{}";
+          interval = 3600;
+          exec = "curl 'https://wttr.in/Saint-Petersburg?format=%c+%t&lang=en'";
+          tooltip = false;
+        };
+
+        clock = {
+          format = "{:%a %b %d %H:%M}";
+          interval = 1;
+          on-click = "gnome-calendar";
+          tooltip = false;
+        };
+
+        # =================================================================
+        # HARDWARE GROUP
+        # =================================================================
 
         "group/hardware" = {
           orientation = "horizontal";
@@ -189,12 +201,20 @@
           tooltip-format = "Brightness: {percent}%";
         };
 
+        # =================================================================
+        # LANGUAGE
+        # =================================================================
+
         "hyprland/language" = {
           format-en = "🇺🇸 en";
           format-ru = "🇷🇺 ru";
           min-length = 4;
           tooltip = false;
         };
+
+        # =================================================================
+        # BATTERY
+        # =================================================================
 
         "battery" = {
           interval = 5;
@@ -275,7 +295,6 @@
       }
 
       #crypto-rates * {
-      	font-size: 14px;
       	background-position: 8% 46%;
       	background-repeat: no-repeat;
       	background-size: 8%;
@@ -335,7 +354,6 @@
       }
 
       #bluetooth {
-      	font-size: 20px;
       	font-weight: bold;
       	margin-right: 10px;
       }
@@ -345,6 +363,7 @@
       }
 
       #battery {
+        font-weight: bold;
       	color: @green;
       }
 
