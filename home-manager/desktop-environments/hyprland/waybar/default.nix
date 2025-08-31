@@ -130,7 +130,7 @@
         "temperature" = {
           "interval" = 10;
           "format" = " {temperatureC}°C";
-          "hwmon-path" = "/sys/class/hwmon/hwmon7/temp1_input";
+          "hwmon-path" = "/sys/class/hwmon/hwmon4/temp1_input";
           "critical-threshold" = 80;
           "tooltip" = false;
         };
@@ -160,7 +160,7 @@
         "disk" = {
           "interval" = 15;
           "format" = " {percentage_used}%";
-          "path" = "/home";
+          "path" = "/";
           "states" = {
             "warning" = 70;
             "critical" = 90;
