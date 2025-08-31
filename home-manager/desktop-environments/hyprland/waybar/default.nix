@@ -128,7 +128,7 @@
         };
 
         "temperature" = {
-          "interval" = 10;
+          "interval" = 1;
           "format" = " {temperatureC}°C";
           "hwmon-path" = "/sys/class/hwmon/hwmon4/temp1_input";
           "critical-threshold" = 80;
@@ -136,7 +136,7 @@
         };
 
         "cpu" = {
-          "interval" = 15;
+          "interval" = 1;
           "format" = " {usage}%";
           "states" = {
             "warning" = 70;
@@ -147,7 +147,7 @@
         };
 
         "memory" = {
-          "interval" = 15;
+          "interval" = 1;
           "format" = " {}%";
           "states" = {
             "warning" = 70;
@@ -158,7 +158,7 @@
         };
 
         "disk" = {
-          "interval" = 15;
+          "interval" = 1;
           "format" = " {percentage_used}%";
           "path" = "/";
           "states" = {
