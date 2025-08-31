@@ -7,15 +7,15 @@
         # Applications
         "SUPER, RETURN, exec, warp-terminal" # Warp Terminal
         "SUPER SHIFT, RETURN, exec, $terminal"
-        "SUPER, B, exec, $browser"
+        "SUPER, B, exec, [workspace 1] $browser"
         "SUPER, R, exec, $menu"
         "SUPER, E, exec, $fileManager"
         "SUPER, C, exec, gnome-calculator" # Gnome Calculator
         "SUPER SHIFT, S, exec, hyprshot -m region" # Hyprshot
+        "SUPER, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy" # Cliphist
 
         # Управление окнами
-        "SUPER, M, exit,"
-        "SUPER, V, togglefloating,"
+        "SUPER, T, togglefloating,"
         "SUPER, P, pseudo,"
         "SUPER, J, togglesplit,"
         "SUPER, F, fullscreen,"
