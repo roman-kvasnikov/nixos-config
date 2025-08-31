@@ -350,16 +350,16 @@
       }
 
       #network {
-      	margin-right: 15px;
+      	margin-right: 10px;
       }
 
       #bluetooth {
       	font-weight: bold;
-      	margin-right: 10px;
+      	margin-right: 5px;
       }
 
       #pulseaudio {
-      	margin-right: 8px;
+      	margin-right: 1px;
       }
 
       #battery {
