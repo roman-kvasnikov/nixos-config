@@ -291,11 +291,11 @@
       }
 
       #crypto-rates {
-        font-size: 16px;
       	margin-left: 10px;
       }
 
       #crypto-rates * {
+        font-size: 16px;
       	background-position: 8% 46%;
       	background-repeat: no-repeat;
       	background-size: 8%;
