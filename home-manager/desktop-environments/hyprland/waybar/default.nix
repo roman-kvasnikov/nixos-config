@@ -291,6 +291,7 @@
       }
 
       #crypto-rates {
+        font-size: 16px;
       	margin-left: 10px;
       }
 
