@@ -26,7 +26,7 @@
 
         modules-right = [
           "hyprland/language"
-          "group/hardware"
+          "group/adjustments"
           "battery"
         ];
 
@@ -122,6 +122,67 @@
         # =================================================================
 
         "group/hardware" = {
+          "orientation" = "horizontal";
+          "modules" = ["temperature" "cpu" "memory" "disk"];
+        };
+
+        "temperature" = {
+          "interval" = 10;
+          "format" = " {temperatureC}°C";
+          "hwmon-path" = "/sys/class/hwmon/hwmon7/temp1_input";
+          "critical-threshold" = 80;
+          "tooltip" = false;
+        };
+
+        "cpu" = {
+          "interval" = 15;
+          "format" = " {usage}%";
+          "states" = {
+            "warning" = 70;
+            "critical" = 90;
+          };
+          "tooltip" = false;
+          "on-click" = "kitty -e btop";
+        };
+
+        "memory" = {
+          "interval" = 15;
+          "format" = " {}%";
+          "states" = {
+            "warning" = 70;
+            "critical" = 90;
+          };
+          "tooltip" = false;
+          "on-click" = "kitty -e htop";
+        };
+
+        "disk" = {
+          "interval" = 15;
+          "format" = " {percentage_used}%";
+          "path" = "/home";
+          "states" = {
+            "warning" = 70;
+            "critical" = 90;
+          };
+          "tooltip" = false;
+        };
+
+        # =================================================================
+        # LANGUAGE
+        # =================================================================
+
+        "hyprland/language" = {
+          format-en = "🇺🇸 en";
+          format-ru = "🇷🇺 ru";
+          min-length = 4;
+          tooltip = false;
+        };
+
+        # =================================================================
+        # ADJUSTMENTS GROUP
+        # =================================================================
+
+        "group/adjustments" = {
           orientation = "horizontal";
           modules = ["network" "bluetooth" "pulseaudio" "backlight"];
         };
@@ -199,17 +260,6 @@
           ];
           tooltip = true;
           tooltip-format = "Brightness: {percent}%";
-        };
-
-        # =================================================================
-        # LANGUAGE
-        # =================================================================
-
-        "hyprland/language" = {
-          format-en = "🇺🇸 en";
-          format-ru = "🇷🇺 ru";
-          min-length = 4;
-          tooltip = false;
         };
 
         # =================================================================
@@ -338,16 +388,15 @@
       	color: @white;
       }
 
-      #network.disconnected,
-      #bluetooth.off {
-      	color: @red;
+      #hardware {
+      	margin-right: 10px;
       }
 
       #language {
       	margin-right: 20px;
       }
 
-      #hardware {
+      #adjustments {
       	margin-right: 10px;
       }
 
@@ -369,19 +418,28 @@
       	color: @green;
       }
 
+      #network.wifi,
+      #bluetooth.connected,
       #battery.charging,
       #battery.plugged {
       	color: @blue;
       }
 
-      #battery.warning:not(.charging) {
-      	color: @yellow;
+      #temperature.critical,
+      #cpu.critical,
+      #memory.critical,
+      #disk.critical,
+      #network.disconnected,
+      #bluetooth.off {
+        color: @red;
       }
 
-      @keyframes blink {
-      	to {
-      		color: @black;
-      	}
+      #temperature.warning,
+      #cpu.warning,
+      #memory.warning,
+      #disk.warning,
+      #battery.warning:not(.charging) {
+      	color: @yellow;
       }
 
       #battery.critical:not(.charging) {
@@ -391,6 +449,12 @@
       	animation-timing-function: steps(12);
       	animation-iteration-count: infinite;
       	animation-direction: alternate;
+      }
+
+      @keyframes blink {
+      	to {
+      		color: @black;
+      	}
       }
     '';
   };
