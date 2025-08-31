@@ -286,10 +286,10 @@
     style = ''
       @define-color black #000000;
       @define-color white #c7c7c7;
-      @define-color green #33cc00;
+      @define-color green #228B22;
       @define-color yellow #ffff66;
       @define-color red #ff3300;
-      @define-color blue #103cfe;
+      @define-color blue #1E90FF;
 
       * {
       	border: none;
