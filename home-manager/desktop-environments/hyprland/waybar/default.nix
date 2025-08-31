@@ -326,7 +326,7 @@
       	opacity: 0.5;
       }
 
-      #workspaces button.active {
+      #workspaces button_.active {
       	border-bottom: 2px solid @white;
       }
 
