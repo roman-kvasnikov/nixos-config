@@ -431,7 +431,8 @@
       #memory.critical,
       #disk.critical,
       #network.disconnected,
-      #bluetooth.off {
+      #bluetooth.off,
+      #pulseaudio.muted {
         color: @red;
       }
 
