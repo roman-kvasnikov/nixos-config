@@ -286,8 +286,8 @@
     style = ''
       @define-color black #000000;
       @define-color white #c7c7c7;
-      @define-color green #2E8B57;
-      @define-color yellow #ffff66;
+      @define-color green #33FF00;
+      @define-color yellow #FFFF33;
       @define-color red #ff3300;
       @define-color blue #1E90FF;
 
