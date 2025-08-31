@@ -358,7 +358,7 @@
       }
 
       #crypto-rates * {
-        font-size: 16px;
+        font-size: 14px;
       	background-position: 8% 46%;
       	background-repeat: no-repeat;
       	background-size: 8%;
@@ -488,6 +488,9 @@
     ".config/waybar/icons/btc-rate/btc-logo.svg".source = ./icons/btc-rate/btc-logo.svg;
     ".config/waybar/icons/btc-rate/btc-logo-green.svg".source = ./icons/btc-rate/btc-logo-green.svg;
     ".config/waybar/icons/btc-rate/btc-logo-red.svg".source = ./icons/btc-rate/btc-logo-red.svg;
+    ".config/waybar/icons/eth-rate/eth-logo.svg".source = ./icons/eth-rate/eth-logo.svg;
+    ".config/waybar/icons/eth-rate/eth-logo-green.svg".source = ./icons/eth-rate/eth-logo-green.svg;
+    ".config/waybar/icons/eth-rate/eth-logo-red.svg".source = ./icons/eth-rate/eth-logo-red.svg;
     ".config/waybar/icons/gala-rate/gala-logo.svg".source = ./icons/gala-rate/gala-logo.svg;
     ".config/waybar/icons/gala-rate/gala-logo-green.svg".source = ./icons/gala-rate/gala-logo-green.svg;
     ".config/waybar/icons/gala-rate/gala-logo-red.svg".source = ./icons/gala-rate/gala-logo-red.svg;

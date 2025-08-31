@@ -25,6 +25,9 @@
         "SUPER, right, movefocus, r"
         "SUPER, up, movefocus, u"
         "SUPER, down, movefocus, d"
+
+        # Wlogout
+        "SUPER, Escape, exec, wlogout"
       ]
       ++ (
         builtins.concatLists (builtins.genList (

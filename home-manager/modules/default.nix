@@ -5,6 +5,7 @@
     ./fastfetch
     ./homevpnctl
     ./keepassxcctl
+    ./kitty
     ./s3fsctl
     ./xrayctl
     ./bottom.nix
@@ -14,7 +15,6 @@
     ./git-sync-wallpapers.nix
     ./git.nix
     ./htop.nix
-    ./kitty.nix
     ./ssh.nix
     ./stylix.nix
     ./yazi.nix

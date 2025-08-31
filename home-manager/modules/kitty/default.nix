@@ -22,8 +22,8 @@
       background_image = "${inputs.wallpapers}/NixOS/nix-wallpaper-nineish-catppuccin-macchiato-alt.png";
       background_image_layout = "scaled";
       background_tint = "0.5";
-      # background_opacity = "0.9";
-      # background_blur = 32;
+      background_opacity = "0.9";
+      background_blur = 32;
 
       # Window
       window_margin_width = 5;
@@ -50,6 +50,20 @@
 
       # Mouse
       mouse_hide_wait = "-1.0";
+
+      # Clipboard
+      copy_on_select = "yes";
+    };
+
+    keybindings = {
+      "ctrl+c" = "copy_or_interrupt";
+      "kitty_mod+c" = "copy_to_clipboard";
+      "cmd+c" = "copy_to_clipboard";
+      "ctrl+v" = "paste_from_clipboard";
+      "kitty_mod+v" = "paste_from_clipboard";
+      "cmd+v" = "paste_from_clipboard";
+      "kitty_mod+s" = "paste_from_selection";
+      "shift+insert" = "paste_from_selection";
     };
   };
 }
