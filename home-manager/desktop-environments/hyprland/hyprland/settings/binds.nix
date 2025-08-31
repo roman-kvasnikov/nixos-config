@@ -13,6 +13,7 @@
         "SUPER, C, exec, gnome-calculator" # Gnome Calculator
         "SUPER SHIFT, S, exec, hyprshot -m region" # Hyprshot
         "SUPER, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy" # Cliphist
+        "CTRL ALT, Delete, exec, kitty --start-as=fullscreen --title all_is_kitty sh -c 'btop'" # Btop
 
         # Управление окнами
         "SUPER, T, togglefloating,"

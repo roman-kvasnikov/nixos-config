@@ -21,6 +21,7 @@
       hyprpolkitagent # Polkit agent
       hyprshot # Screenshot tool
       hyprsysteminfo # System info
+      hyprcursor # Cursor
 
       # Hyprland utilities
       waybar # Status bar

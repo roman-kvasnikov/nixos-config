@@ -9,5 +9,12 @@
     pavucontrol # Audio control
     blueberry # Bluetooth control
     samba # Samba
+
+    # Cursor themes
+    phosh-cursor-theme
+    bibata-cursors
+    capitaine-cursors
+    nordzy-cursors
+    vimix-cursors
   ];
 }
