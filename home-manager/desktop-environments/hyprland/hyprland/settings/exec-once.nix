@@ -9,8 +9,8 @@
       "wl-paste --type image --watch cliphist store"
       "wl-clip-persist --clipboard regular"
       "[workspace 1 silent; maximize] $browser"
-      "[workspace 2 silent; maximize] whatsapp-electron"
-      "[workspace 3 silent; maximize] Telegram"
+      "[workspace 2 silent] whatsapp-electron"
+      "[workspace 3 silent] Telegram"
       "[workspace 5 silent; maximize] keepassxc"
     ];
   };

@@ -7,7 +7,7 @@
     hostList = [
       {
         hostname = "huawei";
-        desktop = "gnome";
+        desktop = "hyprland";
       }
       {
         hostname = "nixos";
