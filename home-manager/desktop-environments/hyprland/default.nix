@@ -2,6 +2,7 @@
   imports = [
     ./hyprland
     ./waybar
+    ./wlogout
     ./hypridle.nix
     ./hyprlock.nix
     ./hyprpaper.nix

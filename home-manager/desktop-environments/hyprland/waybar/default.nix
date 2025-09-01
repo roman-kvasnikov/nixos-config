@@ -484,18 +484,18 @@
     '';
   };
 
-  home.file = {
-    ".config/waybar/icons/btc-rate/btc-logo.svg".source = ./icons/btc-rate/btc-logo.svg;
-    ".config/waybar/icons/btc-rate/btc-logo-green.svg".source = ./icons/btc-rate/btc-logo-green.svg;
-    ".config/waybar/icons/btc-rate/btc-logo-red.svg".source = ./icons/btc-rate/btc-logo-red.svg;
-    ".config/waybar/icons/eth-rate/eth-logo.svg".source = ./icons/eth-rate/eth-logo.svg;
-    ".config/waybar/icons/eth-rate/eth-logo-green.svg".source = ./icons/eth-rate/eth-logo-green.svg;
-    ".config/waybar/icons/eth-rate/eth-logo-red.svg".source = ./icons/eth-rate/eth-logo-red.svg;
-    ".config/waybar/icons/gala-rate/gala-logo.svg".source = ./icons/gala-rate/gala-logo.svg;
-    ".config/waybar/icons/gala-rate/gala-logo-green.svg".source = ./icons/gala-rate/gala-logo-green.svg;
-    ".config/waybar/icons/gala-rate/gala-logo-red.svg".source = ./icons/gala-rate/gala-logo-red.svg;
+  xdg.configFile = {
+    "waybar/icons/btc-rate/btc-logo.svg".source = ./icons/btc-rate/btc-logo.svg;
+    "waybar/icons/btc-rate/btc-logo-green.svg".source = ./icons/btc-rate/btc-logo-green.svg;
+    "waybar/icons/btc-rate/btc-logo-red.svg".source = ./icons/btc-rate/btc-logo-red.svg;
+    "waybar/icons/eth-rate/eth-logo.svg".source = ./icons/eth-rate/eth-logo.svg;
+    "waybar/icons/eth-rate/eth-logo-green.svg".source = ./icons/eth-rate/eth-logo-green.svg;
+    "waybar/icons/eth-rate/eth-logo-red.svg".source = ./icons/eth-rate/eth-logo-red.svg;
+    "waybar/icons/gala-rate/gala-logo.svg".source = ./icons/gala-rate/gala-logo.svg;
+    "waybar/icons/gala-rate/gala-logo-green.svg".source = ./icons/gala-rate/gala-logo-green.svg;
+    "waybar/icons/gala-rate/gala-logo-red.svg".source = ./icons/gala-rate/gala-logo-red.svg;
 
-    ".config/waybar/scripts/crypto-rates.sh".source = ./scripts/crypto-rates.sh;
-    ".config/waybar/scripts/weather.sh".source = ./scripts/weather.sh;
+    "waybar/scripts/crypto-rates.sh".source = ./scripts/crypto-rates.sh;
+    "waybar/scripts/weather.sh".source = ./scripts/weather.sh;
   };
 }
