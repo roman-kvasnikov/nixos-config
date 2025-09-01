@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    sddm-sugar-dark
+    # sddm-sugar-dark
+    sddm-astronaut
     libsForQt5.qt5.qtgraphicaleffects
   ];
 
@@ -9,6 +10,6 @@
 
     wayland.enable = true;
 
-    theme = "sugar-dark";
+    theme = "astronaut";
   };
 }
