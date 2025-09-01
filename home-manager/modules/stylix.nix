@@ -17,17 +17,17 @@
       # С засечками
       serif = {
         package = pkgs.nerd-fonts.fira-code;
-        name = "Fira Code Nerd Font";
+        name = "FiraCode Nerd Font";
       };
       # Без засечек
       sansSerif = {
-        package = pkgs.fira-sans;
-        name = "Fira Sans";
+        package = pkgs.nerd-fonts.fira-code;
+        name = "FiraCode Nerd Font";
       };
       # Моноширинный
       monospace = {
-        package = pkgs.nerd-fonts.fira-mono;
-        name = "Fira Mono Nerd Font";
+        package = pkgs.nerd-fonts.jetbrains-mono;
+        name = "JetBrainsMono Nerd Font";
       };
       # Эмоджи
       emoji = {

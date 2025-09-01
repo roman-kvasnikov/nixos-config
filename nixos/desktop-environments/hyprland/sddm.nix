@@ -1,20 +1,13 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
-  environment.systemPackages = [
-    inputs.sddm-stray-nixos.packages.${pkgs.system}.default
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [
+    sddm-sugar-dark
   ];
 
   services.displayManager.sddm = {
     enable = true;
-    package = pkgs.kdePackages.sddm;
-    extraPackages = with pkgs; [
-      kdePackages.qtsvg
-      kdePackages.qtmultimedia
-    ];
+
     wayland.enable = true;
-    theme = "sddm-stray-nixos";
+
+    theme = "sugar-dark";
   };
 }

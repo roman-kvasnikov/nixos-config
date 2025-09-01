@@ -190,12 +190,12 @@
 
         network = {
           format-wifi = "{icon}";
-          format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
+          format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰖩"];
           format-disconnected = "󰤭";
           format-disabled = "󰤭";
           tooltip = true;
           tooltip-format = "{ifname} via {gwaddr} 󰊗";
-          tooltip-format-wifi = "{essid} ({signalStrength}%) 󰤨";
+          tooltip-format-wifi = "{essid} ({signalStrength}%) ";
           tooltip-format-ethernet = "{ifname} ";
           tooltip-format-disconnected = "Disconnected";
           on-click = "kitty -e nmtui-connect";
@@ -203,8 +203,8 @@
         };
 
         bluetooth = {
-          format-connected = "";
-          format-on = "";
+          format-connected = "󰂯";
+          format-on = "󰂯";
           format-off = "󰂲";
           format-disabled = "󰂲";
           tooltip = true;
@@ -213,10 +213,10 @@
         };
 
         "pulseaudio" = {
-          format = "{icon}";
-          format-muted = "";
-          format-bluetooth = "{icon} ";
-          format-bluetooth-muted = " ";
+          format = "{icon} ";
+          format-muted = " ";
+          format-bluetooth = "{icon} 󰂯 ";
+          format-bluetooth-muted = " 󰂯 ";
           format-icons = {
             "headphone" = "";
             "hands-free" = "";
@@ -240,7 +240,7 @@
 
         "backlight" = {
           device = "intel_backlight";
-          format = "{icon}";
+          format = "{icon} ";
           scroll-step = 5;
           format-icons = [
             ""
@@ -417,11 +417,12 @@
       }
 
       #bluetooth {
+      	font-weight: bold;
       	margin-right: 5px;
       }
 
       #pulseaudio {
-      	margin-right: 10px;
+      	margin-right: 1px;
       }
 
       #battery {
