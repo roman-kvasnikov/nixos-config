@@ -13,10 +13,10 @@
         "inode/directory" = ["nautilus.desktop"];
 
         # Изображения
-        "image/jpeg" = ["loupe.desktop"];
-        "image/png" = ["loupe.desktop"];
-        "image/gif" = ["loupe.desktop"];
-        "image/webp" = ["loupe.desktop"];
+        "image/jpeg" = ["org.gnome.Loupe.desktop"];
+        "image/png" = ["org.gnome.Loupe.desktop"];
+        "image/gif" = ["org.gnome.Loupe.desktop"];
+        "image/webp" = ["org.gnome.Loupe.desktop"];
 
         # Видео
         "video/mp4" = ["vlc.desktop"];

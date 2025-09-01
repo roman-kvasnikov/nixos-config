@@ -7,14 +7,6 @@
       resize_on_border = false;
       allow_tearing = false;
       layout = "dwindle";
-
-      # Hyprcursor settings
-      cursor_inactive_timeout = 0;
-      no_cursor_warps = false;
-
-      # Cursor theme
-      cursor_theme = "Bibata-Modern-Classic";
-      cursor_size = 24;
     };
   };
 }
