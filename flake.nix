@@ -19,6 +19,10 @@
       url = "github:jeslie0/nixos-grub-themes";
     };
 
+    sddm-stray-nixos = {
+      url = "github:RainAfterDark/sddm-stray-nixos";
+    };
+
     stylix = {
       # url = "github:nix-community/stylix/release-25.05";
       url = "github:nix-community/stylix/master";

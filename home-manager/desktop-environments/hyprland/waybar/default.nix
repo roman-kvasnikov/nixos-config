@@ -74,12 +74,7 @@
         };
 
         "custom/btc-rate" = {
-          format = "    {}{icon}";
-          format-icons = {
-            up = " ";
-            down = " ";
-            same = " ";
-          };
+          format = "      {}";
           interval = 300;
           exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c BTC -r 0";
           return-type = "json";
@@ -88,12 +83,7 @@
         };
 
         "custom/eth-rate" = {
-          format = "    {}{icon}";
-          format-icons = {
-            up = " ";
-            down = " ";
-            same = " ";
-          };
+          format = "      {}";
           interval = 300;
           exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c ETH -r 0";
           return-type = "json";
@@ -102,12 +92,7 @@
         };
 
         "custom/gala-rate" = {
-          format = "    {}{icon}";
-          format-icons = {
-            up = " ";
-            down = " ";
-            same = " ";
-          };
+          format = "      {}";
           interval = 300;
           exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c GALA -r 5";
           return-type = "json";
@@ -152,7 +137,7 @@
 
         "cpu" = {
           "interval" = 10;
-          "format" = " {usage}%";
+          "format" = "  {usage}%";
           "states" = {
             "warning" = 70;
             "critical" = 90;
@@ -163,7 +148,7 @@
 
         "memory" = {
           "interval" = 10;
-          "format" = " {}%";
+          "format" = "  {}%";
           "states" = {
             "warning" = 70;
             "critical" = 90;
@@ -174,7 +159,7 @@
 
         "disk" = {
           "interval" = 10;
-          "format" = " {percentage_used}%";
+          "format" = "  {percentage_used}%";
           "path" = "/home";
           "states" = {
             "warning" = 70;
@@ -289,9 +274,9 @@
             warning = 30;
             critical = 15;
           };
-          format = "{icon} {capacity}%";
-          format-full = "󰁹 {capacity}%";
-          format-charging = " {capacity}%";
+          format = "{icon}  {capacity}%";
+          format-full = "󰁹  {capacity}%";
+          format-charging = "  {capacity}%";
           format-icons = ["" "" "" "" ""];
           tooltip = false;
         };
@@ -311,7 +296,6 @@
       	border-radius: 0;
       	min-height: 0;
 
-      	font-family: 'Fira Code Nerd Font';
       	font-size: 18px;
       	color: @white;
       }
@@ -358,10 +342,14 @@
       }
 
       #crypto-rates * {
-        font-size: 14px;
-      	background-position: 8% 46%;
+        font-size: 16px;
+      	background-position: 0% 50%;
       	background-repeat: no-repeat;
-      	background-size: 8%;
+      	background-size: 11%;
+      }
+
+      #custom-eth-rate, #custom-gala-rate {
+      	margin-left: 15px;
       }
 
       #custom-btc-rate {

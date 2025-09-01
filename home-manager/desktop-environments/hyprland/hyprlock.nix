@@ -1,10 +1,15 @@
-{inputs, ...}: {
+{
+  inputs,
+  config,
+  ...
+}: {
   programs.hyprlock = {
     enable = true;
 
     settings = {
       general = {
         hide_cursor = true;
+        ignore_empty_input = true;
       };
 
       # background = [
@@ -29,7 +34,7 @@
           monitor = "all";
           text = "$USER";
           color = "rgba(240, 240, 240, 1.0)";
-          font_family = "Fira Code Semibold";
+          font_family = "${config.home.sessionVariables.FONT_FAMILY}";
           font_size = 12;
           position = "-10, -10";
           halign = "right";
@@ -41,7 +46,7 @@
           monitor = "all";
           text = "cmd[update:1000] echo \"$(date +\"%H:%M\")\"";
           color = "rgba(240, 240, 240, 1.0)";
-          font_family = "Fira Code Bold";
+          font_family = "${config.home.sessionVariables.FONT_FAMILY}";
           font_size = 100;
           position = "0, 200";
           halign = "center";
@@ -53,7 +58,7 @@
           monitor = "all";
           text = "cmd[update:1000] echo \"$(date +\"%A, %d %B %Y\")\"";
           color = "rgba(240, 240, 240, 1.0)";
-          font_family = "Fira Code Regular";
+          font_family = "${config.home.sessionVariables.FONT_FAMILY}";
           font_size = 26;
           position = "0, 100";
           halign = "center";

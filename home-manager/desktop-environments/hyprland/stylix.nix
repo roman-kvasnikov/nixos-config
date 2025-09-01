@@ -9,9 +9,9 @@
     };
 
     cursor = {
+      package = pkgs.vanilla-dmz;
       name = "DMZ-Black";
       size = 24;
-      package = pkgs.vanilla-dmz;
     };
 
     iconTheme = {

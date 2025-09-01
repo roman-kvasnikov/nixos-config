@@ -60,6 +60,9 @@
     # davinci-resolve # Профессиональный видеоредактор
     # kdePackages.kdenlive # Видеоредактор
 
+    # Аудиоредакторы
+    tenacity
+
     # Мультимедиа
     vlc # Универсальный плеер
     telegram-desktop # Telegram

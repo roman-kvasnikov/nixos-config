@@ -14,18 +14,22 @@
     polarity = "dark";
 
     fonts = {
+      # С засечками
       serif = {
-        package = pkgs.nerd-fonts.ubuntu;
-        name = "Ubuntu";
+        package = pkgs.nerd-fonts.fira-code;
+        name = "Fira Code Nerd Font";
       };
+      # Без засечек
       sansSerif = {
-        package = pkgs.nerd-fonts.ubuntu-sans;
-        name = "Ubuntu Sans";
+        package = pkgs.fira-sans;
+        name = "Fira Sans";
       };
+      # Моноширинный
       monospace = {
-        package = pkgs.nerd-fonts.ubuntu-mono;
-        name = "Ubuntu Mono";
+        package = pkgs.nerd-fonts.fira-mono;
+        name = "Fira Mono Nerd Font";
       };
+      # Эмоджи
       emoji = {
         package = pkgs.noto-fonts-emoji;
         name = "Noto Color Emoji";
@@ -40,6 +44,8 @@
     };
 
     targets = {
+      gtk.enable = true;
+      qt.enable = true;
       kitty.enable = false;
       vscode.enable = false;
     };

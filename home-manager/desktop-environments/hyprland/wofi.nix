@@ -3,56 +3,70 @@
     enable = true;
 
     settings = {
+      ## General
       show = "drun";
-      width = 600;
-      height = 400;
+      prompt = "Search";
+      normal_window = true;
+      layer = "top";
+      term = "kitty";
+
+      ## Geometry
+      width = 500;
+      height = 700;
       location = "center";
-      columns = 2;
+      columns = 1;
       orientation = "vertical";
       halign = "fill";
       line_wrap = "off";
       dynamic_lines = false;
+
+      ## Images
       allow_markup = true;
       allow_images = true;
       image_size = 32;
+
+      ## Search
       exec_search = false;
       hide_search = false;
       parse_search = false;
       insensitive = true;
+
+      ## Other
       hide_scroll = false;
       no_actions = true;
       sort_order = "default";
       gtk_dark = true;
       filter_rate = 100;
+
+      ## Keys
       key_expand = "Tab";
       key_exit = "Escape";
     };
 
     style = ''
-      window {
+      #window {
         margin: 0px;
-        border: 1px solid #3b4252;
-        background-color: #2e3440;
-        border-radius: 10px;
+        border: none;
       }
 
       #input {
-        margin: 5px;
+        margin: 10px;
         border: none;
-        color: #eceff4;
-        background-color: #3b4252;
         border-radius: 5px;
+        font-size: 18px;
       }
 
       #inner-box {
         margin: 5px;
         border: none;
+        border-radius: 5px;
         background-color: #2e3440;
       }
 
       #outer-box {
         margin: 5px;
         border: none;
+        border-radius: 5px;
         background-color: #2e3440;
       }
 
@@ -65,16 +79,14 @@
         margin: 5px;
         border: none;
         color: #eceff4;
+        font-size: 18px;
       }
 
       #entry {
-        margin: 2px;
+        margin: 5px;
+        padding: 6px;
         border: none;
         border-radius: 5px;
-      }
-
-      #entry:selected {
-        background-color: #4c566a;
       }
     '';
   };

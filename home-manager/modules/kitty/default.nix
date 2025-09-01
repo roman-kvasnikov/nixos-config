@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   inputs,
   ...
@@ -12,7 +13,7 @@
       kitty_mod = "ctrl+shift";
 
       # Font
-      font_family = "Fira Code Nerd Font";
+      font_family = "${config.home.sessionVariables.FONT_FAMILY}";
       font_size = 12.0;
 
       # Layout

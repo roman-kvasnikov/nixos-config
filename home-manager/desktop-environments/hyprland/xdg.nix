@@ -10,7 +10,7 @@
         "x-scheme-handler/unknown" = ["brave-browser.desktop"];
 
         # Файловый менеджер
-        "inode/directory" = ["nautilus.desktop"];
+        "inode/directory" = ["org.gnome.Nautilus.desktop"];
 
         # Изображения
         "image/jpeg" = ["org.gnome.Loupe.desktop"];
@@ -24,16 +24,16 @@
         "video/quicktime" = ["vlc.desktop"];
 
         # Аудио
-        "audio/mpeg" = ["decibels.desktop"];
-        "audio/ogg" = ["decibels.desktop"];
-        "audio/x-wav" = ["decibels.desktop"];
+        "audio/mpeg" = ["org.gnome.Decibels.desktop"];
+        "audio/ogg" = ["org.gnome.Decibels.desktop"];
+        "audio/x-wav" = ["org.gnome.Decibels.desktop"];
 
         # Текстовые файлы
         "text/plain" = ["gedit.desktop"];
         "text/markdown" = ["gedit.desktop"];
 
         # PDF
-        "application/pdf" = ["evince.desktop"];
+        "application/pdf" = ["org.gnome.Evince.desktop"];
 
         # Архивы
         "application/zip" = ["file-roller.desktop"];

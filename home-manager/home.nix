@@ -20,6 +20,8 @@
       TERMINAL = "kitty";
       EDITOR = "micro";
       XDG_BIN_HOME = "${config.home.homeDirectory}/.local/bin";
+
+      FONT_FAMILY = "Fira Code Nerd Font";
     };
 
     sessionPath = [

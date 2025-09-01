@@ -1,4 +1,4 @@
-{
+{config, ...}: {
   programs.wlogout = {
     enable = true;
 
@@ -10,22 +10,16 @@
         keybind = "l";
       }
       {
-        label = "logout";
-        action = "notify-send 'Logging out...'&hyprctl dispatch exit 0";
-        text = "Logout";
-        keybind = "e";
-      }
-      {
         label = "suspend";
         action = "hyprlock -f & systemctl suspend";
         text = "Suspend";
         keybind = "u";
       }
       {
-        label = "shutdown";
-        action = "notify-send 'Shutting down...' &systemctl poweroff";
-        text = "Shutdown";
-        keybind = "s";
+        label = "logout";
+        action = "notify-send 'Logging out...'&hyprctl dispatch exit 0";
+        text = "Logout";
+        keybind = "e";
       }
       {
         label = "hibernate";
@@ -39,59 +33,39 @@
         text = "Reboot";
         keybind = "r";
       }
+      {
+        label = "shutdown";
+        action = "notify-send 'Shutting down...' &systemctl poweroff";
+        text = "Shutdown";
+        keybind = "s";
+      }
     ];
 
     style = ''
-      /* Base border color*/
-      @define-color border-main @fg-main;
-      @define-color border-alt @fg-main;
-
-      /* Background Colors */
-      @define-color bg-main #11111B;
-      @define-color bg-alt #939CDA;
-      @define-color bg-hover #484872;
-      @define-color bg-hover-alt #30304D;
-      @define-color bg-tooltip @bg-main;
-      @define-color bg-second #33334C;
-      @define-color bg-third #939CDA;
-      @define-color sway-bg @bg-main;
-
-      /*text color for entries, views and content in general */
-      @define-color fg-main #B4BEFE;
-      @define-color fg-unactive @bg-hover;
-      @define-color content-act #CDD4FF;
-
-
-      /* Player colors */
-      @define-color ply-main #25253B;
-      @define-color ply-hover #363657;
-      @define-color ply-act #515181;
-      @define-color msc-act #424268;
-
-      /* Wlogout */
-
-      @define-color wlogout-hover rgba(37, 37, 68, 0.541);
-      @define-color wlogout-bg rgba(17, 17, 17, 0.45);
-      @define-color wlogout-button rgba(17, 17, 27, 0.781);
+      @define-color bg-color rgba(17, 17, 17, 0.8);
+      @define-color font-color #B4BEFE;
+      @define-color border-color #B4BEFE;
+      @define-color button-bg-color rgba(37, 37, 68, 0.6);
+      @define-color button-bg-color-hover rgba(17, 17, 27, 0.8);
 
       * {
           background-image: none;
+          font-family: "${config.home.sessionVariables.FONT_FAMILY}";
           font-size: 20px;
-          font-family: "Jetbrains Mono";
       }
 
       window {
-          background-color: @wlogout-bg;
+          background-color: @bg-color;
       }
 
       button {
-          border-radius: 0px;
-          color: @fg-main;
-          border-color: @border-main;
-          background-color: @wlogout-button;
-          outline-style: none;
+          color: @font-color;
+          border-color: @border-color;
           border-style: solid;
           border-width: 3px;
+          border-radius: 0px;
+          outline-style: none;
+          background-color: @button-bg-color;
           background-repeat: no-repeat;
           background-position: center;
           background-size: 20%;
@@ -101,14 +75,10 @@
       }
 
       button:hover,button:focus {
-          background-color: @wlogout-hover;
-          background-size: 30%;
+          background-color: @button-bg-color-hover;
+          background-size: 25%;
           animation: gradient_f 20s ease-in infinite;
           transition: all 0.3s cubic-bezier(.55,0.0,.28,1.682);
-      }
-
-      button:active {
-          background-color: @bg-hover;
       }
 
       #lock {
@@ -117,52 +87,52 @@
       }
 
       #logout {
-          border-bottom-left-radius: 15px;
           background-image: url('${config.xdg.configHome}/wlogout/icons/logout.png');
       }
 
+      #reboot {
+          border-top-right-radius: 15px;
+          background-image: url('${config.xdg.configHome}/wlogout/icons/reboot.png');
+      }
+
       #suspend {
+          border-bottom-left-radius: 15px;
           background-image: url('${config.xdg.configHome}/wlogout/icons/suspend.png');
       }
 
       #hibernate {
-          border-top-right-radius: 15px;
           background-image: url('${config.xdg.configHome}/wlogout/icons/hibernate.png');
       }
 
       #shutdown {
+          border-bottom-right-radius: 15px;
           background-image: url('${config.xdg.configHome}/wlogout/icons/shutdown.png');
       }
 
-      #reboot {
-          border-bottom-right-radius: 15px;
-          background-image: url('${config.xdg.configHome}/wlogout/icons/reboot.png');
+      #lock, #logout, #reboot {
+          border-bottom: @border-color solid 1px;
       }
 
-      #lock, #suspend,#hibernate {
-          border-bottom: @border-main solid 1px;
+      #suspend, #hibernate, #shutdown {
+          border-top: @border-color solid 1px;
       }
 
-      #logout,#shutdown,#reboot {
-          border-top: @border-main solid 1px;
+      #lock, #suspend, #logout, #hibernate{
+          border-right: @border-color solid 1px;
       }
 
-      #logout,#lock,#suspend,#shutdown{
-          border-right: @border-main solid 1px;
-      }
-
-      #suspend,#shutdown,#hibernate,#reboot{
-          border-left: @border-main solid 1px;
+      #logout, #hibernate, #reboot, #shutdown{
+          border-left: @border-color solid 1px;
       }
     '';
   };
 
   xdg.configFile = {
-    "wlogout/icons/lock.png".source = ./wlogout/icons/lock.png;
-    "wlogout/icons/logout.png".source = ./wlogout/icons/logout.png;
-    "wlogout/icons/suspend.png".source = ./wlogout/icons/suspend.png;
-    "wlogout/icons/shutdown.png".source = ./wlogout/icons/shutdown.png;
-    "wlogout/icons/hibernate.png".source = ./wlogout/icons/hibernate.png;
-    "wlogout/icons/reboot.png".source = ./wlogout/icons/reboot.png;
+    "wlogout/icons/lock.png".source = ./icons/lock.png;
+    "wlogout/icons/logout.png".source = ./icons/logout.png;
+    "wlogout/icons/suspend.png".source = ./icons/suspend.png;
+    "wlogout/icons/shutdown.png".source = ./icons/shutdown.png;
+    "wlogout/icons/hibernate.png".source = ./icons/hibernate.png;
+    "wlogout/icons/reboot.png".source = ./icons/reboot.png;
   };
 }
