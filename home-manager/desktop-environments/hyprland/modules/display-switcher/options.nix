@@ -20,7 +20,7 @@
 
     fallbackMonitor = lib.mkOption {
       type = lib.types.str;
-      default = ",preferred, auto, 1";
+      default = ", preferred, auto, 1";
       description = "Fallback monitor";
     };
   };

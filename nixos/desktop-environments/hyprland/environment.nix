@@ -29,6 +29,7 @@
       wlogout # Logout menu
 
       # System utilities
+      libnotify # Notification daemon
       pamixer # Volume control
       brightnessctl # Brightness control
     ];

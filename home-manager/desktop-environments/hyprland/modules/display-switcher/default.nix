@@ -16,15 +16,8 @@ in {
     home.packages = [
       hyprlandDisplaySwitcher
       pkgs.coreutils
+      pkgs.gnugrep
       pkgs.hyprland
     ];
-
-    wayland.windowManager.hyprland.settings = {
-      monitor = [
-        "${hyprlandDisplaySwitcherConfig.builtinMonitor}"
-        "${hyprlandDisplaySwitcherConfig.externalMonitor}"
-        "${hyprlandDisplaySwitcherConfig.fallbackMonitor}"
-      ];
-    };
   };
 }

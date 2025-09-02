@@ -9,26 +9,59 @@
 in {
   config = lib.mkIf hyprlandDisplaySwitcherConfig.enable {
     systemd.user.paths.hyprland-display-switcher = {
-      Unit.Description = "Monitor for display changes";
-      Path.PathChanged = "/sys/class/drm";
-      Install.WantedBy = ["graphical-session.target"];
+      Unit = {
+        Description = "Monitor for display changes";
+
+        After = ["hyprland-session.target"];
+        PartOf = ["hyprland-session.target"];
+        Requires = ["hyprland-session.target"];
+      };
+
+      Path = {
+        PathModified = "/sys/class/drm";
+        MakeDirectory = false;
+        DirectoryNotEmpty = "/sys/class/drm";
+      };
+
+      Install = {
+        WantedBy = ["hyprland-session.target"];
+      };
     };
 
     systemd.user.services.hyprland-display-switcher = {
-      Unit.Description = "Hyprland display change handler";
+      Unit = {
+        Description = "Hyprland Display Switcher";
+
+        After = ["hyprland-session.target"];
+        PartOf = ["hyprland-session.target"];
+        Requires = ["hyprland-session.target"];
+      };
+
       Service = {
         Type = "oneshot";
         ExecStart = "${hyprlandDisplaySwitcher}/bin/hyprland-display-switcher";
+
         Environment = [
           "PATH=${lib.makeBinPath [
             pkgs.coreutils
+            pkgs.gnugrep
             pkgs.hyprland
           ]}"
         ];
       };
+
+      Install = {
+        WantedBy = ["hyprland-session.target"];
+      };
     };
 
     wayland.windowManager.hyprland.settings = {
+      monitor = [
+        "${hyprlandDisplaySwitcherConfig.builtinMonitor}"
+        "${hyprlandDisplaySwitcherConfig.externalMonitor}"
+        "${hyprlandDisplaySwitcherConfig.fallbackMonitor}"
+      ];
+
       exec-once = [
         "${hyprlandDisplaySwitcher}/bin/hyprland-display-switcher"
       ];

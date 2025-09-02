@@ -115,8 +115,6 @@ main() {
 		hyprctl keyword monitor "$BUILTIN_MONITOR"
 		print_success "Built-in monitor enabled"
 	fi
-
-	waybar-restart
 }
 
 # =============================================================================
