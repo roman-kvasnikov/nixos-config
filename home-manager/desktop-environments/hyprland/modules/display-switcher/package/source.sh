@@ -69,13 +69,17 @@ check_dependencies() {
         missing_deps+=("hyprctl")
     fi
 
-    if ! command -v waybar-restart >/dev/null 2>&1; then
-        missing_deps+=("waybar-restart")
+    if ! command -v grep >/dev/null 2>&1; then
+        missing_deps+=("grep")
+    fi
+
+    if ! command -v cut >/dev/null 2>&1; then
+        missing_deps+=("cut")
     fi
 
     if [ ${#missing_deps[@]} -gt 0 ]; then
         print_error "Missing required dependencies: ${missing_deps[*]}"
-        print_error "Make sure hyprctl, waybar-restart are installed"
+        print_error "Make sure hyprctl, grep, cut are installed"
         exit 1
     fi
 }
