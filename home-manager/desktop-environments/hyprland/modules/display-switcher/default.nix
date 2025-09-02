@@ -10,7 +10,6 @@ in {
   imports = [
     ./options.nix
     ./service.nix
-    ./config
   ];
 
   config = lib.mkIf hyprlandDisplaySwitcherConfig.enable {
@@ -18,6 +17,15 @@ in {
       hyprlandDisplaySwitcher
       pkgs.coreutils
       pkgs.hyprland
+      pkgs.restart-waybar
     ];
+
+    wayland.windowManager.hyprland.settings = {
+      monitor = [
+        "${hyprlandDisplaySwitcherConfig.builtinMonitor}"
+        "${hyprlandDisplaySwitcherConfig.externalMonitor}"
+        "${hyprlandDisplaySwitcherConfig.fallbackMonitor}"
+      ];
+    };
   };
 }

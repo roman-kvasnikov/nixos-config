@@ -1,8 +1,15 @@
 {
   config,
   lib,
+  pkgs,
   ...
-}: {
+}: let
+  restartWaybar = pkgs.callPackage ./packages/restart-waybar.nix {inherit pkgs;};
+in {
+  home.packages = [
+    restartWaybar
+  ];
+
   programs.waybar = {
     enable = true;
 

@@ -69,9 +69,13 @@ check_dependencies() {
         missing_deps+=("hyprctl")
     fi
 
+    if ! command -v restart-waybar >/dev/null 2>&1; then
+        missing_deps+=("restart-waybar")
+    fi
+
     if [ ${#missing_deps[@]} -gt 0 ]; then
         print_error "Missing required dependencies: ${missing_deps[*]}"
-        print_error "Make sure hyprctl are installed"
+        print_error "Make sure hyprctl, restart-waybar are installed"
         exit 1
     fi
 }
@@ -82,7 +86,7 @@ check_dependencies() {
 
 # Функция для подсчета подключенных мониторов
 count_monitors() {
-	hyprctl monitors | grep -c '^Monitor'
+	hyprctl monitors all | grep -c "^Monitor"
 }
 
 # Функция для извлечения имени монитора
@@ -95,20 +99,24 @@ monitor_name() {
 # =============================================================================
 
 main() {
-	local monitor_count=$(count_monitors)
-	echo "Current monitor count: $monitor_count"
+	print_info "Checking monitor configuration..."
 
-	if [ "$monitor_count" -gt 1 ]; then
-		# Если подключен внешний монитор, отключаем встроенный
+	local total_monitors=$(count_monitors)
+	print_info "Total connected monitors: $total_monitors"
+
+	if [ "$total_monitors" -gt 1 ]; then
+		# Если есть внешние мониторы - всегда отключаем встроенный
+		print_info "External monitor detected, ensuring built-in is disabled"
 		hyprctl keyword monitor "$(monitor_name "$BUILTIN_MONITOR"), disable"
-
 		print_success "Built-in monitor disabled"
 	else
-		# Если только встроенный монитор, включаем его
+		# Если только встроенный - всегда включаем
+		print_info "Only built-in monitor detected, ensuring it's enabled"
 		hyprctl keyword monitor "$BUILTIN_MONITOR"
-
 		print_success "Built-in monitor enabled"
 	fi
+
+	restart-waybar
 }
 
 # =============================================================================
