@@ -6,10 +6,10 @@
   options.services.hyprland-display-switcher = {
     enable = lib.mkEnableOption "Hyprland Display Switcher";
 
-    builtinMonitor = lib.mkOption {
+    buildinMonitor = lib.mkOption {
       type = lib.types.str;
       default = "eDP-1, 3120x2080@90.00, auto, 1.6";
-      description = "Built-in monitor";
+      description = "Build-in monitor";
     };
 
     externalMonitor = lib.mkOption {

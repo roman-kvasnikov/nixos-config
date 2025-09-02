@@ -7,10 +7,10 @@ pkgs.writeShellScriptBin "hyprland-display-switcher"
 (
   builtins.replaceStrings
   [
-    "@builtinMonitor@"
+    "@buildinMonitor@"
   ]
   [
-    hyprlandDisplaySwitcherConfig.builtinMonitor
+    hyprlandDisplaySwitcherConfig.buildinMonitor
   ]
   (builtins.readFile ./source.sh)
 )

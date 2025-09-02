@@ -9,7 +9,7 @@ IFS=$'\n\t'
 # =============================================================================
 
 # Основные пути
-readonly BUILTIN_MONITOR="@builtinMonitor@" # Встроенный монитор ноутбука
+readonly BUILDIN_MONITOR="@buildinMonitor@"
 
 # Цвета для вывода (ANSI escape codes)
 readonly RED='\033[0;31m'
@@ -100,12 +100,12 @@ main() {
 
 	if [ "$monitor_count" -gt 1 ]; then
 		# Если подключен внешний монитор, отключаем встроенный
-		hyprctl keyword monitor "$(monitor_name "$BUILTIN_MONITOR"), disable"
+		hyprctl keyword monitor "$(monitor_name "$(BUILDIN_MONITOR)), disable"
 
 		print_success "Built-in monitor disabled"
 	else
 		# Если только встроенный монитор, включаем его
-		hyprctl keyword monitor "$BUILTIN_MONITOR"
+		hyprctl keyword monitor "$(BUILDIN_MONITOR)"
 
 		print_success "Built-in monitor enabled"
 	fi

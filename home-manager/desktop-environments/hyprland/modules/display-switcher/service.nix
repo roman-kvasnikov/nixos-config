@@ -8,44 +8,31 @@
   hyprlandDisplaySwitcher = pkgs.callPackage ./package/package.nix {inherit hyprlandDisplaySwitcherConfig config pkgs;};
 in {
   config = lib.mkIf hyprlandDisplaySwitcherConfig.enable {
-    systemd.user.services.hyprland-display-switcher = {
-      Unit = {
-        Description = "Hyprland Display Switcher";
-        After = ["hyprland-session.target"];
-        PartOf = ["hyprland-session.target"];
-        Requires = ["hyprland-session.target"];
-      };
+    systemd.user.paths.hyprland-display-switcher = {
+      Unit.Description = "Monitor for display changes";
+      Path.PathChanged = "/sys/class/drm";
+      Install.WantedBy = ["graphical-session.target"];
+    };
 
+    systemd.user.services.hyprland-display-switcher = {
+      Unit.Description = "Hyprland display change handler";
       Service = {
         Type = "oneshot";
         ExecStart = "${hyprlandDisplaySwitcher}/bin/hyprland-display-switcher";
-        Environment = [
-          "PATH=${lib.makeBinPath [
-            pkgs.coreutils
-            pkgs.hyprland
-          ]}"
-        ];
       };
+    };
 
-      Install = {
-        WantedBy = ["hyprland-session.target"];
-      };
+    wayland.windowManager.hyprland.settings = {
+      exec-once = [
+        "${hyprlandDisplaySwitcher}/bin/hyprland-display-switcher"
+      ];
     };
   };
 
-  # Настройка Hyprland
   wayland.windowManager.hyprland.settings = {
-    exec-once = [
-      "${hyprlandDisplaySwitcher}/bin/hyprland-display-switcher"
-    ];
-
-    # Настройки мониторов
     monitor = [
-      # Основной внешний монитор
+      "${hyprlandDisplaySwitcherConfig.builtinMonitor}"
       "${hyprlandDisplaySwitcherConfig.externalMonitor}"
-      # Встроенный монитор ноутбука
-      "${hyprlandDisplaySwitcherConfig.buildinMonitor}"
-      # Fallback правило для любых других мониторов
       "${hyprlandDisplaySwitcherConfig.fallbackMonitor}"
     ];
   };
