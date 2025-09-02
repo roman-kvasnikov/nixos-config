@@ -69,13 +69,13 @@ check_dependencies() {
         missing_deps+=("hyprctl")
     fi
 
-    if ! command -v restart-waybar >/dev/null 2>&1; then
-        missing_deps+=("restart-waybar")
+    if ! command -v waybar-restart >/dev/null 2>&1; then
+        missing_deps+=("waybar-restart")
     fi
 
     if [ ${#missing_deps[@]} -gt 0 ]; then
         print_error "Missing required dependencies: ${missing_deps[*]}"
-        print_error "Make sure hyprctl, restart-waybar are installed"
+        print_error "Make sure hyprctl, waybar-restart are installed"
         exit 1
     fi
 }
@@ -116,7 +116,7 @@ main() {
 		print_success "Built-in monitor enabled"
 	fi
 
-	restart-waybar
+	waybar-restart
 }
 
 # =============================================================================

@@ -3,11 +3,9 @@
   lib,
   pkgs,
   ...
-}: let
-  restartWaybar = pkgs.callPackage ./packages/restart-waybar.nix {inherit pkgs;};
-in {
-  home.packages = [
-    restartWaybar
+}: {
+  home.packages = with pkgs; [
+    (callPackage ./packages/waybar-restart/package.nix {inherit pkgs;}) # Waybar Restart
   ];
 
   programs.waybar = {
@@ -491,11 +489,6 @@ in {
 
     "waybar/scripts/crypto-rates.sh" = {
       source = ./scripts/crypto-rates.sh;
-      executable = true;
-    };
-
-    "waybar/scripts/restart-waybar.sh" = {
-      source = ./scripts/restart-waybar.sh;
       executable = true;
     };
 

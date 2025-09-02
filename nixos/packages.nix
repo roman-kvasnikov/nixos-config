@@ -19,6 +19,7 @@
       wget
       git
       gh # GitHub CLI
+      killall
 
       # SSH утилиты
       # ssh-to-age # Конвертация SSH ключей в age

@@ -19,6 +19,12 @@ in {
       Service = {
         Type = "oneshot";
         ExecStart = "${hyprlandDisplaySwitcher}/bin/hyprland-display-switcher";
+        Environment = [
+          "PATH=${lib.makeBinPath [
+            pkgs.coreutils
+            pkgs.hyprland
+          ]}"
+        ];
       };
     };
 

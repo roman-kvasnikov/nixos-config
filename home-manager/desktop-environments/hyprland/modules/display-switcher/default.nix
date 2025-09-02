@@ -17,7 +17,6 @@ in {
       hyprlandDisplaySwitcher
       pkgs.coreutils
       pkgs.hyprland
-      pkgs.restart-waybar
     ];
 
     wayland.windowManager.hyprland.settings = {
