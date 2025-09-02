@@ -209,7 +209,7 @@
           format-disabled = "󰂲";
           tooltip = true;
           tooltip-format = "Devices connected: {num_connections}";
-          on-click-right = "blueberry";
+          on-click = "blueberry";
         };
 
         "pulseaudio" = {
@@ -275,7 +275,7 @@
             critical = 15;
           };
           format = "{icon} {capacity}%";
-          format-full = "󰁹 {capacity}%";
+          format-full = " {capacity}%";
           format-charging = " {capacity}%";
           format-icons = ["" "" "" "" ""];
           tooltip = false;
@@ -309,9 +309,9 @@
       }
 
       window#waybar {
-      	background-color: @black;
+      	background-color: rgba(0, 0, 0, 0.8);
       	opacity: 1;
-        border-bottom: 1px solid @white;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
       }
 
       #workspaces button {
@@ -401,7 +401,7 @@
       }
 
       #hardware {
-      	margin-right: 25px;
+      	margin-right: 20px;
       }
 
       #language {
@@ -409,7 +409,7 @@
       }
 
       #adjustments {
-      	margin-right: 10px;
+      	margin-right: 20px;
       }
 
       #network {
@@ -421,7 +421,7 @@
       }
 
       #pulseaudio {
-      	margin-right: 10px;
+      	margin-right: 5px;
       }
 
       #battery {
@@ -482,7 +482,19 @@
     "waybar/icons/gala-rate/gala-logo-green.svg".source = ./icons/gala-rate/gala-logo-green.svg;
     "waybar/icons/gala-rate/gala-logo-red.svg".source = ./icons/gala-rate/gala-logo-red.svg;
 
-    "waybar/scripts/crypto-rates.sh".source = ./scripts/crypto-rates.sh;
-    "waybar/scripts/weather.sh".source = ./scripts/weather.sh;
+    "waybar/scripts/crypto-rates.sh" = {
+      source = ./scripts/crypto-rates.sh;
+      executable = true;
+    };
+
+    "waybar/scripts/restart-waybar.sh" = {
+      source = ./scripts/restart-waybar.sh;
+      executable = true;
+    };
+
+    "waybar/scripts/weather.sh" = {
+      source = ./scripts/weather.sh;
+      executable = true;
+    };
   };
 }

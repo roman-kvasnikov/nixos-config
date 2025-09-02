@@ -23,20 +23,7 @@
 
       # Функция для извлечения имени монитора
       monitor_name() {
-          local config_string="$1"
-          echo "$config_string" | cut -d',' -f1
-      }
-
-      # Функция для отключения встроенного монитора
-      disable_builtin() {
-          echo "Disabling built-in monitor"
-          ${pkgs.hyprland}/bin/hyprctl keyword monitor "$(monitor_name "${buildinMon}"),disable"
-      }
-
-      # Функция для включения встроенного монитора
-      enable_builtin() {
-          echo "Enabling built-in monitor"
-          ${pkgs.hyprland}/bin/hyprctl keyword monitor "${buildinMon}"
+          echo "$1" | cut -d',' -f1
       }
 
       # Основная логика
@@ -45,15 +32,34 @@
 
       if [ "$monitor_count" -gt 1 ]; then
           # Если подключен внешний монитор, отключаем встроенный
-          disable_builtin
+          ${pkgs.hyprland}/bin/hyprctl keyword monitor "$(monitor_name "${buildinMon}"),disable"
       else
           # Если только встроенный монитор, включаем его
-          enable_builtin
+          ${pkgs.hyprland}/bin/hyprctl keyword monitor "${buildinMon}"
       fi
     '';
 in {
   # Пакеты
   home.packages = [displaySwitcherScript];
+
+  # Systemd пользовательский сервис
+  systemd.user.services.hyprland-display-switcher = {
+    Unit = {
+      Description = "Hyprland Display Switcher";
+      After = ["hyprland-session.target"];
+      PartOf = ["hyprland-session.target"];
+      Requires = ["hyprland-session.target"];
+    };
+
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${displaySwitcherScript}/bin/hyprland-display-switcher";
+    };
+
+    Install = {
+      WantedBy = ["hyprland-session.target"];
+    };
+  };
 
   # Настройка Hyprland
   wayland.windowManager.hyprland.settings = {
@@ -73,35 +79,14 @@ in {
     ];
   };
 
-  # Systemd пользовательский сервис
-  systemd.user.services.hyprland-display-switcher = {
-    Unit = {
-      Description = "Hyprland Display Switcher";
-      After = ["graphical-session.target"];
-      PartOf = ["graphical-session.target"];
-    };
-
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${displaySwitcherScript}/bin/hyprland-display-switcher";
-      Environment = [
-        "HYPRLAND_INSTANCE_SIGNATURE=%i"
-      ];
-    };
-
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-  };
-
   # Дополнительный скрипт для ручного переключения
-  xdg.configFile."hypr/scripts/toggle-display.sh" = {
+  xdg.configFile."hypr/scripts/toggle-builtin-monitor.sh" = {
     text = ''
       #!/usr/bin/env bash
 
+      # Функция для извлечения имени монитора
       monitor_name() {
-          local config_string="$1"
-          echo "$config_string" | cut -d',' -f1
+          echo "$1" | cut -d',' -f1
       }
 
       # Проверяем статус встроенного монитора
@@ -117,12 +102,4 @@ in {
     '';
     executable = true;
   };
-
-  # Добавляем горячие клавиши для ручного переключения
-  # wayland.windowManager.hyprland.settings.bind = [
-  #   # Super + P для ручного переключения дисплеев
-  #   "SUPER, P, exec, ~/.config/hypr/scripts/toggle-display.sh"
-  #   # Super + Shift + P для запуска автоматического переключателя
-  #   "SUPER_SHIFT, P, exec, ${displaySwitcherScript}/bin/hyprland-display-switcher"
-  # ];
 }

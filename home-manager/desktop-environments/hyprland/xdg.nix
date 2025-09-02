@@ -29,8 +29,8 @@
         "audio/x-wav" = ["org.gnome.Decibels.desktop"];
 
         # Текстовые файлы
-        "text/plain" = ["gedit.desktop"];
-        "text/markdown" = ["gedit.desktop"];
+        "text/plain" = ["org.gnome.gedit.desktop"];
+        "text/markdown" = ["org.gnome.gedit.desktop"];
 
         # PDF
         "application/pdf" = ["org.gnome.Evince.desktop"];

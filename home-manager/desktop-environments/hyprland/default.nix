@@ -1,15 +1,9 @@
 {
   imports = [
     ./hyprland
-    ./waybar
-    ./wlogout
-    ./hypridle.nix
-    ./hyprlock.nix
-    ./hyprpaper.nix
-    ./mako.nix
+    ./modules
     ./packages.nix
-    ./stylix.nix
-    ./wofi.nix
+    ./services.nix
     ./xdg.nix
   ];
 }

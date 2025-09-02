@@ -9,5 +9,8 @@
     pavucontrol # Audio control
     blueberry # Bluetooth control
     samba # Samba
+
+    qt5.qtwayland
+    qt6.qtwayland
   ];
 }

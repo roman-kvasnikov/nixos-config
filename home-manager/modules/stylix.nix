@@ -8,7 +8,7 @@
   stylix = {
     enable = true;
 
-    image = "${inputs.wallpapers}/NixOS/wp12329532-nixos-wallpapers.png";
+    image = "${inputs.wallpapers}/banff-day.jpg";
     imageScalingMode = "fill";
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
     polarity = "dark";

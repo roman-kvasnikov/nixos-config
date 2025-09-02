@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Check if required commands exist
+if ! command -v waybar &> /dev/null; then
+    notify-send "Error" "Waybar not found" -u critical
+
+    exit 1
+fi
+
+# Restart waybar
+if killall waybar; then
+    sleep 1  # Give waybar time to close
+
+    if waybar > /dev/null 2>&1 & then
+        sleep 1  # Give waybar time to start
+
+        notify-send "Waybar" "Successfully Restarted" -i window-new
+    else
+        notify-send "Error" "Failed to restart waybar" -u critical
+    fi
+fi
