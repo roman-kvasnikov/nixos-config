@@ -25,15 +25,19 @@
 
         modules-left = [
           "hyprland/workspaces"
-          "group/crypto-rates"
+          "custom/btc-rate"
+          "custom/eth-rate"
+          "custom/gala-rate"
         ];
 
         modules-center = [
           "custom/weather"
           "clock"
+          "idle_inhibitor"
         ];
 
         modules-right = [
+          "wlr/taskbar"
           "group/hardware"
           "hyprland/language"
           "group/adjustments"
@@ -57,17 +61,8 @@
         };
 
         # =================================================================
-        # CRYPTO RATES GROUP
+        # CRYPTO RATES
         # =================================================================
-
-        "group/crypto-rates" = {
-          orientation = "horizontal";
-          modules = [
-            "custom/btc-rate"
-            "custom/eth-rate"
-            "custom/gala-rate"
-          ];
-        };
 
         "custom/btc-rate" = {
           format = "  {}";
@@ -117,12 +112,42 @@
         };
 
         # =================================================================
+        # MODULES RIGHT
+        # =================================================================
+
+        "wlr/taskbar" = {
+          format = "{icon}";
+          all-outputs = true;
+          active-first = true;
+          tooltip-format = "{name}";
+          on-click = "activate";
+          on-click-middle = "close";
+          ignore-list = [
+            "wofi"
+            "kitty"
+            "warp-terminal"
+            "keepassxc"
+          ];
+        };
+
+        "idle_inhibitor" = {
+          format = "{icon}";
+          format-icons = {
+            activated = "";
+            deactivated = "";
+          };
+          tooltip = true;
+          tooltip-format-activated = "Activated";
+          tooltip-format-deactivated = "Deactivated";
+        };
+
+        # =================================================================
         # HARDWARE GROUP
         # =================================================================
 
         "group/hardware" = {
           "orientation" = "horizontal";
-          "modules" = ["temperature" "cpu" "memory" "disk"];
+          "modules" = ["cpu" "memory"];
         };
 
         "temperature" = {
@@ -296,14 +321,278 @@
         };
       };
     };
+
+    style = ''
+      @define-color black #000000;
+      @define-color white #c7c7c7;
+      @define-color green #33FF00;
+      @define-color yellow #FFFF33;
+      @define-color red #ff3300;
+      @define-color blue #1E90FF;
+      @define-color border-color rgba(255, 255, 255, 0.8);
+
+      * {
+      	border: none;
+      	border-radius: 0;
+      	min-height: 0;
+
+      	font-size: 18px;
+      	color: @white;
+      }
+
+      .modules-left {
+      	margin-left: 8px;
+      }
+
+      .modules-right {
+      	margin-right: 8px;
+      }
+
+      .modules-left #workspaces button {
+        border-bottom: 0px;
+      }
+      .modules-left #workspaces button.focused,
+      .modules-left #workspaces button.active {
+        border-bottom: 0px;
+      }
+      .modules-center #workspaces button {
+        border-bottom: 0px;
+      }
+      .modules-center #workspaces button.focused,
+      .modules-center #workspaces button.active {
+        border-bottom: 0px;
+      }
+      .modules-right #workspaces button {
+        border-bottom: 0px;
+      }
+      .modules-right #workspaces button.focused,
+      .modules-right #workspaces button.active {
+        border-bottom: 0px;
+      }
+
+      window#waybar {
+      	background-color: rgba(0, 0, 0, 0.5);
+      	opacity: 1;
+      }
+
+      #workspaces,
+      #custom-btc-rate,
+      #custom-eth-rate,
+      #custom-gala-rate,
+      #custom-weather,
+      #clock,
+      #taskbar,
+      #idle_inhibitor,
+      #hardware,
+      #language,
+      #adjustments,
+      #battery {
+      	margin-top: 4px;
+      	margin-bottom: 4px;
+      	padding-left: 10px;
+      	padding-right: 10px;
+      	border-radius: 8px;
+      	border: 1px solid @border-color;
+      	background-color: rgba(0, 0, 0, 0.6);
+      }
+
+      tooltip {
+      	background-color: rgba(0, 0, 0, 0.6);
+      	color: @white;
+      	opacity: 1;
+      	border: 3px solid @border-color;
+      	border-radius: 8px;
+      	padding: 5px 15px;
+      }
+
+       #workspaces {
+         padding-left: 0px;
+         padding-right: 0px;
+       }
+
+      #workspaces button {
+        font-weight: normal;
+        transition: none;
+        padding: 2px 10px 0 10px;
+        margin: 0;
+        min-width: 15px;
+        transition: background-color 0.3s ease;
+      }
+
+      #workspaces button.active {
+        font-weight: bold;
+        padding: 2px 20px 0 20px;
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      #workspaces button:hover,
+      #workspaces button.empty:hover {
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.5);
+        opacity: 1.0;
+      }
+
+      /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+      #workspaces button:hover,
+      #workspaces button.active {
+        box-shadow: inherit;
+        text-shadow: inherit;
+      }
+
+      #workspaces button.empty {
+        opacity: 0.5;
+      }
+
+      #custom-btc-rate,
+      #custom-eth-rate,
+      #custom-gala-rate {
+      	font-size: 16px;
+      	background-position: 3% 50%;
+      	background-repeat: no-repeat;
+      	background-size: 8%;
+      }
+
+      /* Уменьщаем значек для ETH */
+      #custom-eth-rate {
+      	background-position: 5% 50%;
+      	background-size: 6%;
+      }
+
+      #custom-btc-rate {
+      	color: @white;
+      	background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo.svg');
+      }
+
+      #custom-eth-rate {
+      	color: @white;
+      	background-image: url('${config.xdg.configHome}/waybar/icons/eth-rate/eth-logo.svg');
+      }
+
+      #custom-gala-rate {
+      	color: @white;
+      	background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo.svg');
+      }
+
+      #custom-btc-rate.rate-up {
+      	color: @green;
+      	background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo-green.svg');
+      }
+
+      #custom-btc-rate.rate-down {
+      	color: @red;
+      	background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo-red.svg');
+      }
+
+      #custom-eth-rate.rate-up {
+      	color: @green;
+      	background-image: url('${config.xdg.configHome}/waybar/icons/eth-rate/eth-logo-green.svg');
+      }
+
+      #custom-eth-rate.rate-down {
+      	color: @red;
+      	background-image: url('${config.xdg.configHome}/waybar/icons/eth-rate/eth-logo-red.svg');
+      }
+
+      #custom-gala-rate.rate-up {
+      	color: @green;
+      	background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo-green.svg');
+      }
+
+      #custom-gala-rate.rate-down {
+      	color: @red;
+      	background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo-red.svg');
+      }
+
+      #custom-weather {
+        margin-left: 10px;
+      }
+
+      #clock {
+      	font-weight: bold;
+      }
+
+      #taskbar {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      #taskbar button {
+        padding: 0px 5px;
+        margin: 0px 3px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+      }
+
+      #taskbar button.active,
+      #taskbar button:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+
+      #idle_inhibitor {
+        padding-right: 18px;
+      }
+
+      #network {
+      	margin-right: 10px;
+      }
+
+      #bluetooth {
+      	margin-right: 5px;
+      }
+
+      #pulseaudio {
+      	margin-right: 5px;
+      }
+
+      #battery {
+      	font-weight: bold;
+      	color: @green;
+      }
+
+      #network.wifi,
+      #bluetooth.connected,
+      #battery.charging,
+      #battery.plugged {
+      	color: @blue;
+      }
+
+      #temperature.critical,
+      #cpu.critical,
+      #memory.critical,
+      #disk.critical,
+      #network.disconnected,
+      #bluetooth.off,
+      #pulseaudio.muted {
+      	color: @red;
+      }
+
+      #temperature.warning,
+      #cpu.warning,
+      #memory.warning,
+      #disk.warning,
+      #battery.warning:not(.charging) {
+      	color: @yellow;
+      }
+
+      #battery.critical:not(.charging) {
+      	color: @red;
+      	animation-name: blink;
+      	animation-duration: 0.5s;
+      	animation-timing-function: steps(12);
+      	animation-iteration-count: infinite;
+      	animation-direction: alternate;
+      }
+
+      @keyframes blink {
+      	to {
+      		color: @black;
+      	}
+      }
+    '';
   };
 
   xdg.configFile = {
-    "waybar/style.css" = lib.mkForce {
-      source = ./style.css;
-      force = true;
-    };
-
     "waybar/icons/btc-rate/btc-logo.svg".source = ./icons/btc-rate/btc-logo.svg;
     "waybar/icons/btc-rate/btc-logo-green.svg".source = ./icons/btc-rate/btc-logo-green.svg;
     "waybar/icons/btc-rate/btc-logo-red.svg".source = ./icons/btc-rate/btc-logo-red.svg;

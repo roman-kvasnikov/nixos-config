@@ -31,6 +31,8 @@
         # Текстовые файлы
         "text/plain" = ["org.gnome.gedit.desktop"];
         "text/markdown" = ["org.gnome.gedit.desktop"];
+        "text/css" = ["org.gnome.gedit.desktop"];
+        "text/javascript" = ["org.gnome.gedit.desktop"];
 
         # PDF
         "application/pdf" = ["org.gnome.Evince.desktop"];
