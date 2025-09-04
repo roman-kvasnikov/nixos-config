@@ -12,7 +12,7 @@
   programs.waybar = {
     enable = true;
 
-    settings = import ./config.nix {inherit config lib pkgs;};
+    settings = import ./config.nix;
     style =
       builtins.replaceStrings
       [
