@@ -13,6 +13,6 @@
 
     wayland.enable = true;
 
-    theme = "${import ./themes/sddm-chili.nix {inherit pkgs inputs;}}";
+    theme = "${import ./themes/dream-plazma-theme.nix {inherit pkgs inputs;}}";
   };
 }
