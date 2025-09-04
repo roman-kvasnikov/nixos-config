@@ -19,7 +19,7 @@ in
       mkdir -p $out
       cp -R ./* $out/
       cd $out/
-      rm Background.jpg
+      rm Background.jpg theme.conf
       cp -r ${image} $out/background.jpg
       cp -r ${theme} $out/theme.conf
     '';

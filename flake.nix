@@ -15,10 +15,17 @@
 
     # === СИСТЕМНЫЕ РАСШИРЕНИЯ ===
 
+    # Grub theme
     nixos-grub-themes = {
       url = "github:jeslie0/nixos-grub-themes";
     };
 
+    # SDDM theme
+    sddm-sugar-candy-nix = {
+      url = "gitlab:Zhaith-Izaliel/sddm-sugar-candy-nix";
+    };
+
+    # Stylix
     stylix = {
       # url = "github:nix-community/stylix/release-25.05";
       url = "github:nix-community/stylix/master";
