@@ -8,11 +8,24 @@
     libsForQt5.qt5.qtgraphicaleffects
   ];
 
+  # imports = [inputs.sddm-sugar-candy-nix.nixosModules.default];
+
   services.displayManager.sddm = {
     enable = true;
 
     wayland.enable = true;
 
-    theme = "${import ./themes/dream-plazma-theme.nix {inherit pkgs inputs;}}";
+    # sugarCandyNix = {
+    #   enable = true;
+
+    #   settings = {
+    #     Background = "${inputs.wallpapers}/banff-day.jpg";
+    #     FormPosition = "left";
+    #     HaveFormBackground = true;
+    #     PartialBlur = true;
+    #   };
+    # };
+
+    theme = "${import ./themes/sddm-sugar-dark.nix {inherit pkgs inputs;}}";
   };
 }
