@@ -3,6 +3,7 @@
     ./brave
     ./code-cursor
     ./fastfetch
+    ./fish
     ./homevpnctl
     ./keepassxcctl
     ./kitty
@@ -10,7 +11,6 @@
     ./xrayctl
     ./bottom.nix
     ./btop.nix
-    ./fish.nix
     ./git-sync-obsidian.nix
     ./git-sync-wallpapers.nix
     ./git.nix
