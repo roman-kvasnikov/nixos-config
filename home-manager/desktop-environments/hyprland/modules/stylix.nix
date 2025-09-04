@@ -8,10 +8,16 @@
       hyprlock.enable = true;
     };
 
+    # cursor = {
+    #   package = pkgs.vanilla-dmz;
+    #   name = "DMZ-Black";
+    #   size = 24;
+    # };
+
     cursor = {
-      package = pkgs.vanilla-dmz;
-      name = "DMZ-Black";
-      size = 24;
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 22;
     };
 
     iconTheme = {

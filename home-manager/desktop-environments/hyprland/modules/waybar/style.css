@@ -225,6 +225,7 @@ tooltip {
 	color: @green;
 }
 
+#idle_inhibitor.activated,
 #network.wifi,
 #bluetooth.connected,
 #battery.charging,

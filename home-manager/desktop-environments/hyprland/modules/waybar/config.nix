@@ -91,7 +91,7 @@
     };
 
     clock = {
-      format = "{:%a %b %d %H:%M}";
+      format = " {:%a %b %d  :%H:%M}";
       interval = 1;
       on-click = "gnome-calendar";
       tooltip = false;

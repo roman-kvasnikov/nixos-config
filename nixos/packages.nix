@@ -19,6 +19,7 @@
       wget
       git
       gh # GitHub CLI
+      lazygit # GitHub CLI
       killall
 
       # SSH утилиты

@@ -15,6 +15,7 @@
     ./git-sync-wallpapers.nix
     ./git.nix
     ./htop.nix
+    ./neovim.nix
     ./ssh.nix
     ./stylix.nix
     ./yazi.nix

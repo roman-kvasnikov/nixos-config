@@ -6,6 +6,7 @@
   imports = [inputs.stylix.homeModules.stylix];
 
   stylix = {
+    autoEnable = true;
     enable = true;
 
     image = "${inputs.wallpapers}/banff-day.jpg";
@@ -33,6 +34,13 @@
       emoji = {
         package = pkgs.noto-fonts-emoji;
         name = "Noto Color Emoji";
+      };
+
+      sizes = {
+        desktop = 10;
+        popups = 10;
+        applications = 12;
+        terminal = 12;
       };
     };
 

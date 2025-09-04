@@ -9,6 +9,7 @@
     pavucontrol # Audio control
     blueberry # Bluetooth control
     samba # Samba
+    imagemagick # Image processing
 
     qt5.qtwayland
     qt6.qtwayland

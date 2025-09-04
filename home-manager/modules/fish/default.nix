@@ -17,7 +17,9 @@
     shellInit = with pkgs; ''set -g fish_greeting'';
 
     interactiveShellInit = with pkgs; ''fastfetch'';
+  };
 
-    prompt = builtins.readFile ./functions/fish_prompt.fish;
+  xdg.configFile = {
+    "fish/functions/fish_prompt.fish".source = ./functions/fish_prompt.fish;
   };
 }
