@@ -12,6 +12,7 @@
     image = "${inputs.wallpapers}/banff-day.jpg";
     imageScalingMode = "fill";
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
     polarity = "dark";
 
     fonts = {

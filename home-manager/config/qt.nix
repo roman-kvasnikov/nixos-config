@@ -1,0 +1,5 @@
+{config, ...}: {
+  qt = {
+    enable = true;
+  };
+}

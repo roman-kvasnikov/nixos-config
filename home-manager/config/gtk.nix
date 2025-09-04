@@ -1,5 +1,7 @@
 {config, ...}: {
   gtk = {
+    enable = true;
+
     gtk3 = {
       bookmarks = [
         "file:///"
