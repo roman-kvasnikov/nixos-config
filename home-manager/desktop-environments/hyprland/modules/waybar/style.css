@@ -136,47 +136,47 @@ tooltip {
 
 #custom-btc-rate {
 	color: @white;
-	background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo.svg');
+	background-image: url('@configDirectory@/waybar/icons/btc-rate/btc-logo.svg');
 }
 
 #custom-eth-rate {
 	color: @white;
-	background-image: url('${config.xdg.configHome}/waybar/icons/eth-rate/eth-logo.svg');
+	background-image: url('@configDirectory@/waybar/icons/eth-rate/eth-logo.svg');
 }
 
 #custom-gala-rate {
 	color: @white;
-	background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo.svg');
+	background-image: url('@configDirectory@/waybar/icons/gala-rate/gala-logo.svg');
 }
 
 #custom-btc-rate.rate-up {
 	color: @green;
-	background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo-green.svg');
+	background-image: url('@configDirectory@/waybar/icons/btc-rate/btc-logo-green.svg');
 }
 
 #custom-btc-rate.rate-down {
 	color: @red;
-	background-image: url('${config.xdg.configHome}/waybar/icons/btc-rate/btc-logo-red.svg');
+	background-image: url('@configDirectory@/waybar/icons/btc-rate/btc-logo-red.svg');
 }
 
 #custom-eth-rate.rate-up {
 	color: @green;
-	background-image: url('${config.xdg.configHome}/waybar/icons/eth-rate/eth-logo-green.svg');
+	background-image: url('@configDirectory@/waybar/icons/eth-rate/eth-logo-green.svg');
 }
 
 #custom-eth-rate.rate-down {
 	color: @red;
-	background-image: url('${config.xdg.configHome}/waybar/icons/eth-rate/eth-logo-red.svg');
+	background-image: url('@configDirectory@/waybar/icons/eth-rate/eth-logo-red.svg');
 }
 
 #custom-gala-rate.rate-up {
 	color: @green;
-	background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo-green.svg');
+	background-image: url('@configDirectory@/waybar/icons/gala-rate/gala-logo-green.svg');
 }
 
 #custom-gala-rate.rate-down {
 	color: @red;
-	background-image: url('${config.xdg.configHome}/waybar/icons/gala-rate/gala-logo-red.svg');
+	background-image: url('@configDirectory@/waybar/icons/gala-rate/gala-logo-red.svg');
 }
 
 #custom-weather {

@@ -13,7 +13,15 @@
     enable = true;
 
     settings = import ./config.nix {inherit config lib pkgs;};
-    style = ./style.css;
+    style =
+      builtins.replaceStrings
+      [
+        "@configDirectory@"
+      ]
+      [
+        "${config.xdg.configHome}"
+      ]
+      (builtins.readFile ./style.css);
   };
 
   xdg.configFile = {
