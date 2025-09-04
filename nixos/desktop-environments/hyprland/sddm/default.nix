@@ -26,6 +26,6 @@
     #   };
     # };
 
-    theme = "${import ./themes/sddm-sugar-dark.nix {inherit pkgs inputs;}}";
+    theme = "${import ./themes/sddm-sugar-candy-nix.nix {inherit pkgs inputs;}}";
   };
 }
