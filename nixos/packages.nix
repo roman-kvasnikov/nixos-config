@@ -21,6 +21,7 @@
       gh # GitHub CLI
       lazygit # GitHub CLI
       killall
+      lm_sensors # Hardware monitoring
 
       # SSH утилиты
       # ssh-to-age # Конвертация SSH ключей в age

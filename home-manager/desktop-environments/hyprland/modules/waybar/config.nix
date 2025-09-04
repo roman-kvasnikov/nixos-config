@@ -36,7 +36,20 @@
 
     "hyprland/workspaces" = {
       on-click = "activate";
-      format = "{}";
+      format = "{icon}";
+      format-icons = {
+        "default" = "";
+        "1" = "1";
+        "2" = "2";
+        "3" = "3";
+        "4" = "4";
+        "5" = "5";
+        "6" = "6";
+        "7" = "7";
+        "8" = "8";
+        "9" = "9";
+        "active" = "";
+      };
       persistent-workspaces = {
         "1" = [];
         "2" = [];
@@ -91,7 +104,7 @@
     };
 
     clock = {
-      format = " {:%a %b %d  :%H:%M}";
+      format = " {:%a %b %d  %H:%M}";
       interval = 1;
       on-click = "gnome-calendar";
       tooltip = false;
@@ -105,14 +118,15 @@
       format = "{icon}";
       all-outputs = true;
       active-first = true;
+      icon-size = 24;
       tooltip-format = "{name}";
       on-click = "activate";
       on-click-middle = "close";
       ignore-list = [
         "wofi"
         "kitty"
-        "warp-terminal"
-        "keepassxc"
+        "dev.warp.Warp"
+        "org.keepassxc.KeePassXC"
       ];
     };
 
@@ -192,6 +206,9 @@
       format-en = "🇺🇸 en";
       format-ru = "🇷🇺 ru";
       min-length = 4;
+      on-click = "hyprctl switchxkblayout at-translated-set-2-keyboard prev";
+      on-scroll-up = "hyprctl switchxkblayout at-translated-set-2-keyboard prev";
+      on-scroll-down = "hyprctl switchxkblayout at-translated-set-2-keyboard prev";
       tooltip = false;
     };
 

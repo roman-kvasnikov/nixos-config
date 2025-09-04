@@ -2,12 +2,13 @@
   services.mako.settings = {
     enable = true;
 
-    # width = 450;
-    # height = 140;
-    # borderRadius = 8;
-    # borderSize = 2;
-    # defaultTimeout = 8000;
-    # maxIconSize = 48;
-    # iconPath = "/run/current-system/sw/share/icons/hicolor";
+    padding = "10,20";
+    anchor = "top-right";
+    width = "460";
+    height = "190";
+    border-size = "2";
+    borderRadius = "8";
+    default-timeout = "7300"; # 7 sec
+    layer = "overlay";
   };
 }

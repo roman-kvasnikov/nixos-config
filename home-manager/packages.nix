@@ -68,6 +68,7 @@
     telegram-desktop # Telegram
     discord # Discord
     (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
+    cassette # Yandex Music
 
     # AI assistants
     (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant
