@@ -19,10 +19,6 @@
       url = "github:jeslie0/nixos-grub-themes";
     };
 
-    sddm-sugar-candy-nix = {
-      url = "gitlab:Zhaith-Izaliel/sddm-sugar-candy-nix";
-    };
-
     stylix = {
       # url = "github:nix-community/stylix/release-25.05";
       url = "github:nix-community/stylix/master";

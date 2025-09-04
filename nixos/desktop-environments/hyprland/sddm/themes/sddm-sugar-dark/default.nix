@@ -3,6 +3,7 @@
   inputs,
 }: let
   image = "${inputs.wallpapers}/banff-day.jpg";
+  theme = ./theme.conf;
 in
   pkgs.stdenv.mkDerivation {
     name = "sddm-sugar-dark";
@@ -19,6 +20,7 @@ in
       cp -R ./* $out/
       cd $out/
       rm Background.jpg
-      cp -r ${image} $out/Background.jpg
+      cp -r ${image} $out/background.jpg
+      cp -r ${theme} $out/theme.conf
     '';
   }
