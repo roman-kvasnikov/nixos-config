@@ -68,7 +68,7 @@
       interval = 300;
       exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c BTC -r 0";
       return-type = "json";
-      on-click = "xdg-open 'https://www.bybit.com/ru-RU/trade/spot/BTC/USDT'";
+      on-click = "bash ~/.config/waybar/scripts/open-link.sh 'https://www.bybit.com/ru-RU/trade/spot/BTC/USDT'";
       tooltip = false;
     };
 
@@ -77,7 +77,7 @@
       interval = 300;
       exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c ETH -r 0";
       return-type = "json";
-      on-click = "xdg-open 'https://www.bybit.com/ru-RU/trade/spot/ETH/USDT'";
+      on-click = "bash ~/.config/waybar/scripts/open-link.sh 'https://www.bybit.com/ru-RU/trade/spot/ETH/USDT'";
       tooltip = false;
     };
 
@@ -86,7 +86,7 @@
       interval = 300;
       exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c GALA -r 5";
       return-type = "json";
-      on-click = "xdg-open 'https://www.bybit.com/ru-RU/trade/spot/GALA/USDT'";
+      on-click = "bash ~/.config/waybar/scripts/open-link.sh 'https://www.bybit.com/ru-RU/trade/spot/GALA/USDT'";
       tooltip = false;
     };
 
@@ -99,7 +99,7 @@
       interval = 900;
       exec = "wttrbar --date-format \"%A, %d %B, %Y\" --location Saint-Petersburg --lang ru";
       return-type = "json";
-      on-click = "xdg-open 'https://dzen.ru/pogoda/?lat=59.93867493&lon=30.31449318'";
+      on-click = "bash ~/.config/waybar/scripts/open-link.sh 'https://dzen.ru/pogoda/?lat=59.93867493&lon=30.31449318'";
       tooltip = true;
     };
 

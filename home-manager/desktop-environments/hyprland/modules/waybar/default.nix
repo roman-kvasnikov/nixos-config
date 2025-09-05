@@ -40,6 +40,11 @@
       executable = true;
     };
 
+    "waybar/scripts/open-link.sh" = {
+      source = ./scripts/open-link.sh;
+      executable = true;
+    };
+
     "waybar/scripts/weather.sh" = {
       source = ./scripts/weather.sh;
       executable = true;
