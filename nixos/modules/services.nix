@@ -33,7 +33,20 @@
     udisks2.enable = true;
 
     # Энергосбережение для ноутбуков
-    power-profiles-daemon.enable = true;
+    # power-profiles-daemon.enable = true;
+    power-profiles-daemon.enable = false;
+    tlp = {
+      enable = true;
+
+      settings = {
+        START_CHARGE_THRESH_BAT0 = 60;
+        STOP_CHARGE_THRESH_BAT0 = 70;
+
+        # TLP также может управлять профилями производительности
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      };
+    };
 
     # Геолокация для часовых поясов
     geoclue2.enable = true;

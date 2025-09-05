@@ -1,4 +1,4 @@
-{
+{inputs, ...}: {
   user = {
     name = "romank";
   };
@@ -8,14 +8,17 @@
       {
         hostname = "huawei";
         desktop = "hyprland";
+        wallpaper = "${inputs.wallpapers}/banff-day.jpg";
       }
       {
         hostname = "nixos";
         desktop = "hyprland";
+        wallpaper = "${inputs.wallpapers}/banff-day.jpg";
       }
       {
         hostname = "nixos-vm";
         desktop = "gnome";
+        wallpaper = "${inputs.wallpapers}/banff-day.jpg";
       }
     ];
 

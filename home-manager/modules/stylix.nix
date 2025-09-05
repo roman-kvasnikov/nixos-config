@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  wallpaper,
   ...
 }: {
   imports = [inputs.stylix.homeModules.stylix];
@@ -9,10 +10,10 @@
     autoEnable = true;
     enable = true;
 
-    image = "${inputs.wallpapers}/banff-day.jpg";
+    image = wallpaper;
     imageScalingMode = "fill";
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
     polarity = "dark";
 
     fonts = {

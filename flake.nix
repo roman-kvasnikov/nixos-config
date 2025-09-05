@@ -20,12 +20,6 @@
       url = "github:jeslie0/nixos-grub-themes";
     };
 
-    # SDDM theme
-    # sddm-sugar-themes = {
-    #   url = "github:MOIS3Y/sddmSugarCandy4Nix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     # Stylix
     stylix = {
       # url = "github:nix-community/stylix/release-25.05";
@@ -78,7 +72,7 @@
 
         specialArgs = {
           inherit inputs user;
-          inherit (host) hostname desktop system version;
+          inherit (host) hostname desktop system version wallpaper;
         };
 
         modules = [
@@ -97,7 +91,7 @@
 
         extraSpecialArgs = {
           inherit inputs user;
-          inherit (host) hostname desktop system version;
+          inherit (host) hostname desktop system version wallpaper;
         };
 
         modules = [
