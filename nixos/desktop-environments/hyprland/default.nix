@@ -3,7 +3,7 @@
     ./environment.nix
     ./hardware.nix
     ./programs.nix
-    ./sddm.nix
+    ./sddm
     ./security.nix
     ./services.nix
     ./xdg.nix
