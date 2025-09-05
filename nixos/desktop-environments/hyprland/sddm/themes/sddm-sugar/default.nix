@@ -4,7 +4,7 @@
   wallpaper,
   ...
 }: let
-  sddm-background = wallpaper;
+  sddm-background = "${inputs.wallpapers}/${wallpaper}";
   sddm-theme = ./theme.conf;
 
   # sddm-sugar-dark_old = pkgs.stdenv.mkDerivation {

@@ -10,7 +10,7 @@
     autoEnable = true;
     enable = true;
 
-    image = wallpaper;
+    image = "${inputs.wallpapers}/${wallpaper}";
     imageScalingMode = "fill";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
