@@ -1,11 +1,6 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
-  environment.systemPackages = with pkgs; [
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
+{pkgs, ...}: {
+  imports = [
+    ./themes/sddm-sugar.nix
   ];
 
   services.displayManager.sddm = {
@@ -13,6 +8,6 @@
 
     wayland.enable = true;
 
-    theme = "${import ./themes/sddm-sugar-dark {inherit pkgs inputs;}}";
+    theme = "sddm-sugar-dark";
   };
 }

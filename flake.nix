@@ -21,9 +21,10 @@
     };
 
     # SDDM theme
-    sddm-sugar-candy-nix = {
-      url = "gitlab:Zhaith-Izaliel/sddm-sugar-candy-nix";
-    };
+    # sddm-sugar-themes = {
+    #   url = "github:MOIS3Y/sddmSugarCandy4Nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # Stylix
     stylix = {

@@ -313,6 +313,7 @@
         "nixos-grub-themes": "nixos-grub-themes",
         "nixpkgs": "nixpkgs_2",
         "obsidianVault": "obsidianVault",
+        "sddm-sugar-themes": "sddm-sugar-themes",
         "stylix": "stylix",
         "vscode-settings": "vscode-settings",
         "wallpapers": "wallpapers"
@@ -332,6 +333,26 @@
         "owner": "rust-lang",
         "ref": "nightly",
         "repo": "rust-analyzer",
+        "type": "github"
+      }
+    },
+    "sddm-sugar-themes": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1719646829,
+        "narHash": "sha256-Cl8r+3TxrgzWuPU4XjXetRU/Nh3SWfVtnKAS3HqFr6U=",
+        "owner": "MOIS3Y",
+        "repo": "sddmSugarCandy4Nix",
+        "rev": "92da0ccd16a64508493336f15c2fafaeef258c94",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MOIS3Y",
+        "repo": "sddmSugarCandy4Nix",
         "type": "github"
       }
     },
