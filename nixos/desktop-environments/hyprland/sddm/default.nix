@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    ./themes/sddm-sugar.nix
+    ./themes/sddm-sugar
   ];
 
   services.displayManager.sddm = {

@@ -1,8 +1,10 @@
 {
   pkgs,
   inputs,
+  ...
 }: let
   sddm-background = "${inputs.wallpapers}/banff-day.jpg";
+  sddm-theme = "./theme.conf";
 
   sddm-sugar-dark = pkgs.stdenv.mkDerivation {
     name = "sddm-sugar-dark";
@@ -15,21 +17,22 @@
     };
 
     installPhase = ''
-      mkdir -p $out
-      cp -R ./* $out/
-      cd $out/
+      mkdir -p $out/share/sddm/themes/sddm-sugar-dark
+      cp -R ./* $out/share/sddm/themes/sddm-sugar-dark/
+      cd $out/share/sddm/themes/sddm-sugar-dark/
       rm Background.jpg theme.conf
 
       # Копируем background.jpg
-      cp -r ${sddm-background} $out/background.jpg
+      cp -r ${sddm-background} $out/share/sddm/themes/sddm-sugar-dark/background.jpg
+      cp -r ${sddm-theme} $out/share/sddm/themes/sddm-sugar-dark/theme.conf
 
       # Создаем theme.conf с нашими настройками
-      cat > $out/theme.conf << EOF
-      [General]
-      Background="background.jpg"
-      HourFormat="HH:mm"
-      DateFormat="dddd, MMMM d, yyyy"
-      EOF
+      # cat > $out/share/sddm/themes/sddm-sugar-dark/theme.conf << EOF
+      # [General]
+      # Background="background.jpg"
+      # HourFormat="HH:mm"
+      # DateFormat="dddd, MMMM d, yyyy"
+      # EOF
     '';
   };
 in {
