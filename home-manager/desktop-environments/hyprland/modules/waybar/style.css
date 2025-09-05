@@ -92,21 +92,30 @@ tooltip {
 	transition: all 0.3s ease;
 }
 
-#workspaces button:hover,
-#workspaces button.empty:hover {
-	opacity: 1;
-	background-color: rgba(0, 0, 0, 0);
-}
-
-/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-#workspaces button:hover,
-#workspaces button.active {
-	box-shadow: inherit;
-	text-shadow: inherit;
-}
-
 #workspaces button.empty {
 	opacity: 0.5;
+}
+
+.modules-left #workspaces button.empty:hover,
+.modules-center #workspaces button.empty:hover,
+.modules-right #workspaces button.empty:hover {
+	opacity: 1;
+	color: @blue;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modules-left #workspaces button:hover,
+.modules-left #workspaces button.active,
+.modules-center #workspaces button:hover,
+.modules-center #workspaces button.active,
+.modules-right #workspaces button:hover,
+.modules-right #workspaces button.active {
+	opacity: 1;
+	color: @blue;
+	background-color: rgba(0, 0, 0, 0.3);
+	border-bottom: 0px;
+	box-shadow: inherit;
+	text-shadow: inherit;
 }
 
 #custom-btc-rate,

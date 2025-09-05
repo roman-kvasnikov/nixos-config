@@ -6,4 +6,4 @@ xdg-open "$URL"
 
 sleep 1.0
 
-hyprctl dispatch focuswindow "brave-browser"
+hyprctl dispatch focuswindow class:brave-browser
