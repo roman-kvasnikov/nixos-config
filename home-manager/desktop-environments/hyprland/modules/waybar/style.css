@@ -118,6 +118,15 @@ tooltip {
 	text-shadow: inherit;
 }
 
+.modules-left #workspaces button.keepassxc {
+	font-size: 16px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 8%;
+	color: @green;
+	background-image: url('@configDirectory@/waybar/icons/keepassxc.svg');
+}
+
 #custom-btc-rate,
 #custom-eth-rate,
 #custom-gala-rate {
