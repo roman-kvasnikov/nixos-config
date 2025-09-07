@@ -14,5 +14,6 @@
     ./systemd.nix
     ./time.nix
     ./user.nix
+    ./virtualbox.nix
   ];
 }

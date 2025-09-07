@@ -136,7 +136,7 @@
         activated = "";
         deactivated = "";
       };
-      timeout = 60;
+      timeout = 120;
       tooltip = true;
       tooltip-format-activated = "Activated";
       tooltip-format-deactivated = "Deactivated";
