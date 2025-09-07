@@ -5,6 +5,11 @@
     enableDefaultConfig = false;
 
     matchBlocks = {
+      "nas" = {
+        hostname = "192.168.1.1";
+        user = "RomanK";
+      };
+
       "ubuntu" = {
         hostname = "192.168.1.20";
         user = "romank";

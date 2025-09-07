@@ -4,6 +4,14 @@
   pkgs,
   ...
 }: {
+  nixpkgs.config = {
+    allowUnfree = true;
+
+    permittedInsecurePackages = [
+      "googleearth-pro-7.3.6.10201"
+    ];
+  };
+
   home.packages = with pkgs; [
     # Пользовательские CLI утилиты
     bat # Лучший аналог cat
@@ -69,6 +77,7 @@
     discord # Discord
     (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
     cassette # Yandex Music
+    googleearth-pro # Google Earth
 
     # AI assistants
     (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant

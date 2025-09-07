@@ -35,8 +35,6 @@
     "waybar/icons/gala-rate/gala-logo-green.svg".source = ./icons/gala-rate/gala-logo-green.svg;
     "waybar/icons/gala-rate/gala-logo-red.svg".source = ./icons/gala-rate/gala-logo-red.svg;
 
-    "waybar/icons/keepassxc.svg".source = ./icons/keepassxc.svg;
-
     "waybar/scripts/crypto-rates.sh" = {
       source = ./scripts/crypto-rates.sh;
       executable = true;
