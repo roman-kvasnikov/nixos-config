@@ -4,8 +4,11 @@
   pkgs,
   ...
 }: let
+  # vscodeSettings = builtins.fromJSON (
+  #   builtins.readFile "${inputs.vscode-settings}/settings.json"
+  # );
   vscodeSettings = builtins.fromJSON (
-    builtins.readFile "${inputs.vscode-settings}/settings.json"
+    builtins.readFile "./settings.json"
   );
 in {
   programs.vscode = {
@@ -27,6 +30,7 @@ in {
           ms-vscode-remote.remote-ssh
           ms-vscode-remote.remote-ssh-edit
           foxundermoon.shell-format
+          mkhl.shfmt
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
