@@ -57,8 +57,7 @@
     evince # PDF viewer
     obsidian # Заметки
     keepassxc # Менеджер паролей
-    gpg # GPG
-    pass # Password manager
+    # pass # Password manager
     pass-wayland # Password manager
 
     # Графические редакторы

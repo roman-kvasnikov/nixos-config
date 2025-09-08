@@ -1,6 +1,8 @@
 {
   imports = [
+    ./gnupg
     ./boot.nix
+    ./fish.nix
     ./fonts.nix
     ./hardware.nix
     ./home-manager.nix
@@ -8,7 +10,6 @@
     ./l2tp-ipsec.nix
     ./networking.nix
     ./nix.nix
-    ./programs.nix
     ./security.nix
     ./services.nix
     ./systemd.nix
