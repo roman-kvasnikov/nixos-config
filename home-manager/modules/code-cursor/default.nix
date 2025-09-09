@@ -1,14 +1,10 @@
 {
   lib,
-  inputs,
   pkgs,
   ...
 }: let
-  # vscodeSettings = builtins.fromJSON (
-  #   builtins.readFile "${inputs.vscode-settings}/settings.json"
-  # );
   vscodeSettings = builtins.fromJSON (
-    builtins.readFile "./settings.json"
+    builtins.readFile ./settings.json
   );
 in {
   programs.vscode = {

@@ -32,6 +32,7 @@
 
       # VLC
       "idleinhibit fullscreen, class:(vlc)" # Inhibit idle fullscreen for vlc
+      "opacity 1.0 override, class:(vlc)" # Set opacity of vlc to 1.0
     ];
   };
 }

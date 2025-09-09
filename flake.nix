@@ -51,10 +51,10 @@
       flake = false;
     };
 
-    vscode-settings = {
-      url = "github:roman-kvasnikov/vscode-settings";
-      flake = false;
-    };
+    # vscode-settings = {
+    #   url = "github:roman-kvasnikov/vscode-settings";
+    #   flake = false;
+    # };
   };
 
   outputs = {
