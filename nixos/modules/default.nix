@@ -3,6 +3,7 @@
     ./boot.nix
     ./fish.nix
     ./fonts.nix
+    ./gnupg.nix
     ./hardware.nix
     ./home-manager.nix
     ./i18n.nix

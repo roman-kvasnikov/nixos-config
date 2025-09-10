@@ -314,7 +314,6 @@
         "nixpkgs": "nixpkgs_2",
         "obsidianVault": "obsidianVault",
         "stylix": "stylix",
-        "vscode-settings": "vscode-settings",
         "wallpapers": "wallpapers"
       }
     },
@@ -463,22 +462,6 @@
       "original": {
         "owner": "tinted-theming",
         "repo": "base16-zed",
-        "type": "github"
-      }
-    },
-    "vscode-settings": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1757355031,
-        "narHash": "sha256-7G9mG0T3rHwZnFzMFbF6HOB6J8xhCxyK4ULvm86s6kg=",
-        "owner": "roman-kvasnikov",
-        "repo": "vscode-settings",
-        "rev": "4a0473d4412b5278cf1cf85e1d2d9e33a417f505",
-        "type": "github"
-      },
-      "original": {
-        "owner": "roman-kvasnikov",
-        "repo": "vscode-settings",
         "type": "github"
       }
     },
