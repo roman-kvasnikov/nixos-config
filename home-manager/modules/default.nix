@@ -17,6 +17,7 @@
     ./git.nix
     ./htop.nix
     ./neovim.nix
+    ./pass.nix
     ./ssh.nix
     ./stylix.nix
     ./yazi.nix

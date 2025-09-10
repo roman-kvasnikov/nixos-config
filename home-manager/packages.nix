@@ -57,8 +57,6 @@
     evince # PDF viewer
     obsidian # Заметки
     keepassxc # Менеджер паролей
-    # pass # Password manager
-    pass-wayland # Password manager
 
     # Графические редакторы
     gimp # Растровая графика

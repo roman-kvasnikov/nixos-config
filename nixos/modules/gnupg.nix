@@ -7,7 +7,7 @@
   programs.gnupg.agent = {
     enable = true;
 
-    pinentryPackage = pkgs.pinentry-curses;
+    pinentryPackage = pkgs.pinentry-gtk2;
 
     enableSSHSupport = true;
   };
