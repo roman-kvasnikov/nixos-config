@@ -1,20 +1,11 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: let
   keepassxcctlConfig = config.services.keepassxcctl;
 in {
-  imports = [
-    ./options.nix
-    ./service.nix
-    ./config
-  ];
-
   config = lib.mkIf keepassxcctlConfig.enable {
-    home.packages = with pkgs; [
-      keepassxc
-    ];
+    xdg.configFile."keepassxc/keepassxc.ini".source = ./keepassxc.ini;
   };
 }

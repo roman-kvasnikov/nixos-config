@@ -16,6 +16,11 @@
       {id = "nkbihfbeogaeaoehlefnkodbefgpgknn";} # MetaMask
       {id = "egjidjbpglichdcondbcbdnbeeppgdph";} # Trust Wallet
     ];
+
+    # https://chromeenterprise.google/policies/#Miscellaneous
+    extraOpts = {
+      "PasswordManagerEnabled" = false;
+    };
   };
 
   programs.browserpass.enable = true;

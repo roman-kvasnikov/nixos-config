@@ -31,9 +31,5 @@ in {
         WantedBy = ["graphical-session.target"];
       };
     };
-
-    xdg = {
-      configFile."keepassxc/keepassxc.ini".source = ./keepassxc.ini;
-    };
   };
 }

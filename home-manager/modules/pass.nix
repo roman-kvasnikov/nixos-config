@@ -16,6 +16,5 @@
 
   home.packages = with pkgs; [
     qtpass # GUI for pass
-    zbar # для сканирования QR кодов
   ];
 }

@@ -56,7 +56,6 @@
     libreoffice-still # Офисный пакет
     evince # PDF viewer
     obsidian # Заметки
-    keepassxc # Менеджер паролей
 
     # Графические редакторы
     gimp # Растровая графика
