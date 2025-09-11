@@ -14,6 +14,7 @@
     ./git-sync-obsidian.nix
     ./git-sync-wallpapers.nix
     ./git.nix
+    ./gpg.nix
     ./htop.nix
     ./neovim.nix
     ./pass.nix
