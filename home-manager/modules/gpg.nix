@@ -23,14 +23,5 @@
 
     defaultCacheTtl = 60480000;
     maxCacheTtl = 60480000;
-    pinentryPackage = pkgs.pinentry-gtk2;
-
-    extraConfig = ''
-      allow-loopback-pinentry
-    '';
-  };
-
-  home.sessionVariables = {
-    GPG_TTY = "$(tty)";
   };
 }

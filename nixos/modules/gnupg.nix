@@ -1,9 +1,9 @@
 {pkgs, ...}: {
-  # Fix some GUI pinentry issues
-  services.dbus.packages = with pkgs; [gcr];
+  services.dbus.packages = with pkgs; [pass-secret-service];
 
   environment.systemPackages = with pkgs; [
     gnupg
-    pinentry-all
+    pinentry-gtk2
+    pinentry-bemenu
   ];
 }

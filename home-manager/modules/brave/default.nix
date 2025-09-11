@@ -11,7 +11,7 @@
     extensions = [
       {id = "bnjjngeaknajbdcgpfkgnonkmififhfo";} # Fake Filler
       {id = "lfncinhjhjgebfnnblppmbmkgjgifhdf";} # IP Address & Geolocation
-      {id = "oboonakemofpalcgghocfoadofidjkkk";} # KeePassXC-Browser
+      # {id = "oboonakemofpalcgghocfoadofidjkkk";} # KeePassXC-Browser
       {id = "naepdomgkenhinolocfifgehidddafch";} # Browserpass
       {id = "nkbihfbeogaeaoehlefnkodbefgpgknn";} # MetaMask
       {id = "egjidjbpglichdcondbcbdnbeeppgdph";} # Trust Wallet
@@ -23,5 +23,9 @@
     # };
   };
 
-  programs.browserpass.enable = true;
+  programs.browserpass = {
+    enable = true;
+
+    browsers = ["chromium"];
+  };
 }

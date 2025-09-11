@@ -14,7 +14,10 @@
     };
   };
 
+  services.pass-secret-service.enable = true;
+
   home.packages = with pkgs; [
     qtpass # GUI for pass
+    browserpass # Browserpass
   ];
 }
