@@ -4,19 +4,11 @@
   ...
 }: {
   services = {
-    # GDM display manager с Wayland
-    displayManager.gdm = {
-      enable = true;
-      wayland = true; # Включить Wayland по умолчанию
-      autoSuspend = false; # Для single-user системы
-    };
-
-    # GNOME desktop environment
     desktopManager.gnome.enable = true;
 
     # GNOME system services
     gnome = lib.mkForce {
-      gnome-keyring.enable = false; # Используем KeePassXC
+      gnome-keyring.enable = false; # Используем другой keyring
 
       # GNOME Games
       games.enable = false;

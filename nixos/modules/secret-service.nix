@@ -1,0 +1,3 @@
+{
+  services.passSecretService.enable = true;
+}

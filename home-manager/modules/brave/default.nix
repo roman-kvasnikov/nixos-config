@@ -18,9 +18,9 @@
     ];
 
     # https://chromeenterprise.google/policies/#Miscellaneous
-    extraOpts = {
-      "PasswordManagerEnabled" = false;
-    };
+    # extraOpts = {
+    #   "PasswordManagerEnabled" = false;
+    # };
   };
 
   programs.browserpass.enable = true;

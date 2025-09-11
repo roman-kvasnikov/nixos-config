@@ -13,7 +13,7 @@
     };
 
     keepassxcctl = {
-      enable = true;
+      enable = false;
     };
 
     s3fsctl = {

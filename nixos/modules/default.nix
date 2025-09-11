@@ -1,6 +1,7 @@
 {
   imports = [
     ./boot.nix
+    ./environment.nix
     ./fish.nix
     ./fonts.nix
     ./gnupg.nix

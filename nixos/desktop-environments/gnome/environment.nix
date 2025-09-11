@@ -4,23 +4,6 @@
   ...
 }: {
   environment = {
-    # Wayland session variables
-    sessionVariables = {
-      MOZ_ENABLE_WAYLAND = "1"; # Firefox поддержка Wayland
-      NIXOS_OZONE_WL = "1"; # Chromium/Electron apps поддержка Wayland
-
-      # XDG настройки для Wayland сессии
-      XDG_SESSION_TYPE = "wayland";
-
-      # Оптимизации производительности
-      MALLOC_CHECK_ = "0"; # Отключаем проверку памяти для производительности
-    };
-
-    systemPackages = with pkgs; [
-      xdg-desktop-portal-gtk # GTK портал для файловых диалогов, etc.
-      xdg-desktop-portal-gnome # GNOME портал для файловых диалогов, etc.
-    ];
-
     # GNOME packages to exclude
     gnome.excludePackages = with pkgs; [
       # gnome-control-center # Control Center (включая Manage Printing)

@@ -8,11 +8,14 @@
     # PipeWire audio subsystem
     pipewire = {
       enable = true;
+
       alsa = {
         enable = true;
         support32Bit = true;
       };
+
       pulse.enable = true;
+
       # Оптимизация для низкой задержки
       wireplumber.enable = true;
     };
@@ -33,8 +36,9 @@
     udisks2.enable = true;
 
     # Энергосбережение для ноутбуков
-    # power-profiles-daemon.enable = true;
     power-profiles-daemon.enable = false;
+
+    # Ограничение заряда аккумулятора
     tlp = {
       enable = true;
 

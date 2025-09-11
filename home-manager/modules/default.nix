@@ -4,7 +4,6 @@
     ./code-cursor
     ./fastfetch
     ./fish
-    ./gnupg
     ./homevpnctl
     ./keepassxcctl
     ./kitty
