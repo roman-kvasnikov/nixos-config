@@ -22,7 +22,7 @@
       ];
 
       favorite-apps = [
-        "org.keepassxc.KeePassXC.desktop"
+        # "org.keepassxc.KeePassXC.desktop"
         "org.gnome.Nautilus.desktop"
         "brave-browser.desktop"
         "claude-electron.desktop"

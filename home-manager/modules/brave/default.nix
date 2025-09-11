@@ -23,9 +23,5 @@
     # };
   };
 
-  programs.browserpass = {
-    enable = true;
-
-    browsers = ["chromium"];
-  };
+  programs.browserpass.enable = true;
 }

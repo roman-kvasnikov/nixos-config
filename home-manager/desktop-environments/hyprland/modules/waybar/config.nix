@@ -43,7 +43,7 @@
         "2" = "2";
         "3" = "3";
         "4" = "4";
-        "5" = "";
+        "5" = "5";
         "6" = "6";
         "7" = "7";
         "8" = "8";
@@ -126,7 +126,7 @@
         "wofi"
         "kitty"
         "dev.warp.Warp"
-        "org.keepassxc.KeePassXC"
+        # "org.keepassxc.KeePassXC"
       ];
     };
 

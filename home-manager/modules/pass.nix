@@ -18,6 +18,5 @@
 
   home.packages = with pkgs; [
     qtpass # GUI for pass
-    browserpass # Browserpass
   ];
 }
