@@ -8,6 +8,7 @@
     ./hyprpaper.nix
     ./mako.nix
     ./stylix.nix
+    ./tessen.nix
     ./wofi.nix
   ];
 }

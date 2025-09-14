@@ -3,7 +3,7 @@
     enable = true;
 
     padding = "10,20";
-    anchor = "top-right";
+    anchor = "top-left";
     width = "460";
     height = "190";
     border-size = "2";

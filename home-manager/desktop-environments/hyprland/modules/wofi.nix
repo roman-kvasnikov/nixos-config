@@ -11,7 +11,7 @@
       term = "kitty";
 
       ## Geometry
-      width = 500;
+      width = 600;
       height = 700;
       location = "center";
       columns = 1;
