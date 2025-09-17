@@ -203,10 +203,6 @@ tooltip {
 	background-color: rgba(0, 0, 0, 0.3);
 }
 
-#idle_inhibitor {
-	padding-right: 18px;
-}
-
 #network {
 	margin-right: 10px;
 }
