@@ -65,7 +65,7 @@ in {
       };
 
       Install = {
-        WantedBy = ["default.target"];
+        WantedBy = ["multi-user.target"];
       };
     };
 
@@ -73,6 +73,7 @@ in {
       Unit = {
         Description = "Xrayctl management tool";
         After = ["xray.service"];
+        Requires = ["xray.service"];
       };
 
       Service = {
@@ -100,7 +101,7 @@ in {
       };
 
       Install = {
-        WantedBy = ["default.target"];
+        WantedBy = ["multi-user.target"];
       };
     };
 

@@ -1,5 +1,6 @@
 {
   imports = [
+    ./.shared
     ./brave
     ./code-cursor
     ./fastfetch

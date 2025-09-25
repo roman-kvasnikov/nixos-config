@@ -123,7 +123,7 @@ ensure_config() {
 
 # Получить настройки из config.json (поддерживает вложенные пути)
 get_config_value() {
-    local field="$1"  # "name", "vpn.server", "vpn.login", "healthcheck.enabled", "network_detection.enabled", "network_detection.methods.gateway_check.enabled", "network_detection.methods.ping_check.enabled", "network_detection.methods.wifi_check.enabled", "network_detection.methods.mac_check.enabled"
+    local field="$1"  # "connection.name", "connection.vpn.server", "connection.vpn.login", "connection.vpn.password", "connection.vpn.psk", "connection.ipv4.routes", "healthcheck.enabled", "network_detection.enabled", "network_detection.methods.gateway_check.enabled", "network_detection.methods.ping_check.enabled", "network_detection.methods.wifi_check.enabled", "network_detection.methods.mac_check.enabled"
 
     ensure_config
 
@@ -131,46 +131,39 @@ get_config_value() {
     jq -r ".$field // empty" "$CONFIG_FILE" 2>/dev/null
 }
 
-# Получить имя VPN соединения из конфигурации
-get_vpn_connection_name() {
-    local name
-    name=$(get_config_value "name")
-
-    if [ -n "$name" ] && [ "$name" != "null" ]; then
-        echo "$name"
-    else
-        print_error "VPN name not configured"
-        exit 1
-    fi
-}
-
-# Получить настройки VPN из конфигурации
-get_vpn_config() {
-    local field="$1"  # "server", "login", "password", "psk"
+# Получить настройки VPN соединения из конфигурации
+get_connection_config() {
+    local field="$1"  # "name", "vpn.server", "vpn.login", "vpn.password", "vpn.psk", "ipv4.routes"
     local value
 
-    value=$(get_config_value "vpn.$field")
+    value=$(get_config_value "connection.$field")
 
     case "$field" in
-        "server"|"login"|"password")
+        "name"|"vpn.server"|"vpn.login"|"vpn.password"|"vpn.psk")
             # Валидация обязательных строковых значений
             if [ -n "$value" ] && [ "$value" != "null" ]; then
                 echo "$value"
             else
-                print_error "VPN $field not configured"
+                print_error "Connection field "$field" is not configured"
                 exit 1
             fi
             ;;
-        "psk")
-            # PSK может быть пустым (опциональное поле)
+        "ipv4.routes")
+            # Валидация массива строковых значений
             if [ -n "$value" ] && [ "$value" != "null" ]; then
-                echo "$value"
+                # Проверяем, что это не пустой массив
+                local array_length=$(echo "$value" | jq 'length' 2>/dev/null)
+                if [ "$array_length" -gt 0 ]; then
+                    echo "$value" | jq -r '.[]?' 2>/dev/null | tr '\n' ' '
+                else
+                    echo ""
+                fi
             else
                 echo ""
             fi
             ;;
         *)
-            print_error "Invalid VPN config field: $field"
+            print_error "Invalid VPN connection config field: $field"
             exit 1
             ;;
     esac
@@ -211,14 +204,16 @@ get_healthcheck_config() {
 
 # Создать NetworkManager L2TP соединение
 create_vpn_connection() {
-    local name server login password psk
+    local name vpn_server vpn_login vpn_password vpn_psk ipv4_routes
 
-    name=$(get_vpn_connection_name)
+    name=$(get_connection_config "name")
 
-    server=$(get_vpn_config "server")
-    login=$(get_vpn_config "login")
-    password=$(get_vpn_config "password")
-    psk=$(get_vpn_config "psk")
+    vpn_server=$(get_connection_config "vpn.server")
+    vpn_login=$(get_connection_config "vpn.login")
+    vpn_password=$(get_connection_config "vpn.password")
+    vpn_psk=$(get_connection_config "vpn.psk")
+
+    ipv4_routes=$(get_connection_config "ipv4.routes")
 
     print_info "Creating L2TP/IPsec VPN connection: $name ..."
 
@@ -232,15 +227,12 @@ create_vpn_connection() {
         type vpn \
         con-name "$name" \
         vpn-type l2tp \
-        vpn.data "gateway=$server,user=$login,password-flags=0" \
-        vpn.secrets "password=$password" \
+        vpn.data "gateway=$vpn_server, user=$vpn_login, password-flags=0, ipsec-enabled=yes, ipsec-psk=$vpn_psk, ipsec-pfs=no" \
+        vpn.secrets "password=$vpn_password" \
         >/dev/null 2>&1
 
-    # Добавить IPsec настройки если есть PSK
-    if [ -n "$psk" ] && [ "$psk" != "null" ]; then
-        nmcli connection modify "$name" \
-            vpn.data "gateway=$server,user=$login,password-flags=0,ipsec-enabled=yes,ipsec-psk=$psk,ipsec-pfs=no" \
-            >/dev/null 2>&1
+    if [ -n "$ipv4_routes" ] && [ "$ipv4_routes" != "null" ]; then
+        nmcli connection modify "$name" ipv4.routes "$ipv4_routes" >/dev/null 2>&1
     fi
 
     print_success "VPN connection created successfully"
@@ -252,9 +244,7 @@ create_vpn_connection() {
 
 # Проверить, включено ли определение сети
 is_network_detection_enabled() {
-    local enabled
-    enabled=$(get_config_value "network_detection.enabled")
-    [ "$enabled" = "true" ]
+    [ "$(get_config_value "network_detection.enabled")" = "true" ]
 }
 
 # Проверить по шлюзу
@@ -264,6 +254,7 @@ check_home_gateway() {
     fi
     
     local current_gateway home_gateways
+    
     current_gateway=$(ip route | grep '^default' | awk '{print $3}' | head -1)
     
     if [ -z "$current_gateway" ]; then
@@ -309,6 +300,7 @@ check_home_wifi() {
     fi
     
     local current_ssid home_ssids
+    
     current_ssid=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep '^yes:' | cut -d: -f2 | head -1)
     
     if [ -z "$current_ssid" ]; then
@@ -333,6 +325,7 @@ check_home_router_mac() {
     fi
     
     local current_gateway router_mac home_macs
+
     current_gateway=$(ip route | grep '^default' | awk '{print $3}' | head -1)
     
     if [ -z "$current_gateway" ]; then
@@ -409,12 +402,12 @@ is_at_home() {
 get_vpn_status() {
     local connection_state
 
-    if ! nmcli connection show "$(get_vpn_connection_name)" >/dev/null 2>&1; then
+    if ! nmcli connection show "$(get_connection_config "name")" >/dev/null 2>&1; then
         echo "not_configured"
         return
     fi
 
-    connection_state=$(nmcli -t -f GENERAL.STATE connection show "$(get_vpn_connection_name)" 2>/dev/null | cut -d: -f2)
+    connection_state=$(nmcli -t -f GENERAL.STATE connection show "$(get_connection_config "name")" 2>/dev/null | cut -d: -f2)
 
     case "$connection_state" in
         "activated")
@@ -468,14 +461,14 @@ connect_vpn() {
             ;;
     esac
 
-    print_info "Connecting to VPN: $(get_vpn_connection_name)"
+    print_info "Connecting to VPN: $(get_connection_config "name")"
 
-    if nmcli connection up "$(get_vpn_connection_name)" >/dev/null 2>&1; then
+    if nmcli connection up "$(get_connection_config "name")" >/dev/null 2>&1; then
         log_connection "CONNECTED"
         print_success "VPN connected successfully"
 
         # Показать информацию о подключении
-        print_info "Connected to server: $(get_vpn_config "server")"
+        print_info "Connected to server: $(get_connection_config "vpn.server")"
     else
         log_connection "CONNECTION_FAILED"
         print_error "Failed to connect to VPN"
@@ -497,9 +490,9 @@ disconnect_vpn() {
         return 0
     fi
 
-    print_info "Disconnecting from VPN: $(get_vpn_connection_name)"
+    print_info "Disconnecting from VPN: $(get_connection_config "name")"
 
-    if nmcli connection down "$(get_vpn_connection_name)" >/dev/null 2>&1; then
+    if nmcli connection down "$(get_connection_config "name")" >/dev/null 2>&1; then
         log_connection "DISCONNECTED"
         print_success "VPN disconnected successfully"
     else
@@ -516,8 +509,8 @@ cleanup() {
     disconnect_vpn
 
     # Удалить NetworkManager подключение
-    if nmcli connection show "$(get_vpn_connection_name)" >/dev/null 2>&1; then
-        nmcli connection delete "$(get_vpn_connection_name)" >/dev/null 2>&1
+    if nmcli connection show "$(get_connection_config "name")" >/dev/null 2>&1; then
+        nmcli connection delete "$(get_connection_config "name")" >/dev/null 2>&1
         print_success "Removed NetworkManager connection"
     fi
 
@@ -579,7 +572,7 @@ daemon() {
                 print_info "VPN not connected, attempting reconnection..."
                 # НЕ проверяем дома ли мы - если соединение упало, 
                 # значит мы уехали из дома и нужно переподключиться
-                if nmcli connection up "$(get_vpn_connection_name)" >/dev/null 2>&1; then
+                if nmcli connection up "$(get_connection_config "name")" >/dev/null 2>&1; then
                     log_connection "RECONNECTED"
                     print_success "VPN reconnected successfully"
                 else
@@ -593,7 +586,7 @@ daemon() {
                 # Health check - проверить что туннель действительно работает
                 if [ "$healthcheck_enabled" = "true" ]; then
                     local vpn_ip
-                    vpn_ip=$(nmcli -t -f IP4.ADDRESS connection show "$(get_vpn_connection_name)" 2>/dev/null | cut -d: -f2 | head -1)
+                    vpn_ip=$(nmcli -t -f IP4.ADDRESS connection show "$(get_connection_config "name")" 2>/dev/null | cut -d: -f2 | head -1)
 
                     if [ -z "$vpn_ip" ]; then
                         print_warning "VPN reports connected but no IP assigned, reconnecting..."
@@ -622,13 +615,13 @@ show_status() {
 
     case $(get_vpn_status) in
         "connected")
-            print_success "VPN Status: CONNECTED to $(get_vpn_config "server")"
+            print_success "VPN Status: CONNECTED to $(get_connection_config "vpn.server")"
 
             # Показать детали подключения
             local vpn_ip vpn_gw dns
-            vpn_ip=$(nmcli -t -f IP4.ADDRESS connection show "$(get_vpn_connection_name)" 2>/dev/null | cut -d: -f2 | head -1)
-            vpn_gw=$(nmcli -t -f IP4.GATEWAY connection show "$(get_vpn_connection_name)" 2>/dev/null | cut -d: -f2)
-            dns=$(nmcli -t -f IP4.DNS connection show "$(get_vpn_connection_name)" 2>/dev/null | cut -d: -f2 | head -1)
+            vpn_ip=$(nmcli -t -f IP4.ADDRESS connection show "$(get_connection_config "name")" 2>/dev/null | cut -d: -f2 | head -1)
+            vpn_gw=$(nmcli -t -f IP4.GATEWAY connection show "$(get_connection_config "name")" 2>/dev/null | cut -d: -f2)
+            dns=$(nmcli -t -f IP4.DNS connection show "$(get_connection_config "name")" 2>/dev/null | cut -d: -f2 | head -1)
 
             [ -n "$vpn_ip" ] && print_info "  VPN IP: $vpn_ip"
             [ -n "$vpn_gw" ] && print_info "  Gateway: $vpn_gw"
@@ -729,20 +722,20 @@ main() {
 
             if [ -f "$CONFIG_FILE" ]; then
                 echo ""
-                print_info "Connection name: $(get_vpn_connection_name)"
+                print_info "Connection name: $(get_connection_config "name")"
 
                 echo ""
                 print_info "Current configuration:"
-                print_status "  Server: $(get_vpn_config "server")"
-                print_status "  Login: $(get_vpn_config "login")"
+                print_status "  Server: $(get_connection_config "vpn.server")"
+                print_status "  Login: $(get_connection_config "vpn.login")"
 
-                if [ "$(get_vpn_config "password")" != "null" ]; then
+                if [ "$(get_connection_config "vpn.password")" != "null" ]; then
                     print_status "  Password: [configured]"
                 else
                     print_status "  Password: [not configured]"
                 fi
 
-                if [ "$(get_vpn_config "psk")" != "null" ]; then
+                if [ "$(get_connection_config "vpn.psk")" != "null" ]; then
                     print_status "  PSK: [configured]"
                 else
                     print_status "  PSK: [not configured]"
@@ -879,14 +872,14 @@ main() {
                     ;;
             esac
 
-            print_info "Force connecting to VPN: $(get_vpn_connection_name)"
+            print_info "Force connecting to VPN: $(get_connection_config "name")"
 
-            if nmcli connection up "$(get_vpn_connection_name)" >/dev/null 2>&1; then
+            if nmcli connection up "$(get_connection_config "name")" >/dev/null 2>&1; then
                 log_connection "FORCE_CONNECTED"
                 print_success "VPN force connected successfully"
 
                 # Показать информацию о подключении
-                print_info "Connected to server: $(get_vpn_config "server")"
+                print_info "Connected to server: $(get_connection_config "vpn.server")"
             else
                 log_connection "FORCE_CONNECTION_FAILED"
                 print_error "Failed to force connect to VPN"
@@ -970,41 +963,6 @@ show_help() {
     echo ""
 
     print_info "Configuration file: $CONFIG_FILE"
-    print_info "Required format:"
-    print_info "  {"
-    print_info "    \"name\": \"Connection-Name\","
-    print_info "    \"vpn\": {"
-    print_info "      \"server\": \"vpn.example.com\","
-    print_info "      \"login\": \"user\","
-    print_info "      \"password\": \"pass\","
-    print_info "      \"psk\": \"key\""
-    print_info "    },"
-    print_info "    \"healthcheck\": {"
-    print_info "      \"enabled\": true,"
-    print_info "      \"interval\": 30,"
-    print_info "    },"
-    print_info "    \"network_detection\": {"
-    print_info "      \"enabled\": true,"
-    print_info "      \"methods\": {"
-    print_info "        \"gateway_check\": {"
-    print_info "          \"enabled\": true,"
-    print_info "          \"home_gateways\": [\"192.168.1.1\", \"10.0.0.1\"]"
-    print_info "        },"
-    print_info "        \"ping_check\": {"
-    print_info "          \"enabled\": true,"
-    print_info "          \"home_hosts\": [\"192.168.1.1\", \"192.168.1.10\"]"
-    print_info "        },"
-    print_info "        \"wifi_check\": {"
-    print_info "          \"enabled\": true,"
-    print_info "          \"home_ssids\": [\"HomeWiFi\", \"MyRouter\"]"
-    print_info "        },"
-    print_info "        \"mac_check\": {"
-    print_info "          \"enabled\": true,"
-    print_info "          \"home_router_macs\": [\"aa:bb:cc:dd:ee:ff\"]"
-    print_info "        }"
-    print_info "      }"
-    print_info "    }"
-    print_info "  }"
 }
 
 # =============================================================================

@@ -1,10 +1,15 @@
 {
-	"name": "Home-L2TP-IPSec",
-	"vpn": {
-		"server": "vpn.example.com",
-		"login": "username",
-		"password": "password",
-		"psk": "preshared_key"
+	"connection": {
+		"name": "Home-L2TP-IPSec",
+		"vpn": {
+			"server": "vpn.example.com",
+			"login": "username",
+			"password": "password",
+			"psk": "preshared_key"
+		},
+		"ipv4": {
+			"routes": ["192.168.1.0/24"]
+		}
 	},
 	"healthcheck": {
 		"enabled": true,

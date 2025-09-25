@@ -5,7 +5,7 @@
       waybar.enable = true;
       wofi.enable = true;
       mako.enable = true;
-      hyprlock.enable = true;
+      hyprlock.enable = false;
     };
 
     # cursor = {

@@ -1,7 +1,7 @@
 {
   wayland.windowManager.hyprland.settings = {
-    gestures = {
-      workspace_swipe = true;
-    };
+    # gestures = {
+    #   workspace_swipe = true;
+    # };
   };
 }

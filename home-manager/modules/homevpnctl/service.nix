@@ -11,7 +11,7 @@ in {
     systemd.user.services.homevpnctl = {
       Unit = {
         Description = "Home VPN L2TP/IPsec Connection Daemon";
-        After = ["network-online.target"];
+        After = ["graphical-session.target" "network-online.target"];
         Wants = ["network-online.target"];
       };
 
@@ -48,7 +48,7 @@ in {
       };
 
       Install = {
-        WantedBy = ["default.target"];
+        WantedBy = ["multi-user.target"];
       };
     };
 

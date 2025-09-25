@@ -28,6 +28,7 @@
     tree # Показ структуры директорий
     cmatrix # Матрица
     s3fs # S3 файловая система
+    yandex-disk # Yandex Disk
 
     # Дополнительные CLI утилиты (2025 recommendations)
     ripgrep # Быстрый поиск в файлах
@@ -65,7 +66,7 @@
 
     # Видеоредакторы
     # davinci-resolve # Профессиональный видеоредактор
-    # kdePackages.kdenlive # Видеоредактор
+    kdePackages.kdenlive # Видеоредактор
 
     # Аудиоредакторы
     tenacity
@@ -73,7 +74,7 @@
     # Мультимедиа
     vlc # Универсальный плеер
     telegram-desktop # Telegram
-    discord # Discord
+    # discord # Discord
     (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
     cassette # Yandex Music
     googleearth-pro # Google Earth
