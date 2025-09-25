@@ -16,8 +16,7 @@ done
 
 # Если есть отсутствующие зависимости
 if [ ${#missing_packages[@]} -gt 0 ]; then
-    print --error "Missing required packages: ${missing_packages[*]}"
-    print --error "Make sure ${missing_packages[*]} are installed"
+    print --error "Missing packages: ${missing_packages[*]}"
     exit 1
 fi
 

@@ -8,86 +8,20 @@ IFS=$'\n\t'
 # КОНСТАНТЫ И КОНФИГУРАЦИЯ
 # =============================================================================
 
-# Основные пути
 readonly CONFIG_DIR="@configDirectory@"
 readonly CONFIG_FILE="@configFile@"
 readonly LOG_FILE="$CONFIG_DIR/connections.log"
 readonly PID_FILE="$CONFIG_DIR/.daemon.pid"
 
 # =============================================================================
-# ВАЛИДАЦИЯ И ПРОВЕРКИ
-# =============================================================================
-
-# Проверить, что скрипт запущен не от root
-check_user() {
-    if [ "$(id -u)" -eq 0 ]; then
-        print --error "This script should not be run as root"
-        exit 1
-    fi
-}
-
-# Проверить наличие необходимых зависимостей
-check_dependencies() {
-    local missing_deps=()
-
-    if ! command -v nmcli >/dev/null 2>&1; then
-        missing_deps+=("nmcli")
-    fi
-
-    if ! command -v jq >/dev/null 2>&1; then
-        missing_deps+=("jq")
-    fi
-
-    if ! command -v arp >/dev/null 2>&1; then
-        missing_deps+=("arp")
-    fi
-
-    if ! command -v ping >/dev/null 2>&1; then
-        missing_deps+=("ping")
-    fi
-
-    if ! command -v ip >/dev/null 2>&1; then
-        missing_deps+=("ip")
-    fi
-
-    if ! command -v systemctl >/dev/null 2>&1; then
-        missing_deps+=("systemctl")
-    fi
-
-    if [ ${#missing_deps[@]} -gt 0 ]; then
-        print --error "Missing required dependencies: ${missing_deps[*]}"
-        print --error "Make sure nmcli, jq, arp, ping, ip, systemctl are installed"
-        exit 1
-    fi
-}
-
-# =============================================================================
 # РАБОТА С КОНФИГУРАЦИЕЙ
 # =============================================================================
-
-# Создать конфигурационный файл из примера, если его нет
-ensure_config() {
-    mkdir -p "$CONFIG_DIR"
-
-    if [ ! -f "$CONFIG_FILE" ]; then
-        local example_file="$CONFIG_DIR/config.example.json"
-
-        if [ ! -f "$example_file" ]; then
-            print --error "Example config file not found: $example_file"
-            exit 1
-        fi
-
-        print --info "Creating default config from example..."
-        cp "$example_file" "$CONFIG_FILE"
-        print --success "Config created at: $CONFIG_FILE"
-    fi
-}
 
 # Получить настройки из config.json (поддерживает вложенные пути)
 get_config_value() {
     local field="$1"  # "connection.name", "connection.vpn.server", "connection.vpn.login", "connection.vpn.password", "connection.vpn.psk", "connection.ipv4.routes", "healthcheck.enabled", "network_detection.enabled", "network_detection.methods.gateway_check.enabled", "network_detection.methods.ping_check.enabled", "network_detection.methods.wifi_check.enabled", "network_detection.methods.mac_check.enabled"
 
-    ensure_config
+    ensure-config "$CONFIG_DIR" "$CONFIG_FILE"
 
     # Используем jq для получения значения по пути (поддерживает точечную нотацию)
     jq -r ".$field // empty" "$CONFIG_FILE" 2>/dev/null
@@ -931,9 +865,8 @@ show_help() {
 # ТОЧКА ВХОДА
 # =============================================================================
 
-# Проверки при запуске
-check_user
-check_dependencies
+check-packages print check-user ensure-config nmcli jq arp ping ip systemctl
 
-# Запуск основной логики
+check-user
+
 main "$@"
