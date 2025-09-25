@@ -1,1 +1,1 @@
-{pkgs, ...}: (pkgs.writeShellScriptBin "print" (builtins.readFile ./print.sh))
+{pkgs, ...}: (pkgs.writeShellScriptBin "print" (builtins.readFile ./source.sh))
