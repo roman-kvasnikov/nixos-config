@@ -34,17 +34,14 @@ in {
 
         # Окружение
         Environment = [
-          "PATH=${lib.makeBinPath (
-            shared.home.packages
-            ++ [
-              pkgs.jq
-              pkgs.coreutils
-              pkgs.glib # gsettings
-              pkgs.systemd
-              pkgs.gnugrep
-              pkgs.gnused
-            ]
-          )}"
+          "PATH=${lib.makeBinPath [
+            pkgs.jq
+            pkgs.coreutils
+            pkgs.glib # gsettings
+            pkgs.systemd
+            pkgs.gnugrep
+            pkgs.gnused
+          ]}"
         ];
 
         # Логирование
@@ -93,14 +90,17 @@ in {
 
         # Окружение
         Environment = [
-          "PATH=${lib.makeBinPath [
-            pkgs.jq
-            pkgs.coreutils
-            pkgs.glib # gsettings
-            pkgs.systemd
-            pkgs.gnugrep
-            pkgs.gnused
-          ]}"
+          "PATH=${lib.makeBinPath (
+            shared.home.packages
+            ++ [
+              pkgs.jq
+              pkgs.coreutils
+              pkgs.glib # gsettings
+              pkgs.systemd
+              pkgs.gnugrep
+              pkgs.gnused
+            ]
+          )}"
         ];
       };
 
