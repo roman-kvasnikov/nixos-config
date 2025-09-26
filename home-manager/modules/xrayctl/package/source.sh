@@ -403,11 +403,11 @@ main() {
             protocol=$(get_system_proxy_protocol)
             proxy_addr=$(get_proxy_address "$protocol")
 
-            enable_system_proxy "$proxy_addr" "$protocol"
+            enable_system_proxy "$proxy_addr" "$protocol" 2>/dev/null || true
             print --info "Browser and most apps will now use proxy"
             ;;
         system-disable)
-            disable_system_proxy
+            disable_system_proxy 2>/dev/null || true
             ;;
         system-status)
             print --purple "System Proxy Status:"
@@ -478,7 +478,7 @@ main() {
             terminal_proxy_addr=$(get_proxy_address "$terminal_protocol")
 
             # Включить прокси
-            enable_system_proxy "$system_proxy_addr" "$system_protocol"
+            enable_system_proxy "$system_proxy_addr" "$system_protocol" 2>/dev/null || true
             enable_terminal_proxy "$terminal_proxy_addr" "$terminal_protocol"
 
             echo ""
@@ -496,7 +496,7 @@ main() {
             print --success "Xray service stopped"
 
             # Выключить системный и терминальный прокси
-            disable_system_proxy
+            disable_system_proxy 2>/dev/null || true
             disable_terminal_proxy
 
             echo ""
