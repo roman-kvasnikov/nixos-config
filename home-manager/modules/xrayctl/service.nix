@@ -6,6 +6,7 @@
 }: let
   xrayctlConfig = config.services.xrayctl;
   xrayctl = pkgs.callPackage ./package/package.nix {inherit xrayctlConfig config pkgs;};
+  shared = pkgs.callPackage ../.shared {};
 in {
   config = lib.mkIf xrayctlConfig.enable {
     systemd.user.services.xray = {
@@ -13,7 +14,7 @@ in {
         Description = "Xray Service";
         Documentation = "https://xtls.github.io/";
         After = ["network-online.target" "nss-lookup.target"];
-        Wants = ["network-online.target"];
+        Wants = ["network-online.target" "nss-lookup.target"];
       };
 
       Service = {
@@ -33,14 +34,17 @@ in {
 
         # Окружение
         Environment = [
-          "PATH=${lib.makeBinPath [
-            pkgs.jq
-            pkgs.coreutils
-            pkgs.glib # gsettings
-            pkgs.systemd
-            pkgs.gnugrep
-            pkgs.gnused
-          ]}"
+          "PATH=${lib.makeBinPath (
+            shared.home.packages
+            ++ [
+              pkgs.jq
+              pkgs.coreutils
+              pkgs.glib # gsettings
+              pkgs.systemd
+              pkgs.gnugrep
+              pkgs.gnused
+            ]
+          )}"
         ];
 
         # Логирование
@@ -65,7 +69,7 @@ in {
       };
 
       Install = {
-        WantedBy = ["multi-user.target"];
+        WantedBy = ["default.target"];
       };
     };
 
@@ -101,7 +105,7 @@ in {
       };
 
       Install = {
-        WantedBy = ["multi-user.target"];
+        WantedBy = ["default.target"];
       };
     };
 

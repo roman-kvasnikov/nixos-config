@@ -1,10 +1,8 @@
 {pkgs, ...}: {
   systemd = {
     services = {
-      # Быстрый запуск NetworkManager
-      NetworkManager-wait-online.enable = false;
+      NetworkManager-wait-online.enable = true;
 
-      # Оптимизация загрузки
       systemd-networkd-wait-online.enable = false;
 
       nix-gc.serviceConfig = {

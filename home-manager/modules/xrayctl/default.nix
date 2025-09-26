@@ -6,6 +6,7 @@
 }: let
   xrayctlConfig = config.services.xrayctl;
   xrayctl = pkgs.callPackage ./package/package.nix {inherit xrayctlConfig config pkgs;};
+  shared = pkgs.callPackage ../.shared {};
 in {
   imports = [
     ./options.nix
@@ -14,15 +15,17 @@ in {
   ];
 
   config = lib.mkIf xrayctlConfig.enable {
-    home.packages = [
-      pkgs.xray
-      xrayctl
-      pkgs.jq
-      pkgs.coreutils
-      pkgs.glib # gsettings
-      pkgs.systemd
-      pkgs.gnugrep
-      pkgs.gnused
-    ];
+    home.packages =
+      shared.home.packages
+      ++ [
+        pkgs.xray
+        xrayctl
+        pkgs.jq
+        pkgs.coreutils
+        pkgs.glib # gsettings
+        pkgs.systemd
+        pkgs.gnugrep
+        pkgs.gnused
+      ];
   };
 }

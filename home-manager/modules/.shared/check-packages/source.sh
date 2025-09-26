@@ -19,5 +19,3 @@ if [ ${#missing_packages[@]} -gt 0 ]; then
     print --error "Missing packages: ${missing_packages[*]}"
     exit 1
 fi
-
-print --success "All packages available: $*"

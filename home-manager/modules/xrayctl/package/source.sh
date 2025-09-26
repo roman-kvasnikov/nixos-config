@@ -32,100 +32,13 @@ readonly WHITE='\033[1;37m'
 readonly NC='\033[0m' # No Color
 
 # =============================================================================
-# УТИЛИТЫ ДЛЯ ВЫВОДА
-# =============================================================================
-
-print_success() {
-    echo -e "${GREEN}[✓]${NC} $1"
-}
-
-print_info() {
-    echo -e "${BLUE}[i]${NC} $1"
-}
-
-print_warning() {
-    echo -e "${YELLOW}[!]${NC} $1"
-}
-
-print_error() {
-    echo -e "${RED}[✗]${NC} $1" >&2
-}
-
-print_header() {
-    echo -e "${PURPLE}$1${NC}"
-}
-
-print_status() {
-    echo -e "${CYAN}$1${NC}"
-}
-
-# =============================================================================
-# ВАЛИДАЦИЯ И ПРОВЕРКИ
-# =============================================================================
-
-# Проверить, что скрипт запущен не от root
-check_user() {
-    if [ "$(id -u)" -eq 0 ]; then
-        print_error "This script should not be run as root"
-        exit 1
-    fi
-}
-
-# Проверить наличие необходимых команд
-check_dependencies() {
-    local missing_deps=()
-
-    if ! command -v jq >/dev/null 2>&1; then
-        missing_deps+=("jq")
-    fi
-
-    if ! command -v gsettings >/dev/null 2>&1; then
-        missing_deps+=("gsettings")
-    fi
-
-    if ! command -v systemctl >/dev/null 2>&1; then
-        missing_deps+=("systemctl")
-    fi
-
-    if ! command -v grep >/dev/null 2>&1; then
-        missing_deps+=("grep")
-    fi
-
-    if [ ${#missing_deps[@]} -gt 0 ]; then
-        print_error "Missing required dependencies: ${missing_deps[*]}"
-        print_error "Make sure jq, gsettings, systemctl, grep are installed"
-        exit 1
-    fi
-}
-
-# =============================================================================
 # РАБОТА С КОНФИГУРАЦИЕЙ
 # =============================================================================
-
-# Создать конфигурационный файл из примера, если его нет
-ensure_config() {
-    mkdir -p "$CONFIG_DIR"
-
-    if [ ! -f "$CONFIG_FILE" ]; then
-        local example_file="$CONFIG_DIR/config.example.json"
-
-        if [ ! -f "$example_file" ]; then
-            print_error "Example config file not found: $example_file"
-            exit 1
-        fi
-
-        print_info "Creating default config from example..."
-        cp "$example_file" "$CONFIG_FILE"
-        print_success "Config created at: $CONFIG_FILE"
-    fi
-}
 
 # Получить настройки прокси из config.json
 get_proxy_config() {
     local protocol="$1"
     local field="$2"  # "host" или "port"
-
-    ensure_config
 
     local query=".inbounds[]? | select(.protocol == \"$protocol\")"
     if [ "$field" = "host" ]; then
@@ -151,7 +64,7 @@ get_proxy_address() {
             default_port="$DEFAULT_SOCKS_PORT"
             ;;
         *)
-            print_error "Unsupported protocol: $protocol"
+            print --error "Unsupported protocol: $protocol"
             exit 1
             ;;
     esac
@@ -176,8 +89,6 @@ get_proxy_address() {
 # Проверить доступность протокола в конфигурации
 has_protocol() {
     local protocol="$1"
-
-    ensure_config
 
     local result=$(get_proxy_config "$protocol" "port")
 
@@ -225,17 +136,17 @@ enable_system_proxy() {
         "socks")
             gsettings set org.gnome.system.proxy.socks host "$host"
             gsettings set org.gnome.system.proxy.socks port "$port"
-            print_success "GNOME system proxy enabled (SOCKS $host:$port)"
+            print --success "GNOME system proxy enabled (SOCKS $host:$port)"
             ;;
         "http")
             gsettings set org.gnome.system.proxy.http host "$host"
             gsettings set org.gnome.system.proxy.http port "$port"
             gsettings set org.gnome.system.proxy.https host "$host"
             gsettings set org.gnome.system.proxy.https port "$port"
-            print_success "GNOME system proxy enabled (HTTP $host:$port)"
+            print --success "GNOME system proxy enabled (HTTP $host:$port)"
             ;;
         *)
-            print_error "Unsupported protocol for system proxy: $protocol"
+            print --error "Unsupported protocol for system proxy: $protocol"
             exit 1
             ;;
     esac
@@ -244,7 +155,7 @@ enable_system_proxy() {
 # Отключить системный прокси GNOME
 disable_system_proxy() {
     gsettings set org.gnome.system.proxy mode 'none'
-    print_success "GNOME system proxy disabled"
+    print --success "GNOME system proxy disabled"
 }
 
 # =============================================================================
@@ -312,7 +223,7 @@ parse_shell_info() {
             echo "$shell_info" | cut -d' ' -f2
             ;;
         *)
-            print_error "Invalid field: $field"
+            print --error "Invalid field: $field"
             exit 1
             ;;
     esac
@@ -334,7 +245,7 @@ setup_shell_profile() {
             setup_bash_profile "$profile_path"
             ;;
         *)
-            print_error "Unsupported shell type: $shell_type"
+            print --error "Unsupported shell type: $shell_type"
             exit 1
             ;;
     esac
@@ -355,9 +266,9 @@ if test -f $PROXY_ENV_FISH_FILE; and test -f $PROXY_ENABLED_FILE
     source $PROXY_ENV_FISH_FILE
 end
 FISH_EOF
-        print_success "Created Fish proxy config: $profile_path"
+        print --success "Created Fish proxy config: $profile_path"
     else
-        print_info "Fish proxy config already exists: $profile_path"
+        print --info "Fish proxy config already exists: $profile_path"
     fi
 }
 
@@ -373,7 +284,7 @@ setup_bash_profile() {
             echo "  source $PROXY_ENV_FILE"
             echo "fi"
         } >> "$profile_path"
-        print_success "Added proxy config to $profile_path"
+        print --success "Added proxy config to $profile_path"
     fi
 }
 
@@ -387,18 +298,18 @@ enable_terminal_proxy() {
     shell_type=$(setup_shell_profile)
     touch "$PROXY_ENABLED_FILE"
 
-    print_success "Terminal proxy enabled ($protocol://$proxy_addr)"
+    print --success "Terminal proxy enabled ($protocol://$proxy_addr)"
     echo ""
-    print_warning "To use proxy in current session, run:"
+    print --warning "To use proxy in current session, run:"
 
     case "$shell_type" in
         "fish")
-            print_status "source $PROXY_ENV_FISH_FILE"
-            print_info "Or restart terminal (Fish will auto-load on new sessions)"
+            print --cyan "source $PROXY_ENV_FISH_FILE"
+            print --info "Or restart terminal (Fish will auto-load on new sessions)"
             ;;
         *)
-            print_status "source $PROXY_ENV_FILE"
-            print_info "Or restart terminal (will auto-load on new sessions)"
+            print --cyan "source $PROXY_ENV_FILE"
+            print --info "Or restart terminal (will auto-load on new sessions)"
             ;;
     esac
 }
@@ -440,9 +351,9 @@ disable_terminal_proxy() {
     # Очистить shell профили
     cleanup_shell_profile
 
-    print_success "Terminal proxy disabled"
-    print_info "Environment variables cleared in current session"
-    print_info "Restart terminal to fully apply changes"
+    print --success "Terminal proxy disabled"
+    print --info "Environment variables cleared in current session"
+    print --info "Restart terminal to fully apply changes"
 }
 
 # =============================================================================
@@ -456,37 +367,36 @@ main() {
     case "$command" in
         service-enable)
             systemctl --user enable xray
-            print_success "Xray service enabled for autostart"
+            print --success "Xray service enabled for autostart"
             ;;
         service-start)
             systemctl --user start xray
-            print_success "Xray service started"
+            print --success "Xray service started"
             ;;
         service-stop)
             systemctl --user stop xray
-            print_success "Xray service stopped"
+            print --success "Xray service stopped"
             ;;
         service-restart)
             systemctl --user restart xray
-            print_success "Xray service restarted"
+            print --success "Xray service restarted"
             ;;
         service-disable)
             systemctl --user disable xray
-            print_success "Xray service disabled from autostart"
+            print --success "Xray service disabled from autostart"
             ;;
         service-status)
-            print_header "Xray Service Status:"
+            print --purple "Xray Service Status:"
             systemctl --user status xray
             ;;
         service-logs)
-            print_header "Xray Service Logs:"
+            print --purple "Xray Service Logs:"
             journalctl --user -u xray -f
             ;;
         config)
-            ensure_config
-            print_header "Xray Configuration:"
-            print_info "Config file: $CONFIG_FILE"
-            print_info "Example file: $CONFIG_DIR/config.example.json"
+            print --purple "Xray Configuration:"
+            print --info "Config file: $CONFIG_FILE"
+            print --info "Example file: $CONFIG_DIR/config.example.json"
             ;;
         system-enable)
             local protocol proxy_addr
@@ -494,21 +404,21 @@ main() {
             proxy_addr=$(get_proxy_address "$protocol")
 
             enable_system_proxy "$proxy_addr" "$protocol"
-            print_info "Browser and most apps will now use proxy"
+            print --info "Browser and most apps will now use proxy"
             ;;
         system-disable)
             disable_system_proxy
             ;;
         system-status)
-            print_header "System Proxy Status:"
+            print --purple "System Proxy Status:"
             local mode host port
             mode=$(gsettings get org.gnome.system.proxy mode)
             if [ "$mode" = "'manual'" ]; then
                 host=$(gsettings get org.gnome.system.proxy.socks host)
                 port=$(gsettings get org.gnome.system.proxy.socks port)
-                print_success "System proxy: ENABLED ($host:$port)"
+                print --success "System proxy: ENABLED ($host:$port)"
             else
-                print_status "System proxy: DISABLED"
+                print --cyan "System proxy: DISABLED"
             fi
             ;;
         terminal-enable)
@@ -522,16 +432,16 @@ main() {
             disable_terminal_proxy
             ;;
         terminal-status)
-            print_header "Terminal Proxy Status:"
+            print --purple "Terminal Proxy Status:"
             if [ -f "$PROXY_ENABLED_FILE" ]; then
-                print_success "Terminal proxy: ENABLED"
+                print --success "Terminal proxy: ENABLED"
                 if [ -n "${http_proxy:-}" ]; then
-                    print_success "Current session: ACTIVE ($http_proxy)"
+                    print --success "Current session: ACTIVE ($http_proxy)"
                 else
-                    print_warning "Current session: INACTIVE (restart terminal)"
+                    print --warning "Current session: INACTIVE (restart terminal)"
                 fi
             else
-                print_status "Terminal proxy: DISABLED"
+                print --cyan "Terminal proxy: DISABLED"
             fi
             ;;
         env-proxy)
@@ -539,24 +449,23 @@ main() {
             protocol=$(get_terminal_proxy_protocol)
             proxy_addr=$(get_proxy_address "$protocol")
 
-            print_header "Manual Proxy Environment Variables:"
+            print --purple "Manual Proxy Environment Variables:"
             echo "export http_proxy=$protocol://$proxy_addr"
             echo "export https_proxy=$protocol://$proxy_addr"  
             echo "export ftp_proxy=$protocol://$proxy_addr"
             echo "export no_proxy=$NO_PROXY_LIST"
             echo ""
-            print_info "To apply in current shell:"
-            print_status 'eval "$(xrayctl env-proxy | grep export)"'
+            print --info "To apply in current shell:"
+            print --cyan 'eval "$(xrayctl env-proxy | grep export)"'
             ;;
         global-enable)
-            print_header "🚀 Starting Xray and enabling all proxy settings..."
+            print --purple "🚀 Starting Xray and enabling all proxy settings..."
             echo ""
 
             # Запустить и включить xray сервис
-            ensure_config
             systemctl --user start xray
             systemctl --user enable xray
-            print_success "Xray service started and enabled"
+            print --success "Xray service started and enabled"
 
             # Получить настройки прокси для системы
             local system_protocol system_proxy_addr
@@ -573,35 +482,35 @@ main() {
             enable_terminal_proxy "$terminal_proxy_addr" "$terminal_protocol"
 
             echo ""
-            print_header "🎉 All proxy settings enabled!"
-            print_status "   • Xray service: ${GREEN}RUNNING${NC}"
-            print_status "   • System proxy (GNOME): ${GREEN}ENABLED${NC}"
-            print_status "   • Terminal proxy: ${GREEN}ENABLED${NC}"
+            print --purple "🎉 All proxy settings enabled!"
+            print --cyan "   • Xray service: ${GREEN}RUNNING${NC}"
+            print --cyan "   • System proxy (GNOME): ${GREEN}ENABLED${NC}"
+            print --cyan "   • Terminal proxy: ${GREEN}ENABLED${NC}"
             ;;
         global-disable)
-            print_header "🔒 Disabling all proxy settings..."
+            print --purple "🔒 Disabling all proxy settings..."
             echo ""
 
             # Остановить xray сервис
             systemctl --user stop xray
-            print_success "Xray service stopped"
+            print --success "Xray service stopped"
 
             # Выключить системный и терминальный прокси
             disable_system_proxy
             disable_terminal_proxy
 
             echo ""
-            print_header "🔒 All proxy settings disabled!"
-            print_status "   • Xray service: ${RED}STOPPED${NC}"
-            print_status "   • System proxy (GNOME): ${RED}DISABLED${NC}"
-            print_status "   • Terminal proxy: ${RED}DISABLED${NC}"
+            print --purple "🔒 All proxy settings disabled!"
+            print --cyan "   • Xray service: ${RED}STOPPED${NC}"
+            print --cyan "   • System proxy (GNOME): ${RED}DISABLED${NC}"
+            print --cyan "   • Terminal proxy: ${RED}DISABLED${NC}"
             echo ""
-            print_info "Restart terminal to apply terminal proxy changes"
+            print --info "Restart terminal to apply terminal proxy changes"
             ;;
         clear-env)
-            print_header "🧹 Clearing proxy environment variables..."
+            print --purple "🧹 Clearing proxy environment variables..."
             clear_proxy_env
-            print_success "Proxy environment variables cleared"
+            print --success "Proxy environment variables cleared"
             ;;
         *)
             show_help
@@ -612,17 +521,17 @@ main() {
 
 # Показать справку
 show_help() {
-    print_header "🔧 Xray User Management Tool"
+    print --purple "🔧 Xray User Management Tool"
     echo ""
-    print_info "Usage: xrayctl {command}"
+    print --info "Usage: xrayctl {command}"
     echo ""
 
-    print_status "🚀 Quick commands:"
+    print --cyan "🚀 Quick commands:"
     echo -e "  ${GREEN}global-enable${NC}          Start Xray + enable global proxy settings"
     echo -e "  ${RED}global-disable${NC}         Stop Xray + disable global proxy settings"
     echo ""
 
-    print_status "⚙️ Service management:"
+    print --cyan "⚙️ Service management:"
     echo -e "  ${GREEN}service-enable${NC}         Enable autostart"
     echo -e "  ${GREEN}service-start${NC}          Start Xray service"
     echo -e "  ${RED}service-stop${NC}           Stop Xray service"
@@ -632,13 +541,13 @@ show_help() {
     echo -e "  ${BLUE}service-logs${NC}           Show service logs"
     echo ""
 
-    print_status "🌐 System proxy (GNOME):"
+    print --cyan "🌐 System proxy (GNOME):"
     echo -e "  ${GREEN}system-enable${NC}          Enable system-wide proxy"
     echo -e "  ${RED}system-disable${NC}         Disable system-wide proxy"
     echo -e "  ${BLUE}system-status${NC}          Show system proxy status"
     echo ""
 
-    print_status "💻 Terminal proxy:"
+    print --cyan "💻 Terminal proxy:"
     echo -e "  ${GREEN}terminal-enable${NC}        Enable terminal proxy (persistent)"
     echo -e "  ${RED}terminal-disable${NC}       Disable terminal proxy"
     echo -e "  ${BLUE}terminal-status${NC}        Show terminal proxy status"
@@ -646,7 +555,7 @@ show_help() {
     echo -e "  ${YELLOW}clear-env${NC}              Clear proxy environment variables"
     echo ""
 
-    print_status "📋 Configuration:"
+    print --cyan "📋 Configuration:"
     echo -e "  ${PURPLE}config${NC}                 Show config file paths"
 }
 
@@ -654,9 +563,10 @@ show_help() {
 # ТОЧКА ВХОДА
 # =============================================================================
 
-# Проверки при запуске
-check_user
-check_dependencies
+check-packages print check-user ensure-config jq gsettings systemctl grep
 
-# Запуск основной логики
+check-user
+
+ensure-config "$CONFIG_DIR" "$CONFIG_FILE"
+
 main "$@"

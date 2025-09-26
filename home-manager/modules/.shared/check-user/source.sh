@@ -8,5 +8,3 @@ if [ "$(id -u)" -eq 0 ]; then
     print --error "This script should not be run as root"
     exit 1
 fi
-
-print --success "This script is running as a non-root user"

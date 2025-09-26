@@ -8,10 +8,21 @@ IFS=$'\n\t'
 # КОНСТАНТЫ И КОНФИГУРАЦИЯ
 # =============================================================================
 
+# Основные пути
 readonly CONFIG_DIR="@configDirectory@"
 readonly CONFIG_FILE="@configFile@"
 readonly LOG_FILE="$CONFIG_DIR/connections.log"
 readonly PID_FILE="$CONFIG_DIR/.daemon.pid"
+
+# Цвета для вывода (ANSI escape codes)
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[0;34m'
+readonly PURPLE='\033[0;35m'
+readonly CYAN='\033[0;36m'
+readonly WHITE='\033[1;37m'
+readonly NC='\033[0m' # No Color
 
 # =============================================================================
 # РАБОТА С КОНФИГУРАЦИЕЙ
@@ -20,8 +31,6 @@ readonly PID_FILE="$CONFIG_DIR/.daemon.pid"
 # Получить настройки из config.json (поддерживает вложенные пути)
 get_config_value() {
     local field="$1"  # "connection.name", "connection.vpn.server", "connection.vpn.login", "connection.vpn.password", "connection.vpn.psk", "connection.ipv4.routes", "healthcheck.enabled", "network_detection.enabled", "network_detection.methods.gateway_check.enabled", "network_detection.methods.ping_check.enabled", "network_detection.methods.wifi_check.enabled", "network_detection.methods.mac_check.enabled"
-
-    ensure-config "$CONFIG_DIR" "$CONFIG_FILE"
 
     # Используем jq для получения значения по пути (поддерживает точечную нотацию)
     jq -r ".$field // empty" "$CONFIG_FILE" 2>/dev/null
@@ -595,7 +604,7 @@ main() {
         reconnect)
             print --purple "🔄 Reconnecting to VPN..."
             disconnect_vpn
-            sleep 2
+            sleep 5
             connect_vpn
             ;;
         status)
@@ -868,5 +877,7 @@ show_help() {
 check-packages print check-user ensure-config nmcli jq arp ping ip systemctl
 
 check-user
+
+ensure-config "$CONFIG_DIR" "$CONFIG_FILE"
 
 main "$@"
