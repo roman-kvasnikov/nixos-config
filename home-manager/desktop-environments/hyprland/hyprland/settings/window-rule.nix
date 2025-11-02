@@ -18,6 +18,7 @@
       "size 800 1200, class:(org.pulseaudio.pavucontrol)"
       "size 50% 50%, class:(kitty|dev.warp.Warp)"
       "size 50% 50%, title:(QtPass)"
+      # "size 90% 90%, class:(vlc)"
 
       # Brave browser
       "workspace 1, class:(brave-browser)" # Move brave browser to workspace 1

@@ -2,7 +2,11 @@
   programs.git = lib.mkForce {
     enable = true;
 
-    userName = "RomanK";
-    userEmail = "roman.kvasnikov@gmail.com";
+    settings = {
+      user = {
+        name = "RomanK";
+        email = "roman.kvasnikov@gmail.com";
+      };
+    };
   };
 }

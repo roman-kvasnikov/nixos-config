@@ -78,6 +78,8 @@
     (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
     cassette # Yandex Music
     googleearth-pro # Google Earth
+    filebot
+    # nextcloud-client # Nextcloud клиент
 
     # AI assistants
     (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant

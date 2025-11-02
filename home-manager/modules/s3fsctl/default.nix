@@ -3,25 +3,20 @@
   config,
   pkgs,
   ...
-}: let
-  s3fsctlConfig = config.services.s3fsctl;
-  s3fsctl = pkgs.callPackage ./package/package.nix {inherit s3fsctlConfig config pkgs;};
+}:
+with lib; let
+  cfg = config.services.s3fsctl;
 in {
   imports = [
     ./options.nix
     ./service.nix
-    ./config
   ];
 
-  config = lib.mkIf s3fsctlConfig.enable {
-    home.packages = [
-      s3fsctl
-      pkgs.s3fs
-      pkgs.coreutils
-      pkgs.jq
-      pkgs.util-linux
-      pkgs.gnugrep
-      pkgs.curl
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      s3fs
+      fuse3
+      coreutils
     ];
   };
 }

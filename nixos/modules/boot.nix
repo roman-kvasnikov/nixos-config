@@ -20,7 +20,7 @@
       "kernel.sched_autogroup_enabled" = 1; # Автогруппировка процессов
     };
 
-    kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = pkgs.linuxPackages_latest;
 
     # Современные параметры загрузки
     kernelParams = [

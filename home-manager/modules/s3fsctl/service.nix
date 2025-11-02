@@ -2,47 +2,54 @@
   lib,
   config,
   pkgs,
+  user,
   ...
-}: let
-  s3fsctlConfig = config.services.s3fsctl;
-  s3fsctl = pkgs.callPackage ./package/package.nix {inherit s3fsctlConfig config pkgs;};
+}:
+with lib; let
+  cfg = config.services.s3fsctl;
 in {
-  config = lib.mkIf s3fsctlConfig.enable {
-    systemd.user.services.s3fsctl = {
-      Unit = {
-        Description = "S3FS Connection Manager";
-        Documentation = "S3FS management tool for mounting/unmounting S3 buckets";
-        After = ["network-online.target"];
-        Wants = ["network-online.target"];
-      };
+  config = mkIf cfg.enable {
+    systemd.user.services = mkMerge (mapAttrsToList (name: bucketCfg: let
+        serviceName = "s3fsctl-${name}";
+        mountPoint = bucketCfg.mountPoint;
+      in {
+        ${serviceName} = {
+          Unit = {
+            Description = "S3FS bucket \"${name}\" Connection Manager";
+            After = ["network-online.target"];
+            Wants = ["network-online.target"];
+          };
 
-      Service = {
-        Type = "oneshot";
-        RemainAfterExit = true;
+          Service = {
+            Type = "oneshot";
+            RemainAfterExit = true;
 
-        # Команды для управления
-        ExecStart = "${s3fsctl}/bin/s3fsctl mount";
-        ExecStop = "${s3fsctl}/bin/s3fsctl unmount";
+            Environment = "PATH=${makeBinPath (with pkgs; [
+              s3fs
+              fuse3
+              coreutils
+            ])}";
 
-        Environment = [
-          "PATH=${lib.makeBinPath [
-            pkgs.s3fs
-            pkgs.coreutils
-            pkgs.jq
-            pkgs.util-linux
-            pkgs.gnugrep
-            pkgs.curl
-          ]}"
-        ];
-      };
+            ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p ${mountPoint}";
 
-      Install = {
-        WantedBy = ["default.target"];
-      };
-    };
+            ExecStart = ''
+              ${pkgs.s3fs}/bin/s3fs \
+                ${bucketCfg.bucket} ${mountPoint} \
+                -o url=${bucketCfg.url} \
+                -o endpoint=${bucketCfg.endpoint} \
+                -o use_path_request_style \
+                -o umask=077 \
+                -o passwd_file=${bucketCfg.passwordFile}
+            '';
 
-    xdg = {
-      configFile."s3fs/README.md".source = ./README.md;
-    };
+            ExecStop = "${pkgs.fuse3}/bin/fusermount3 -u ${mountPoint}";
+          };
+
+          Install = {
+            WantedBy = ["default.target"];
+          };
+        };
+      })
+      cfg.buckets);
   };
 }

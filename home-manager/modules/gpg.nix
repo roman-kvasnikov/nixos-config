@@ -16,7 +16,8 @@
 
     enableSshSupport = true;
 
-    pinentry.package = pkgs.pinentry-gtk2;
+    #pinentry.package = pkgs.pinentry-gtk2;
+    pinentry.package = pkgs.pinentry-bemenu;
 
     defaultCacheTtl = 60480000;
     maxCacheTtl = 60480000;
