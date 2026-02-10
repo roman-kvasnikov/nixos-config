@@ -6,7 +6,7 @@
     ./fastfetch
     ./fish
     ./homevpnctl
-    ./keepassxcctl
+    # ./keepassxcctl
     ./kitty
     ./s3fsctl
     ./xrayctl
@@ -17,7 +17,7 @@
     ./git.nix
     ./gpg.nix
     ./htop.nix
-    ./neovim.nix
+    # ./neovim.nix
     ./pass.nix
     ./ssh.nix
     ./stylix.nix

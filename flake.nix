@@ -83,11 +83,10 @@
 
     makeHome = host:
       home-manager.lib.homeManagerConfiguration {
-        pkgs =
-          nixpkgs.legacyPackages.${host.system}
-          // {
-            config.allowUnfree = true;
-          };
+        pkgs = nixpkgs.legacyPackages.${host.system};
+        # // {
+        #   config.allowUnfree = true;
+        # };
 
         extraSpecialArgs = {
           inherit inputs user;

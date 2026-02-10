@@ -10,6 +10,7 @@
         "SUPER, B, exec, [workspace 1] $browser"
         "SUPER, R, exec, $menu"
         "SUPER, E, exec, $fileManager"
+        "SUPER SHIFT, E, exec, kitty -e yazi"
         "SUPER, C, exec, gnome-calculator" # Gnome Calculator
         "SUPER, Z, exec, tessen" # Tessen
         "SUPER SHIFT, Z, exec, qtpass" # QtPass

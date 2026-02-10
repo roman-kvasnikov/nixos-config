@@ -1,41 +1,47 @@
 {
   wayland.windowManager.hyprland.settings = {
     windowrule = [
-      # Fix some dragging issues with XWayland
-      "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
-    ];
+      # Workspaces
+      "match:class brave-browser, workspace 1"
+      "match:class cursor, workspace 4"
 
-    windowrulev2 = [
       # Floating windows
-      "float, tag:floating-window"
-      "center, tag:floating-window"
+      "match:tag floating-window, float on"
+      "match:tag floating-window, center on"
 
-      "tag +floating-window, class:(blueberry.py|org.gnome.Calculator|org.gnome.Calendar|org.pulseaudio.pavucontrol|vlc|kitty|dev.warp.Warp|electrum)"
-      "tag +floating-window, title:(QtPass)"
-      "tag +floating-window, class:(xdg-desktop-portal-gtk), title:^(Open.*Files?|Save.*Files?|Save.*As|All Files|Save)"
+      # Brave-Browser
+      "match:class brave-browser, opacity 1.0 override"
 
-      "size 500 700, class:(blueberry.py)"
-      "size 800 1200, class:(org.pulseaudio.pavucontrol)"
-      "size 50% 50%, class:(kitty|dev.warp.Warp)"
-      "size 50% 50%, title:(QtPass)"
-      # "size 90% 90%, class:(vlc)"
-
-      # Brave browser
-      "workspace 1, class:(brave-browser)" # Move brave browser to workspace 1
-      "opacity 1.0 override, class:(brave-browser)" # Set opacity of brave browser to 1.0
-
-      # Cursor
-      "workspace 4, class:(cursor)" # Move cursor to workspace 4
-
-      # KeepassXC
-      # "workspace 5, class:(org.keepassxc.KeePassXC)" # Move keepassxc to workspace 5
+      # Calculator
+      "match:class org.gnome.Calculator, tag +floating-window"
+      "match:class org.gnome.Calculator, size 50% 50%"
 
       # Kitty and Warp
-      "opacity 0.8 override, class:(kitty|dev.warp.Warp)" # Set opacity for kitty and warp to 0.8
+      "match:class (kitty|dev.warp.Warp), tag +floating-window"
+      "match:class (kitty|dev.warp.Warp), size 50% 50%"
+      "match:class (kitty|dev.warp.Warp), opacity 0.8 override"
+
+      # blueberry.py
+      "match:class blueberry.py, tag +floating-window"
+      "match:class blueberry.py, size 500 700"
+
+      # org.pulseaudio.pavucontrol
+      "match:class org.pulseaudio.pavucontrol, tag +floating-window"
+      "match:class org.pulseaudio.pavucontrol, size 800 1200"
+
+      # QtPass
+      "match:title QtPass, tag +floating-window"
+      "match:title QtPass, size 50% 50%"
 
       # VLC
-      "idleinhibit fullscreen, class:(vlc)" # Inhibit idle fullscreen for vlc
-      "opacity 1.0 override, class:(vlc)" # Set opacity of vlc to 1.0
+      "match:class vlc, tag +floating-window"
+      "match:class vlc, size 90% 90%"
+      "match:class vlc, idle_inhibit fullscreen"
+      "match:class vlc, opacity 1.0 override"
+
+      "match:class xdg-desktop-portal-gtk, tag +floating-window"
+
+      "match:title ^(Open.*Files?|Save.*Files?|Save.*As|All Files|Save), tag +floating-window"
     ];
   };
 }

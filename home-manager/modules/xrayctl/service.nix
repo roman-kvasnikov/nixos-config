@@ -70,44 +70,44 @@ in {
       };
     };
 
-    systemd.user.services.xrayctl = {
-      Unit = {
-        Description = "Xrayctl management tool";
-        After = ["xray.service"];
-        Requires = ["xray.service"];
-      };
+    # systemd.user.services.xrayctl = {
+    #   Unit = {
+    #     Description = "Xrayctl management tool";
+    #     After = ["xray.service"];
+    #     Requires = ["xray.service"];
+    #   };
 
-      Service = {
-        Type = "oneshot";
-        RemainAfterExit = true; # Сохранить состояние "active" после выполнения
+    #   Service = {
+    #     Type = "oneshot";
+    #     RemainAfterExit = true; # Сохранить состояние "active" после выполнения
 
-        ExecStart = "${xrayctl}/bin/xrayctl global-enable";
-        ExecStop = "${xrayctl}/bin/xrayctl global-disable";
+    #     ExecStart = "${xrayctl}/bin/xrayctl global-enable";
+    #     ExecStop = "${xrayctl}/bin/xrayctl global-disable";
 
-        # Restart политика
-        Restart = "on-failure";
-        RestartSec = "10s";
+    #     # Restart политика
+    #     Restart = "on-failure";
+    #     RestartSec = "10s";
 
-        # Окружение
-        Environment = [
-          "PATH=${lib.makeBinPath (
-            shared.home.packages
-            ++ [
-              pkgs.jq
-              pkgs.coreutils
-              pkgs.glib # gsettings
-              pkgs.systemd
-              pkgs.gnugrep
-              pkgs.gnused
-            ]
-          )}"
-        ];
-      };
+    #     # Окружение
+    #     Environment = [
+    #       "PATH=${lib.makeBinPath (
+    #         shared.home.packages
+    #         ++ [
+    #           pkgs.jq
+    #           pkgs.coreutils
+    #           pkgs.glib # gsettings
+    #           pkgs.systemd
+    #           pkgs.gnugrep
+    #           pkgs.gnused
+    #         ]
+    #       )}"
+    #     ];
+    #   };
 
-      Install = {
-        WantedBy = ["default.target"];
-      };
-    };
+    #   Install = {
+    #     WantedBy = ["default.target"];
+    #   };
+    # };
 
     xdg = {
       configFile."xray/README.md".source = ./README.md;

@@ -23,6 +23,7 @@ in {
         pkgs.jq
         pkgs.coreutils
         pkgs.glib # gsettings
+        pkgs.gsettings-desktop-schemas
         pkgs.systemd
         pkgs.gnugrep
         pkgs.gnused

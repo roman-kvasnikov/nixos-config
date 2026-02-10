@@ -22,7 +22,7 @@
     hostDefaults = {
       system = "x86_64-linux";
       version = "25.11";
-      wallpaper = "banff-day.jpg";
+      wallpaper = "victoria-peak-hong-kong-city-skyline-victoria-harbour-dusk-3840x2160-6551.jpg";
     };
   in
     map (host: hostDefaults // host) hostList;

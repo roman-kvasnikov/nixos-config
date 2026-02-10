@@ -56,17 +56,17 @@
     geoclue2.enable = true;
 
     # Современные сетевые настройки
-    resolved = {
-      enable = true;
-      dnssec = "true";
-      domains = ["~."];
-      fallbackDns = [
-        "1.1.1.1"
-        "1.0.0.1"
-        "8.8.8.8"
-        "8.8.4.4"
-      ];
-    };
+    # resolved = {
+    #   enable = true;
+    #   dnssec = "true";
+    #   domains = ["~."];
+    #   fallbackDns = [
+    #     "1.1.1.1"
+    #     "1.0.0.1"
+    #     "8.8.8.8"
+    #     "8.8.4.4"
+    #   ];
+    # };
 
     # Современные настройки udev для SSD
     udev.extraRules = ''

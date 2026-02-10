@@ -118,106 +118,44 @@ get_terminal_proxy_protocol() {
 }
 
 # =============================================================================
-# УПРАВЛЕНИЕ СИСТЕМНЫМ ПРОКСИ (UNIVERSAL)
+# УПРАВЛЕНИЕ СИСТЕМНЫМ ПРОКСИ (GNOME)
 # =============================================================================
 
-# Включить системный прокси через environment variables
-# Включить системный прокси через environment variables
+# Включить системный прокси GNOME
 enable_system_proxy() {
     local proxy_addr="$1"
     local protocol="$2"
-    local proxy_url="$protocol://$proxy_addr"
-    
-    # Создаем системные файлы в домашней директории
-    local systemd_dir="$HOME/.config/systemd/user.conf.d"
-    local profile_dir="$HOME/.config/environment.d"
-    
-    mkdir -p "$systemd_dir"
-    mkdir -p "$profile_dir"
-    
-    # Файл для systemd user services
-    cat > "$systemd_dir/xray-proxy.conf" <<EOF
-# Xray system proxy settings
-[Manager]
-DefaultEnvironment="http_proxy=$proxy_url"
-DefaultEnvironment="https_proxy=$proxy_url"
-DefaultEnvironment="ftp_proxy=$proxy_url"
-DefaultEnvironment="HTTP_PROXY=$proxy_url"
-DefaultEnvironment="HTTPS_PROXY=$proxy_url"
-DefaultEnvironment="FTP_PROXY=$proxy_url"
-DefaultEnvironment="no_proxy=$NO_PROXY_LIST"
-DefaultEnvironment="NO_PROXY=$NO_PROXY_LIST"
-EOF
-    
-    # Файл для environment variables (работает в большинстве окружений)
-    cat > "$profile_dir/xray-proxy.conf" <<EOF
-# Xray system proxy
-http_proxy="$proxy_url"
-https_proxy="$proxy_url"
-ftp_proxy="$proxy_url"
-HTTP_PROXY="$proxy_url"
-HTTPS_PROXY="$proxy_url"
-FTP_PROXY="$proxy_url"
-no_proxy="$NO_PROXY_LIST"
-NO_PROXY="$NO_PROXY_LIST"
-EOF
-    
-    print --success "User system proxy enabled ($protocol://$proxy_addr)"
-    print --info "Log out and log in again to apply system-wide"
-    print --cyan "Or run: systemctl --user daemon-reload"
-}
-
-# Отключить системный прокси
-# Отключить системный прокси
-disable_system_proxy() {
-    local systemd_dir="$HOME/.config/systemd/user.conf.d"
-    local profile_dir="$HOME/.config/environment.d"
-    
-    rm -f "$systemd_dir/xray-proxy.conf"
-    rm -f "$profile_dir/xray-proxy.conf"
-    
-    print --success "User system proxy disabled"
-    print --info "Log out and log in again to fully apply changes"
-}
-
-# Проверить статус системного прокси
-check_system_proxy_status() {
-    if [ -f /etc/systemd/system.conf.d/xray-proxy.conf ] || [ -f /etc/profile.d/xray-proxy.sh ]; then
-        echo "ENABLED"
-    else
-        echo "DISABLED"
-    fi
-}
-
-# Настройка прокси через NetworkManager
-# Упрощенная версия
-setup_networkmanager_proxy() {
-    local proxy_addr="$1"
-    local protocol="$2"
     local host port
-    
+
     host=$(echo "$proxy_addr" | cut -d: -f1)
     port=$(echo "$proxy_addr" | cut -d: -f2)
-    
-    # Получаем активное соединение
-    local connection=$(nmcli -t -f NAME con show --active | head -1)
-    
-    if [ -n "$connection" ]; then
-        if [ "$protocol" = "http" ]; then
-            # Настраиваем только для HTTP
-            nmcli connection modify "$connection" proxy.method "manual"
-            nmcli connection modify "$connection" proxy.http "$host:$port"
-            nmcli connection modify "$connection" proxy.https "$host:$port"
-            nmcli connection modify "$connection" proxy.ignore-hosts "$NO_PROXY_LIST"
-            print --success "NetworkManager HTTP proxy configured for $connection"
-        else
-            # Для SOCKS - отключаем системный прокси
-            nmcli connection modify "$connection" proxy.method "none"
-            print --info "NetworkManager proxy disabled (using SOCKS directly)"
-        fi
-    else
-        print --warning "No active NetworkManager connection found"
-    fi
+
+    gsettings set org.gnome.system.proxy mode 'manual'
+
+    case "$protocol" in
+        "socks")
+            gsettings set org.gnome.system.proxy.socks host "$host"
+            gsettings set org.gnome.system.proxy.socks port "$port"
+            print --success "GNOME system proxy enabled (SOCKS $host:$port)"
+            ;;
+        "http")
+            gsettings set org.gnome.system.proxy.http host "$host"
+            gsettings set org.gnome.system.proxy.http port "$port"
+            gsettings set org.gnome.system.proxy.https host "$host"
+            gsettings set org.gnome.system.proxy.https port "$port"
+            print --success "GNOME system proxy enabled (HTTP $host:$port)"
+            ;;
+        *)
+            print --error "Unsupported protocol for system proxy: $protocol"
+            exit 1
+            ;;
+    esac
+}
+
+# Отключить системный прокси GNOME
+disable_system_proxy() {
+    gsettings set org.gnome.system.proxy mode 'none'
+    print --success "GNOME system proxy disabled"
 }
 
 # =============================================================================
@@ -418,38 +356,6 @@ disable_terminal_proxy() {
     print --info "Restart terminal to fully apply changes"
 }
 
-# Принудительно применить системные настройки
-apply_system_proxy() {
-    print --purple "Applying system proxy settings..."
-    
-    # Перезагружаем systemd manager
-    sudo systemctl daemon-reload
-    
-    # Применяем environment variables
-    if [ -f /etc/profile.d/xray-proxy.sh ]; then
-        source /etc/profile.d/xray-proxy.sh
-    fi
-    
-    print --success "System proxy settings applied"
-}
-
-# Показать текущие настройки прокси в системе
-show_system_proxy_settings() {
-    print --purple "Current System Proxy Settings:"
-    echo "Environment variables:"
-    print --cyan "http_proxy: ${http_proxy:-not set}"
-    print --cyan "https_proxy: ${https_proxy:-not set}"
-    
-    echo ""
-    echo "System-wide configuration:"
-    if [ -f /etc/systemd/system.conf.d/xray-proxy.conf ]; then
-        print --success "Systemd proxy: CONFIGURED"
-        cat /etc/systemd/system.conf.d/xray-proxy.conf
-    else
-        print --cyan "Systemd proxy: NOT CONFIGURED"
-    fi
-}
-
 # =============================================================================
 # ОСНОВНАЯ ЛОГИКА
 # =============================================================================
@@ -497,46 +403,22 @@ main() {
             protocol=$(get_system_proxy_protocol)
             proxy_addr=$(get_proxy_address "$protocol")
 
-            enable_system_proxy "$proxy_addr" "$protocol"
-            # Дополнительно настраиваем NetworkManager если доступен
-            if command -v nmcli >/dev/null 2>&1; then
-                setup_networkmanager_proxy "$proxy_addr" "$protocol"
-            fi
+            enable_system_proxy "$proxy_addr" "$protocol" 2>/dev/null || true
+            print --info "Browser and most apps will now use proxy"
             ;;
         system-disable)
-            disable_system_proxy
-            if command -v nmcli >/dev/null 2>&1; then
-                local connection=$(nmcli -t -f NAME con show --active | head -1)
-                if [ -n "$connection" ]; then
-                    nmcli connection modify "$connection" proxy.method "none"
-                fi
-            fi
+            disable_system_proxy 2>/dev/null || true
             ;;
         system-status)
             print --purple "System Proxy Status:"
-            local status=$(check_system_proxy_status)
-            if [ "$status" = "ENABLED" ]; then
-                print --success "System proxy: ENABLED"
-                if [ -n "${http_proxy:-}" ]; then
-                    print --success "Current environment: ACTIVE"
-                else
-                    print --warning "Restart applications to apply"
-                fi
+            local mode host port
+            mode=$(gsettings get org.gnome.system.proxy mode)
+            if [ "$mode" = "'manual'" ]; then
+                host=$(gsettings get org.gnome.system.proxy.socks host)
+                port=$(gsettings get org.gnome.system.proxy.socks port)
+                print --success "System proxy: ENABLED ($host:$port)"
             else
                 print --cyan "System proxy: DISABLED"
-            fi
-            
-            # Проверяем NetworkManager статус
-            if command -v nmcli >/dev/null 2>&1; then
-                local connection=$(nmcli -t -f NAME con show --active | head -1)
-                if [ -n "$connection" ]; then
-                    local nm_proxy=$(nmcli -t con show "$connection" | grep -i proxy.method | cut -d: -f2)
-                    if [ "$nm_proxy" = "auto" ] || [ "$nm_proxy" = "manual" ]; then
-                        print --success "NetworkManager proxy: ENABLED ($nm_proxy)"
-                    else
-                        print --cyan "NetworkManager proxy: DISABLED"
-                    fi
-                fi
             fi
             ;;
         terminal-enable)
@@ -659,11 +541,10 @@ show_help() {
     echo -e "  ${BLUE}service-logs${NC}           Show service logs"
     echo ""
 
-    print --cyan "🌐 System proxy (Universal):"
+    print --cyan "🌐 System proxy (GNOME):"
     echo -e "  ${GREEN}system-enable${NC}          Enable system-wide proxy"
     echo -e "  ${RED}system-disable${NC}         Disable system-wide proxy"
     echo -e "  ${BLUE}system-status${NC}          Show system proxy status"
-    echo -e "  ${YELLOW}apply-system${NC}          Apply system proxy settings"
     echo ""
 
     print --cyan "💻 Terminal proxy:"

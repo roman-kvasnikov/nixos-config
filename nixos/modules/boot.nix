@@ -22,6 +22,8 @@
 
     kernelPackages = pkgs.linuxPackages_latest;
 
+    blacklistedKernelModules = ["xe"];
+
     # Современные параметры загрузки
     kernelParams = [
       "quiet" # Чистый boot

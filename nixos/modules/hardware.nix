@@ -13,16 +13,16 @@
       # Для AMD/Intel
       extraPackages = with pkgs; [
         intel-media-driver # Intel VAAPI
-        vaapiIntel # Intel VAAPI
+        intel-vaapi-driver # Intel VAAPI
+        libva-vdpau-driver # NVIDIA через VDPAU
         libvdpau-va-gl # OpenGL VAAPI
         libva # VAAPI
-        vaapiVdpau # NVIDIA через VDPAU
         intel-compute-runtime # Intel OpenCL
         mesa
       ];
     };
 
     # Подсветка клавиатуры
-    keyboard.qmk.enable = true;
+    # keyboard.qmk.enable = true;
   };
 }

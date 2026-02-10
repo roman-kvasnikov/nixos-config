@@ -28,7 +28,7 @@
       # ssh-audit # Аудит SSH безопасности
       openssh # SSH клиент
       # sshfs # Монтирование по SSH
-      # rsync # Синхронизация по SSH
+      rsync # Синхронизация по SSH
       # mosh # Mobile shell (альтернатива SSH)
 
       # Архиваторы (системные зависимости)
@@ -37,9 +37,6 @@
       zip
       unzip
       unrar
-
-      # Форматирование Nix кода (перенести в home-manager)
-      # inputs.alejandra.defaultPackage.${system}
 
       # Системная диагностика
       # pciutils
@@ -50,8 +47,8 @@
       libsecret
 
       # Файловая система
-      ntfs3g
-      exfat
+      # ntfs3g
+      # exfat
 
       # Мониторинг (для системных служб)
       htop

@@ -3,9 +3,9 @@
   pkgs,
   ...
 }: let
-  vscodeSettings = builtins.fromJSON (
-    builtins.readFile ./settings.json
-  );
+  # vscodeSettings = builtins.fromJSON (
+  #   builtins.readFile ./settings.json
+  # );
 in {
   programs.vscode = {
     enable = true;
@@ -13,9 +13,9 @@ in {
     package = pkgs.code-cursor;
 
     profiles.default = {
-      enableUpdateCheck = false;
+      # enableUpdateCheck = false;
 
-      userSettings = vscodeSettings;
+      # userSettings = vscodeSettings;
 
       extensions = with pkgs.vscode-extensions;
         [

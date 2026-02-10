@@ -1,10 +1,5 @@
 {pkgs, ...}: {
   environment = {
-    sessionVariables = {
-      XDG_CURRENT_DESKTOP = "Hyprland";
-      XDG_SESSION_DESKTOP = "Hyprland";
-    };
-
     systemPackages = with pkgs; [
       # Hyprland specific
       hypridle # Idle detection

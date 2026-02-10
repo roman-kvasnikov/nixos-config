@@ -9,6 +9,7 @@
 
     permittedInsecurePackages = [
       "googleearth-pro-7.3.6.10201"
+      "python3.13-ecdsa-0.19.1"
     ];
   };
 
@@ -24,7 +25,6 @@
     cliphist # История буфера
     wl-clipboard # Wayland clipboard
     fastfetch # Информация о системе
-    silicon # Красивые скриншоты кода
     tree # Показ структуры директорий
     cmatrix # Матрица
     s3fs # S3 файловая система
@@ -55,6 +55,7 @@
 
     # Офисные приложения
     libreoffice-still # Офисный пакет
+    typst # New markup-based typesetting system that is powerful and easy to learn
     evince # PDF viewer
     obsidian # Заметки
 
@@ -66,7 +67,7 @@
 
     # Видеоредакторы
     # davinci-resolve # Профессиональный видеоредактор
-    kdePackages.kdenlive # Видеоредактор
+    # kdePackages.kdenlive # Видеоредактор
 
     # Аудиоредакторы
     tenacity
@@ -82,16 +83,18 @@
     # nextcloud-client # Nextcloud клиент
 
     # AI assistants
-    (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant
+    # (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant
     # (callPackage ./modules/deepseek-electron/deepseek-electron.nix {}) # DeepSeek AI assistant
 
     # Веб и разработка
     postman # API тестирование
-    dbeaver-bin # DB клиент
+    # dbeaver-bin # DB клиент
+    tableplus # DB клиент
     filezilla # FTP клиент
+    firefox
 
     # Финансы и криптовалюты
-    electrum # Bitcoin кошелек
+    # electrum # Bitcoin кошелек
     exodus # Crypto кошелек
 
     # Системные утилиты (для пользователя)

@@ -24,7 +24,7 @@
       nerd-fonts.fira-code
       nerd-fonts.jetbrains-mono
       font-awesome
-      noto-fonts-emoji
+      noto-fonts-color-emoji
     ];
   };
 }

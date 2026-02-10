@@ -11,6 +11,7 @@
     extensions = [
       {id = "bnjjngeaknajbdcgpfkgnonkmififhfo";} # Fake Filler
       {id = "lfncinhjhjgebfnnblppmbmkgjgifhdf";} # IP Address & Geolocation
+      {id = "pnidmkljnhbjfffciajlcpeldoljnidn";} # Linkwarden
       # {id = "oboonakemofpalcgghocfoadofidjkkk";} # KeePassXC-Browser
       {id = "naepdomgkenhinolocfifgehidddafch";} # Browserpass
       {id = "nkbihfbeogaeaoehlefnkodbefgpgknn";} # MetaMask
