@@ -50,11 +50,6 @@
       url = "github:roman-kvasnikov/wallpapers";
       flake = false;
     };
-
-    # vscode-settings = {
-    #   url = "github:roman-kvasnikov/vscode-settings";
-    #   flake = false;
-    # };
   };
 
   outputs = {

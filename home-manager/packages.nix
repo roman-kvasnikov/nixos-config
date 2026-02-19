@@ -22,13 +22,12 @@
     glib # Системные библиотеки
     jq # JSON процессор
     claude-code # AI ассистент
+    claude-monitor # AI ассистент
     cliphist # История буфера
     wl-clipboard # Wayland clipboard
     fastfetch # Информация о системе
     tree # Показ структуры директорий
-    cmatrix # Матрица
     s3fs # S3 файловая система
-    yandex-disk # Yandex Disk
 
     # Дополнительные CLI утилиты (2025 recommendations)
     ripgrep # Быстрый поиск в файлах
@@ -62,7 +61,7 @@
     # Графические редакторы
     gimp # Растровая графика
     inkscape # Векторная графика
-    krita # Цифровая живопись
+    # krita # Цифровая живопись
     pinta # Простой редактор
 
     # Видеоредакторы
@@ -78,9 +77,10 @@
     # discord # Discord
     (callPackage ./modules/whatsapp-electron/whatsapp-electron.nix {}) # WhatsApp
     cassette # Yandex Music
-    googleearth-pro # Google Earth
-    filebot
+    # googleearth-pro # Google Earth
+    # filebot
     # nextcloud-client # Nextcloud клиент
+    yt-dlp # Video Downloader
 
     # AI assistants
     # (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant
@@ -91,7 +91,7 @@
     # dbeaver-bin # DB клиент
     tableplus # DB клиент
     filezilla # FTP клиент
-    firefox
+    # firefox
 
     # Финансы и криптовалюты
     # electrum # Bitcoin кошелек
@@ -112,7 +112,7 @@
     micro # Современный nano
 
     # Системная информация
-    cpufetch # CPU информация
-    ramfetch # RAM информация
+    # cpufetch # CPU информация
+    # ramfetch # RAM информация
   ];
 }

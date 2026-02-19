@@ -2,6 +2,7 @@
   imports = [
     ./animations.nix
     ./binds.nix
+    ./debug.nix
     ./decoration.nix
     ./environment.nix
     ./exec-once.nix

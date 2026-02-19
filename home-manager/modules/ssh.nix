@@ -5,6 +5,12 @@
     enableDefaultConfig = false;
 
     matchBlocks = {
+      "homelab-entrypoint" = {
+        hostname = "77.232.136.6";
+        port = 12122;
+        user = "super";
+      };
+
       "xray" = {
         hostname = "192.168.1.3";
         user = "root";
