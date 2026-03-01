@@ -21,7 +21,7 @@
 
     hostDefaults = {
       system = "x86_64-linux";
-      version = "25.11";
+      version = "26.05";
       wallpaper = "victoria-peak-hong-kong-city-skyline-victoria-harbour-dusk-3840x2160-6551.jpg";
     };
   in
