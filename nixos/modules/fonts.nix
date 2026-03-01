@@ -1,4 +1,11 @@
 {pkgs, ...}: {
+  # 🔧 Фикс для сломанного noto-fonts-subset в unstable 26.05. Потом можно удалить.
+  nixpkgs.overlays = [
+    (final: prev: {
+      noto-fonts-subset = prev.noto-fonts;
+    })
+  ];
+
   fonts = {
     fontDir.enable = true;
 
@@ -18,7 +25,7 @@
       };
     };
 
-    enableDefaultPackages = false; # Изменил на false, потому что на новой 26.05 ругалась на noto-fonts-subset
+    enableDefaultPackages = true;
 
     packages = with pkgs; [
       nerd-fonts.fira-code
