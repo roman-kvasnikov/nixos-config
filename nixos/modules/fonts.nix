@@ -1,11 +1,4 @@
 {pkgs, ...}: {
-  # 🔧 Фикс для сломанного noto-fonts-subset в unstable 26.05. Потом можно удалить.
-  nixpkgs.overlays = [
-    (final: prev: {
-      noto-fonts-subset = prev.noto-fonts;
-    })
-  ];
-
   fonts = {
     fontDir.enable = true;
 

@@ -4,13 +4,15 @@
   pkgs,
   ...
 }: {
-  nixpkgs.config = {
-    allowUnfree = true;
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
 
-    permittedInsecurePackages = [
-      "googleearth-pro-7.3.6.10201"
-      "python3.13-ecdsa-0.19.1"
-    ];
+      permittedInsecurePackages = [
+        "googleearth-pro-7.3.6.10201"
+        "python3.13-ecdsa-0.19.1"
+      ];
+    };
   };
 
   home.packages = with pkgs; [
@@ -53,7 +55,7 @@
     # Desktop приложения
 
     # Офисные приложения
-    libreoffice-still # Офисный пакет
+    # libreoffice-still # Офисный пакет
     typst # New markup-based typesetting system that is powerful and easy to learn
     evince # PDF viewer
     obsidian # Заметки
@@ -85,6 +87,8 @@
     # AI assistants
     # (callPackage ./modules/claude-electron/claude-electron.nix {}) # Claude AI assistant
     # (callPackage ./modules/deepseek-electron/deepseek-electron.nix {}) # DeepSeek AI assistant
+    # claude-code
+    inputs.claude-desktop.packages.${system}.default
 
     # Веб и разработка
     postman # API тестирование
