@@ -26,6 +26,11 @@
         user = "romank";
       };
 
+      "homelab-backup" = {
+        hostname = "192.168.1.11";
+        user = "romank";
+      };
+
       "work" = {
         hostname = "192.168.1.40";
         user = "romank";

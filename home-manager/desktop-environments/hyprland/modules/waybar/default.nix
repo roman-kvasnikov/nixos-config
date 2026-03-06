@@ -34,6 +34,9 @@
     "waybar/icons/gala-rate/gala-logo.svg".source = ./icons/gala-rate/gala-logo.svg;
     "waybar/icons/gala-rate/gala-logo-green.svg".source = ./icons/gala-rate/gala-logo-green.svg;
     "waybar/icons/gala-rate/gala-logo-red.svg".source = ./icons/gala-rate/gala-logo-red.svg;
+    "waybar/icons/strk-rate/strk-logo.svg".source = ./icons/strk-rate/strk-logo.svg;
+    "waybar/icons/strk-rate/strk-logo-green.svg".source = ./icons/strk-rate/strk-logo-green.svg;
+    "waybar/icons/strk-rate/strk-logo-red.svg".source = ./icons/strk-rate/strk-logo-red.svg;
 
     "waybar/scripts/crypto-rates.sh" = {
       source = ./scripts/crypto-rates.sh;

@@ -14,6 +14,7 @@
       "custom/btc-rate"
       "custom/eth-rate"
       "custom/gala-rate"
+      "custom/strk-rate"
     ];
 
     modules-center = [
@@ -90,18 +91,27 @@
       tooltip = false;
     };
 
+    "custom/strk-rate" = {
+      format = "  {}";
+      interval = 300;
+      exec = "bash ~/.config/waybar/scripts/crypto-rates.sh -c STRK -r 5";
+      return-type = "json";
+      on-click = "bash ~/.config/waybar/scripts/open-link.sh 'https://www.bybit.com/ru-RU/trade/spot/STRK/USDT'";
+      tooltip = false;
+    };
+
     # =================================================================
     # WEATHER AND CLOCK
     # =================================================================
 
-    "custom/weather" = {
-      format = "{}°C";
-      interval = 900;
-      exec = "wttrbar --date-format \"%A, %d %B, %Y\" --location Saint-Petersburg --lang ru";
-      return-type = "json";
-      on-click = "bash ~/.config/waybar/scripts/open-link.sh 'https://dzen.ru/pogoda/?lat=59.93867493&lon=30.31449318'";
-      tooltip = true;
-    };
+    # "custom/weather" = {
+    #   format = "{}°C";
+    #   interval = 900;
+    #   exec = "wttrbar --date-format \"%A, %d %B, %Y\" --location Saint-Petersburg --lang ru";
+    #   return-type = "json";
+    #   on-click = "bash ~/.config/waybar/scripts/open-link.sh 'https://dzen.ru/pogoda/?lat=59.93867493&lon=30.31449318'";
+    #   tooltip = true;
+    # };
 
     clock = {
       format = " {:%a %b %d  %H:%M}";
